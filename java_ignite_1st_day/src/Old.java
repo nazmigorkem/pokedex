@@ -4,7 +4,7 @@ public class Old {
     public static void main(String[] args) {
         System.out.println("Enter your age:");
         Scanner scanner = new Scanner(System.in);
-        double userAge = scanner.nextDouble();
+        int userAge = scanner.nextInt();
         if (userAge > 50)
             System.out.println("You are old.");
         else
