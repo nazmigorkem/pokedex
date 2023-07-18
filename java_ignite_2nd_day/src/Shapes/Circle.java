@@ -1,6 +1,6 @@
 package Shapes;
 
-public class Circle {
+public class Circle extends Shape {
     private int radius;
     private String color;
 

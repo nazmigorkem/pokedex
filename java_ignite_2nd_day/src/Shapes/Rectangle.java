@@ -1,6 +1,6 @@
 package Shapes;
 
-public class Rectangle {
+public class Rectangle extends Shape {
     private int height;
     private int width;
     private String color;

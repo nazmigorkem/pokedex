@@ -18,4 +18,12 @@ public class Pen {
         c.setColor(color);
         System.out.println(c);
     }
+
+    public void draw(Shape shape) {
+        if (shape instanceof Rectangle) {
+            System.out.println(((Rectangle) shape).getHeight() + " height, " + ((Rectangle) shape).getWidth() + " width");
+        } else if (shape instanceof Circle) {
+            System.out.println(((Circle) shape).getRadius() + " radius");
+        }
+    }
 }
