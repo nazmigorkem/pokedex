@@ -34,11 +34,11 @@ public class Bus {
         this.destination = destination;
     }
 
-    public ArrayList<Passenger[]> getPassengers() {
+    public ArrayList<Passenger> getPassengers() {
         return passengers;
     }
 
-    public void setPassengers(ArrayList<Passenger[]> passengers) {
+    public void setPassengers(ArrayList<Passenger> passengers) {
         this.passengers = passengers;
     }
 }
