@@ -21,7 +21,7 @@ public class InputStreamFileOperations implements FileOperations {
     }
 
     @Override
-    public String writeFile(String filePath, String data) {
+    public void writeFile(String filePath, String data) {
         try (FileOutputStream fileOutputStream = new FileOutputStream(filePath)) {
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream, "ISO-8859-9");
             outputStreamWriter.write(data);
@@ -29,6 +29,5 @@ public class InputStreamFileOperations implements FileOperations {
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
-        return null;
     }
 }

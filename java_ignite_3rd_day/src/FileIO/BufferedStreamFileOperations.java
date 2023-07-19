@@ -1,17 +1,16 @@
 package FileIO;
 
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
-public class FileReaderFileOperations implements FileOperations {
+public class BufferedStreamFileOperations implements FileOperations {
     @Override
     public String read(String filePath) {
         StringBuilder stringBuilder = new StringBuilder();
         try (FileReader fileReader = new FileReader(filePath)) {
-            int currentChar;
-            while ((currentChar = fileReader.read()) != -1) {
-                stringBuilder.append(currentChar);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            String currentLine;
+            while ((currentLine = bufferedReader.readLine()) != null) {
+                stringBuilder.append(currentLine);
             }
         } catch (IOException ioException) {
             ioException.printStackTrace();
@@ -22,8 +21,10 @@ public class FileReaderFileOperations implements FileOperations {
     @Override
     public void writeFile(String filePath, String data) {
         try (FileWriter fileWriter = new FileWriter(filePath)) {
-            fileWriter.write(data);
-        }catch (IOException ioException) {
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.write(data);
+            bufferedWriter.flush();
+        } catch (IOException ioException) {
             ioException.printStackTrace();
         }
     }
