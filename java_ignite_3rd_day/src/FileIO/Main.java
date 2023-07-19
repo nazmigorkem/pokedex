@@ -4,6 +4,7 @@ public class Main {
     public static void main(String[] args) {
         InputStreamFileOperations inputStreamFileOperations = new InputStreamFileOperations();
         inputStreamFileOperations.writeFile("./test.txt", "test text.");
-        inputStreamFileOperations.read("./test.txt");
+        String data = inputStreamFileOperations.read("./test.txt");
+        System.out.println(data);
     }
 }

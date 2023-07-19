@@ -7,15 +7,16 @@ import java.io.IOException;
 public class FileReaderFileOperations implements FileOperations {
     @Override
     public String read(String filePath) {
+        StringBuilder stringBuilder = new StringBuilder();
         try (FileReader fileReader = new FileReader(filePath)) {
             int currentChar;
             while ((currentChar = fileReader.read()) != -1) {
-                System.out.print((char) currentChar);
+                stringBuilder.append(currentChar);
             }
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
-        return null;
+        return stringBuilder.toString();
     }
 
     @Override
