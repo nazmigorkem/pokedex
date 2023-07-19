@@ -2,18 +2,20 @@ package FileIO;
 
 public class Main {
     public static void main(String[] args) {
-//        InputStreamFileOperations inputStreamFileOperations = new InputStreamFileOperations();
-//        inputStreamFileOperations.writeFile("./test.txt", "test text.");
-//        String inputStreamData = inputStreamFileOperations.read("./test.txt");
-//        System.out.println(inputStreamData);
-//
-//        BufferedStreamFileOperations bufferedStreamFileOperations = new BufferedStreamFileOperations();
-//        bufferedStreamFileOperations.writeFile("./test.txt", "test text.");
-//        String bufferedInputStreamData = bufferedStreamFileOperations.read("./test.txt");
-//        System.out.println(bufferedInputStreamData);
+        FileReaderFileOperations fileReaderFileOperations = new FileReaderFileOperations();
+        InputStreamFileOperations inputStreamFileOperations = new InputStreamFileOperations();
+        BufferedStreamFileOperations bufferedStreamFileOperations = new BufferedStreamFileOperations();
 
-        ObjectStreamFileOperations objectStreamFileOperations = new ObjectStreamFileOperations();
-        objectStreamFileOperations.serialize(new Student(1, "testName", "testDepartment", 123, "testAddress"), "./test.txt");
-        objectStreamFileOperations.deserialize("./test.txt");
+        System.out.println("-----Input Stream----");
+        Benchmark<InputStreamFileOperations> inputStreamFileOperationsBenchmark = new Benchmark<>(inputStreamFileOperations);
+        inputStreamFileOperationsBenchmark.startFullTest();
+
+        System.out.println("-----File Reader----");
+        Benchmark<FileReaderFileOperations> fileReaderFileOperationsBenchmark = new Benchmark<>(fileReaderFileOperations);
+        fileReaderFileOperationsBenchmark.startFullTest();
+
+        System.out.println("----Buffered Stream----");
+        Benchmark<BufferedStreamFileOperations> bufferedStreamFileOperationsBenchmark = new Benchmark<>(bufferedStreamFileOperations);
+        bufferedStreamFileOperationsBenchmark.startFullTest();
     }
 }
