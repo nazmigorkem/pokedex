@@ -1,4 +1,4 @@
-package AbstractClass;
+package Shapes;
 
 public abstract class Shape {
     public abstract void draw();
