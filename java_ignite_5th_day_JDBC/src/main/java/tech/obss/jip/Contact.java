@@ -1,9 +1,6 @@
 package tech.obss.jip;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
-public class Contact implements Insertable {
+public class Contact {
     private int id;
     private String firstName;
     private String lastName;
@@ -17,30 +14,6 @@ public class Contact implements Insertable {
         this.phoneNumber = phoneNumber;
         this.email = email;
     }
-
-    @Override
-    public void insert() {
-        try (PreparedStatement statement = Database.getInstance().getConnection().prepareStatement(
-                "INSERT INTO " +
-                        "Contact (id, firstName, lastName, phoneNumber, email)" +
-                        "VALUES (?, ?, ?, ?, ?)")) {
-            statement.setInt(1, id);
-            statement.setString(2, firstName);
-            statement.setString(3, lastName);
-            statement.setInt(4, phoneNumber);
-            statement.setString(5, email);
-            statement.execute();
-            Database.getInstance().getConnection().commit();
-        } catch (SQLException e) {
-            try {
-                Database.getInstance().getConnection().rollback();
-            } catch (SQLException ex) {
-                throw new RuntimeException(ex);
-            }
-            throw new RuntimeException(e);
-        }
-    }
-
 
     public int getId() {
         return id;
@@ -60,5 +33,16 @@ public class Contact implements Insertable {
 
     public String getEmail() {
         return email;
+    }
+
+    @Override
+    public String toString() {
+        return "Contact{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", phoneNumber=" + phoneNumber +
+                ", email='" + email + '\'' +
+                '}';
     }
 }

@@ -2,6 +2,7 @@ package tech.obss.jip;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Objects;
 
 public class Database {
@@ -25,7 +26,11 @@ public class Database {
     }
 
     public void closeConnection() {
-        instance.closeConnection();
+        try {
+            instance.getConnection().close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static Database getInstance() {
