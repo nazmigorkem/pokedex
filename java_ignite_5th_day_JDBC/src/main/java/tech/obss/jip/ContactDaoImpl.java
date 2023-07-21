@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ContactDaoImpl implements ContactDAO {
-    Database database;
+    private final Database database;
 
     public ContactDaoImpl(Database database) {
         this.database = database;
