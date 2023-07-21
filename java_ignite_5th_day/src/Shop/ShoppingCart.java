@@ -10,7 +10,7 @@ public class ShoppingCart {
     }
 
     public double calculateTotalPrice() {
-        return items.stream().mapToDouble((x) -> x.price).sum();
+        return items.stream().mapToDouble(Item::getPrice).sum();
     }
 
     public void displayCardContents() {
@@ -18,7 +18,7 @@ public class ShoppingCart {
     }
 
     public <T extends Item> T compareItems(T item1, T item2) {
-        return Double.compare(item1.price, item2.price) == 1 ? item1 : item2;
+        return Double.compare(item1.getPrice(), item2.getPrice()) == 1 ? item1 : item2;
     }
 
 }
