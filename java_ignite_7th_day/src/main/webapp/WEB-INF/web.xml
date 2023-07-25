@@ -9,7 +9,7 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Protected Area</web-resource-name>
-            <url-pattern>/secureTest</url-pattern>
+            <url-pattern>/secure/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>role1</role-name>
@@ -18,8 +18,4 @@
     <login-config>
         <auth-method>BASIC</auth-method>
     </login-config>
-    <servlet-mapping>
-        <servlet-name>secureTest</servlet-name>
-        <url-pattern>/secureTest</url-pattern>
-    </servlet-mapping>
 </web-app>
