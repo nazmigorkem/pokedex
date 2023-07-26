@@ -9,6 +9,7 @@
     </error-page>
     <error-page>
         <error-code>500</error-code>
-        <location>/WEB-INF/ErrorPages/500.jsp</location>
+        <exception-type>java.lang.Throwable</exception-type>
+        <location>/errorHandler</location>
     </error-page>
 </web-app>

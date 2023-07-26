@@ -1,3 +1,4 @@
+<%--@elvariable id="customErrorMessage" type="String"--%>
 <%--
   Created by IntelliJ IDEA.
   User: bekir
@@ -11,5 +12,7 @@
 </head>
 <body>
 500 - Internal Server Error
+<br>
+<p>${customErrorMessage}</p>
 </body>
 </html>
