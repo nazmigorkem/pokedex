@@ -14,11 +14,8 @@ import java.io.IOException;
 public class CreateContact extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int id = Integer.parseInt(req.getParameter("id"));
-        String firstName = req.getParameter("firstName");
-        String lastName = req.getParameter("lastName");
-        int phoneNumber = Integer.parseInt(req.getParameter("phoneNumber"));
-        String email = req.getParameter("email");
-        new ContactDAOImpl(Database.getInstance()).addContact(new Contact(id, firstName, lastName, phoneNumber, email));
+        ContactDAOImpl contactDAO = new ContactDAOImpl(Database.getInstance());
+        Contact contact = contactDAO.parseRequest(req);
+        contactDAO.addContact(contact);
     }
 }

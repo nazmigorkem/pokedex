@@ -29,9 +29,8 @@
       <td><%= contact.getPhoneNumber() %></td>
       <td><%= contact.getEmail() %></td>
       <td>
-        <form action="searchContact" method="get">
+        <form action="editRedirection" method="get">
           <input type="hidden" name="id" value="<%= contact.getId() %>">
-          <input type="hidden" name="editable" value="true">
           <input type="submit" value="Edit">
         </form>
       </td>

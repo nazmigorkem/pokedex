@@ -1,5 +1,6 @@
 package com.example.java_ignite_8th_day.Model;
 import com.example.java_ignite_8th_day.Database;
+import jakarta.servlet.http.HttpServletRequest;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -68,6 +69,29 @@ public class ContactDAOImpl implements ContactDAO {
         }
     }
 
+
+    @Override
+    public void editContact(Contact contact) {
+        String SQL = "UPDATE Contact SET firstName=?, lastName=?, phoneNumber=?, email=? WHERE id=?";
+        try (PreparedStatement preparedStatement = database.getConnection().prepareStatement(SQL)) {
+            preparedStatement.setString(1, contact.getFirstName());
+            preparedStatement.setString(2, contact.getLastName());
+            preparedStatement.setInt(3, contact.getPhoneNumber());
+            preparedStatement.setString(4, contact.getEmail());
+            preparedStatement.setInt(5, contact.getId());
+            preparedStatement.executeUpdate();
+            database.getConnection().commit();
+        } catch (SQLException e) {
+            try {
+                database.getConnection().rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public void addContact(Contact contact) {
         String SQL = "INSERT INTO Contact VALUES (?, ?, ?, ?, ?)";
@@ -87,5 +111,15 @@ public class ContactDAOImpl implements ContactDAO {
             }
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public Contact parseRequest(HttpServletRequest req) {
+        int id = Integer.parseInt(req.getParameter("id"));
+        String firstName = req.getParameter("firstName");
+        String lastName = req.getParameter("lastName");
+        int phoneNumber = Integer.parseInt(req.getParameter("phoneNumber"));
+        String email = req.getParameter("email");
+        return new Contact(id, firstName, lastName, phoneNumber, email);
     }
 }
