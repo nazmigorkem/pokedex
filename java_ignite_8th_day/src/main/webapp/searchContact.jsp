@@ -6,6 +6,7 @@
 </head>
 <body>
 <div class="container">
+    <a href="index.jsp">Search Contact</a>
     <h2>Contact Search</h2>
     <form action="searchContact" method="get">
         <label for="searchId">Search by ID:</label>

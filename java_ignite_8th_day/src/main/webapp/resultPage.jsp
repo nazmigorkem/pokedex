@@ -8,6 +8,8 @@
 </head>
 <body>
 <div class="container">
+  <a href="searchContact.jsp">Search Contact</a>
+  <a href="index.jsp">Add Contact</a>
   <h2>Contact List</h2>
   <table>
     <tr>
