@@ -18,7 +18,7 @@ public class ErrorHandler extends HttpServlet {
             System.out.println(attrs.nextElement());
         }
         Throwable throwable = (Throwable) req.getAttribute("jakarta.servlet.error.exception");
-        if (throwable != null && throwable.getMessage().startsWith("test message")) {
+        if (throwable != null) {
             req.setAttribute("customErrorMessage", "An error has occurred as follows: " + throwable.getMessage());
             req.getRequestDispatcher("/WEB-INF/ErrorPages/500.jsp").forward(req, resp);
         } else {
