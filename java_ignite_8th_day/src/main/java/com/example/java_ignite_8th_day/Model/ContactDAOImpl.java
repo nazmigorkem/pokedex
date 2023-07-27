@@ -1,5 +1,5 @@
 package com.example.java_ignite_8th_day.Model;
-import com.example.java_ignite_8th_day.Database;
+import com.example.java_ignite_8th_day.Database.Database;
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.sql.PreparedStatement;

@@ -1,5 +1,6 @@
 package com.example.java_ignite_8th_day;
 
+import com.example.java_ignite_8th_day.Database.Database;
 import com.example.java_ignite_8th_day.Model.ContactDAO;
 import com.example.java_ignite_8th_day.Model.ContactDAOImpl;
 import jakarta.servlet.ServletException;

@@ -1,4 +1,4 @@
-package com.example.java_ignite_8th_day;
+package com.example.java_ignite_8th_day.Database;
 import com.mysql.jdbc.Driver;
 import java.sql.Connection;
 import java.sql.DriverManager;

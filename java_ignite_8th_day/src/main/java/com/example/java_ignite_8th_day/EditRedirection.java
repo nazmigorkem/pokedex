@@ -1,6 +1,6 @@
 package com.example.java_ignite_8th_day;
 
-import com.example.java_ignite_8th_day.Model.Contact;
+import com.example.java_ignite_8th_day.Database.Database;
 import com.example.java_ignite_8th_day.Model.ContactDAOImpl;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -9,8 +9,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 @WebServlet(name = "EditRedirection", value = "/editRedirection")
 public class EditRedirection extends HttpServlet {
