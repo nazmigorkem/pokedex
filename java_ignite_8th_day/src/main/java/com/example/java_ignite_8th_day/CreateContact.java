@@ -17,5 +17,7 @@ public class CreateContact extends HttpServlet {
         ContactDAOImpl contactDAO = new ContactDAOImpl(Database.getInstance());
         Contact contact = contactDAO.parseRequest(req);
         contactDAO.addContact(contact);
+        req.setAttribute("contacts", contactDAO.getAllContacts());
+        req.getRequestDispatcher("resultPage.jsp").forward(req, resp);
     }
 }

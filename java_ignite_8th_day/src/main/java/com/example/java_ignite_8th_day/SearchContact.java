@@ -17,12 +17,14 @@ public class SearchContact extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = req.getParameter("id");
+        List<Contact> contactList = new ArrayList<>();
+        ContactDAOImpl contactDAO = new ContactDAOImpl(Database.getInstance());
         if (id == null) {
-            resp.getWriter().println("No id value supplied");
+            req.setAttribute("contacts", contactDAO.getAllContacts());
+            req.getRequestDispatcher("resultPage.jsp").forward(req, resp);
             return;
         }
-        List<Contact> contactList = new ArrayList<>();
-        contactList.add(new ContactDAOImpl(Database.getInstance()).getContactByID(Integer.parseInt(id)));
+        contactList.add(contactDAO.getContactByID(Integer.parseInt(id)));
         req.setAttribute("contacts", contactList);
         req.getRequestDispatcher("resultPage.jsp").forward(req, resp);
     }
