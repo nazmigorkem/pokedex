@@ -9,7 +9,8 @@
 </head>
 <body>
 <div class="container">
-    <a href="searchContact.jsp">Search Contact</a>
+    <jsp:include page="nav.jsp" />
+
     <h2>Registration Form</h2>
     <% if (request.getAttribute("contact") != null) {
         Contact contact = (Contact) request.getAttribute("contact");

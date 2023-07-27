@@ -8,8 +8,8 @@
 </head>
 <body>
 <div class="container">
-  <a href="searchContact.jsp">Search Contact</a>
-  <a href="index.jsp">Add Contact</a>
+  <jsp:include page="nav.jsp" />
+
   <h2>Contact List</h2>
   <table>
     <tr>
@@ -34,6 +34,12 @@
         <form action="editRedirection" method="get">
           <input type="hidden" name="id" value="<%= contact.getId() %>">
           <input type="submit" value="Edit">
+        </form>
+      </td>
+      <td>
+        <form action="deleteContact" method="post">
+          <input type="hidden" class="deleteButton" name="id" value="<%= contact.getId() %>">
+          <input type="submit" value="Delete">
         </form>
       </td>
     </tr>

@@ -51,6 +51,22 @@ form input[type="submit"] {
     cursor: pointer;
 }
 
+form .deleteButton {
+    background-color: #af1e1e;
+}
+nav a {
+    border-radius: 10px;
+    text-decoration: none;
+    color: #2c2a2a;
+    background-color: antiquewhite;
+    padding: 20px;
+    transition-duration: 300ms;
+}
+
+nav a:hover {
+    background-color: #efc58f;
+}
+
 form input[type="submit"]:hover {
     background-color: #45a049;
 }
