@@ -6,12 +6,19 @@ body {
 }
 
 .container {
-    max-width: 400px;
+    max-width: 70%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
     margin: 0 auto;
     background-color: #fff;
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+td {
+    text-align: center;
 }
 
 h2 {
