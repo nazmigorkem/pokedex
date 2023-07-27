@@ -41,7 +41,9 @@ public class ContactDAOImpl implements ContactDAO {
         try (PreparedStatement preparedStatement = database.getConnection().prepareStatement(SQL)) {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
+            if (!resultSet.next()) {
+                return null;
+            }
             String firstName = resultSet.getString("firstName");
             String lastName = resultSet.getString("lastName");
             int phoneNumber = resultSet.getInt("phoneNumber");

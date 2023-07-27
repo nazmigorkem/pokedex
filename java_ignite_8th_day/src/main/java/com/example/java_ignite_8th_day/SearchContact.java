@@ -24,7 +24,12 @@ public class SearchContact extends HttpServlet {
             req.getRequestDispatcher("resultPage.jsp").forward(req, resp);
             return;
         }
-        contactList.add(contactDAO.getContactByID(Integer.parseInt(id)));
+        Contact contact = contactDAO.getContactByID(Integer.parseInt(id));
+        if (contact == null) {
+            resp.sendRedirect("searchContact.jsp");
+            return;
+        }
+        contactList.add(contact);
         req.setAttribute("contacts", contactList);
         req.getRequestDispatcher("resultPage.jsp").forward(req, resp);
     }
