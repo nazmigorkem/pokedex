@@ -2,10 +2,7 @@ package com.example.java_ignite_9th_day;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.*;
 
 import java.io.IOException;
 
@@ -14,7 +11,9 @@ public class CreateSession extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(true);
-        System.out.println(session.getCreationTime());
+        Cookie cookie = new Cookie("test", session.getId());
+        cookie.setMaxAge(5 * 60);
+        resp.addCookie(cookie);
         session.setAttribute("name", "Ignite");
     }
 }

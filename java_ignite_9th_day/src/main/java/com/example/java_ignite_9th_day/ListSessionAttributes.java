@@ -18,5 +18,10 @@ public class ListSessionAttributes extends HttpServlet {
         req.getSession().getAttributeNames().asIterator().forEachRemaining(name -> {
             out.println(name + " : " + req.getSession().getAttribute(name) + " : " + new Date(req.getSession().getCreationTime()));
         });
+
+        out.println("Cookies:");
+        for (jakarta.servlet.http.Cookie cookie : req.getCookies()) {
+            out.println(cookie.getName() + " : " + cookie.getValue());
+        }
     }
 }
