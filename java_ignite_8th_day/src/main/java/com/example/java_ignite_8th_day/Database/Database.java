@@ -7,15 +7,12 @@ import java.util.Objects;
 
 public class Database {
     private Connection connection;
-    private final String CONNECTION_URL = "jdbc:mysql://localhost:3306/test";
 
     private static Database instance;
 
     private Database() {
         try {
-            Driver driver = new Driver();
-            DriverManager.registerDriver(driver);
-            this.connection = DriverManager.getConnection(CONNECTION_URL, "root", "12341234");
+            this.connection = ConnectionPool.getConnection();
             this.connection.setAutoCommit(false);
             System.out.println("Connection established with database.");
         } catch (Exception exception) {
