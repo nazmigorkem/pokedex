@@ -10,12 +10,8 @@ public class ConnectionPool {
     private final static String CONNECTION_URL = "jdbc:mysql://localhost:3306/test";
     private static final HikariDataSource ds;
     static {
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
         HikariConfig config = new HikariConfig();
+        config.setDriverClassName("com.mysql.jdbc.Driver");
         config.setJdbcUrl(CONNECTION_URL);
         config.setUsername("root");
         config.setPassword("12341234");
