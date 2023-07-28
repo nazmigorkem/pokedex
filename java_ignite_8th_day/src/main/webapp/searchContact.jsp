@@ -12,7 +12,7 @@
     <form action="searchContact" method="get">
         <label for="searchId">Search by ID:</label>
         <input type="text" id="searchId" name="id">
-        <input type="submit" value="Search by ID">
+        <input class="submitButton" type="submit" value="Search by ID">
     </form>
 </div>
 </body>

@@ -33,13 +33,13 @@
       <td>
         <form action="editRedirection" method="get">
           <input type="hidden" name="id" value="<%= contact.getId() %>">
-          <input type="submit" value="Edit">
+          <input class="submitButton"  type="submit" value="Edit">
         </form>
       </td>
       <td>
         <form action="deleteContact" method="post">
-          <input type="hidden" class="deleteButton" name="id" value="<%= contact.getId() %>">
-          <input type="submit" value="Delete">
+          <input type="hidden" name="id" value="<%= contact.getId() %>">
+          <input class="deleteButton" type="submit" value="Delete">
         </form>
       </td>
     </tr>

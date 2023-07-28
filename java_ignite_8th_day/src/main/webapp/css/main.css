@@ -42,7 +42,6 @@ form input[type="email"] {
 }
 
 form input[type="submit"] {
-    background-color: #4CAF50;
     color: #fff;
     padding: 10px 20px;
     font-size: 16px;
@@ -51,8 +50,12 @@ form input[type="submit"] {
     cursor: pointer;
 }
 
-form .deleteButton {
+.deleteButton {
     background-color: #af1e1e;
+}
+
+.submitButton {
+    background-color: #45a049;
 }
 nav a {
     border-radius: 10px;
@@ -67,9 +70,6 @@ nav a:hover {
     background-color: #efc58f;
 }
 
-form input[type="submit"]:hover {
-    background-color: #45a049;
-}
 
 form input[type="submit"]:focus {
     outline: none;

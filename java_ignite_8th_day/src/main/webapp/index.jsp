@@ -31,7 +31,7 @@
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" value="<%= contact.getEmail() %>" required><br><br>
 
-        <input type="submit" value="Submit">
+        <input class="submitButton" type="submit" value="Submit">
     </form>
     <% } else { %>
     <form action="createContact" method="post">
@@ -50,7 +50,7 @@
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" required>
 
-        <input type="submit" value="Submit">
+        <input class="submitButton" type="submit" value="Submit">
     </form>
     <% } %>
 
