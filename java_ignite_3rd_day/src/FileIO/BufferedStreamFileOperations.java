@@ -28,4 +28,9 @@ public class BufferedStreamFileOperations implements FileOperations {
             ioException.printStackTrace();
         }
     }
+
+    @Override
+    public String getOperationName() {
+        return "Buffered Stream File Operations";
+    }
 }

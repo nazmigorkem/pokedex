@@ -27,6 +27,7 @@ public class Benchmark<T extends FileOperations> {
     }
 
     public void startFullTest() {
+        System.out.printf("Testing %s\n", streamer.getOperationName());
         System.out.println("Starting writing test.");
         this.startWriteTest();
         this.printBenchmarkResults();
