@@ -4,7 +4,6 @@ import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import tech.obss.model.SaveUserRequestDTO;
 import tech.obss.model.UserResponseDTO;
@@ -15,7 +14,6 @@ import java.util.Map;
 import java.util.TreeMap;
 
 @Service
-@Primary
 public class UserCacheSingleton implements UserService {
 
     private Map<String, SaveUserRequestDTO> users;

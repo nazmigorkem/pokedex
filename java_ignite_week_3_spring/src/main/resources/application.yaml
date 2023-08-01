@@ -9,6 +9,8 @@ spring:
     password: ${DB_PASSWORD:12341234}
     url: jdbc:mysql://localhost:${db.port}/test
   jpa:
+    hibernate:
+      ddl-auto: update
     properties:
       hibernate:
         show_sql: true
