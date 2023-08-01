@@ -3,10 +3,15 @@ package tech.obss.controller;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tech.obss.model.SaveUserRequestDTO;
 import tech.obss.model.UpdateUserRequestDTO;
+import tech.obss.model.UserResponseDTO;
+import tech.obss.service.UserService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -14,9 +19,12 @@ public class UserController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("")
-    public ResponseEntity<String> getUsers() {
-        return ResponseEntity.ok("Get users");
+    public ResponseEntity<List<UserResponseDTO>> getUsers() {
+        return ResponseEntity.ok(userService.getUsers());
     }
 
     @GetMapping("/{id}")
@@ -25,9 +33,8 @@ public class UserController {
     }
 
     @PostMapping("")
-    public SaveUserRequestDTO saveUser(@Valid @RequestBody SaveUserRequestDTO saveUserRequestDTO) {
-        LOGGER.info("Save user request: {}", saveUserRequestDTO);
-        return saveUserRequestDTO;
+    public ResponseEntity<UserResponseDTO> saveUser(@Valid @RequestBody SaveUserRequestDTO saveUserRequestDTO) {
+        return ResponseEntity.ok(userService.saveUser(saveUserRequestDTO));
     }
 
     @DeleteMapping("/{id}")
