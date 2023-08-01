@@ -1,6 +1,7 @@
 package tech.obss.service;
 
 import org.apache.commons.lang3.NotImplementedException;
+import org.springframework.data.domain.Page;
 import tech.obss.entity.User;
 import tech.obss.model.SaveUserRequestDTO;
 import tech.obss.model.UpdateUserRequestDTO;
@@ -27,6 +28,18 @@ public interface UserService {
     }
 
     default UserResponseDTO getUser(long id) {
+        throw new NotImplementedException();
+    }
+
+    default List<UserResponseDTO> getUserByUsernameAlike(String username) {
+        throw new NotImplementedException();
+    }
+
+    default UserResponseDTO getUserByUsername(String username) {
+        throw new NotImplementedException();
+    }
+
+    default Page<UserResponseDTO> getUsersPage(int page, int size) {
         throw new NotImplementedException();
     }
 }

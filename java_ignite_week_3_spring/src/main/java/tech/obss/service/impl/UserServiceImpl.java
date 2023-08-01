@@ -1,6 +1,8 @@
 package tech.obss.service.impl;
 
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import tech.obss.entity.User;
 import tech.obss.model.SaveUserRequestDTO;
@@ -76,4 +78,22 @@ public class UserServiceImpl implements UserService {
     public UserResponseDTO getUser(long id) {
         return mapUserToUserResponseDTO(getUserById(id));
     }
+
+    @Override
+    public List<UserResponseDTO> getUserByUsernameAlike(String username) {
+        return userRepository
+                .findByUsernameStartsWithAndActiveIsTrueOrderByCreatedDateDesc(username).stream()
+                .map(this::mapUserToUserResponseDTO).toList();
+    }
+
+    @Override
+    public UserResponseDTO getUserByUsername(String username) {
+        return mapUserToUserResponseDTO(userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found")));
+    }
+
+    @Override
+    public Page<UserResponseDTO> getUsersPage(int pageNumber, int pageSize) {
+        return userRepository.findAll(PageRequest.of(pageNumber, pageSize)).map(this::mapUserToUserResponseDTO);
+    }
+
 }

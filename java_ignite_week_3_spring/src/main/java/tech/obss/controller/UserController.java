@@ -1,6 +1,7 @@
 package tech.obss.controller;
 
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tech.obss.model.SaveUserRequestDTO;
@@ -28,6 +29,21 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<UserResponseDTO> getUsers(@PathVariable("id") long id) {
         return ResponseEntity.ok(userService.getUser(id));
+    }
+
+    @GetMapping("/username-alike")
+    public ResponseEntity<List<UserResponseDTO>> getUserByUsernameAlike(@RequestParam("username") String username) {
+        return ResponseEntity.ok(userService.getUserByUsernameAlike(username));
+    }
+
+    @GetMapping("/username")
+    public ResponseEntity<UserResponseDTO> getUserByUsername(@RequestParam("username") String username) {
+        return ResponseEntity.ok(userService.getUserByUsername(username));
+    }
+
+    @GetMapping("/page")
+    public ResponseEntity<Page<UserResponseDTO>> getUsersPage(@RequestParam(defaultValue = "0") int number, @RequestParam(defaultValue = "0") int size) {
+        return ResponseEntity.ok(userService.getUsersPage(number, size));
     }
 
     @PostMapping("")
