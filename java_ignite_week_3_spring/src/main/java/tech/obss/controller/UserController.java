@@ -10,10 +10,8 @@ import tech.obss.model.SaveUserRequestDTO;
 import tech.obss.model.UpdateUserRequestDTO;
 import tech.obss.model.UserResponseDTO;
 import tech.obss.service.UserService;
-import tech.obss.service.impl.UserCachePrototype;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/users")
@@ -40,13 +38,8 @@ public class UserController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Map<?, ?>> saveUser(@Valid @RequestBody SaveUserRequestDTO saveUserRequestDTO) {
-        UserService userCachePrototype = applicationContext.getBean(UserCachePrototype.class);
-        UserService userCacheSingleton = userService;
-
-        userCacheSingleton.saveUser(saveUserRequestDTO);
-        userCachePrototype.saveUser(saveUserRequestDTO);
-        return ResponseEntity.ok(Map.of("singleton", userCacheSingleton.getUsers(), "prototype", userCachePrototype.getUsers()));
+    public ResponseEntity<UserResponseDTO> saveUser(@Valid @RequestBody SaveUserRequestDTO saveUserRequestDTO) {
+        return ResponseEntity.ok(userService.saveUser(saveUserRequestDTO));
     }
 
     @DeleteMapping("/{id}")
