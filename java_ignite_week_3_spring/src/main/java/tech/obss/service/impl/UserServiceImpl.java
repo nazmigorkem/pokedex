@@ -96,4 +96,13 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll(PageRequest.of(pageNumber, pageSize)).map(this::mapUserToUserResponseDTO);
     }
 
+    @Override
+    public UserResponseDTO getUserByIdHQL(long id) {
+        return mapUserToUserResponseDTO(userRepository.findByIdWithHQL(id).orElseThrow(() -> new RuntimeException("User not found")));
+    }
+
+    @Override
+    public UserResponseDTO getUserByIdNativeQuery(long id) {
+        return mapUserToUserResponseDTO(userRepository.findByIdWithNativeQuery(id).orElseThrow(() -> new RuntimeException("User not found")));
+    }
 }

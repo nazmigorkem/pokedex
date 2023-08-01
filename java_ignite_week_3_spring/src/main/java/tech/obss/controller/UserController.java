@@ -31,13 +31,23 @@ public class UserController {
         return ResponseEntity.ok(userService.getUser(id));
     }
 
+    @GetMapping("/hql/{id}")
+    public ResponseEntity<UserResponseDTO> getUsersWithHQL(@PathVariable("id") long id) {
+        return ResponseEntity.ok(userService.getUserByIdHQL(id));
+    }
+
+    @GetMapping("/native-query/{id}")
+    public ResponseEntity<UserResponseDTO> getUsersWithNativeQuery(@PathVariable("id") long id) {
+        return ResponseEntity.ok(userService.getUserByIdNativeQuery(id));
+    }
+
     @GetMapping("/username-alike")
-    public ResponseEntity<List<UserResponseDTO>> getUserByUsernameAlike(@RequestParam("username") String username) {
+    public ResponseEntity<List<UserResponseDTO>> getUserByUsernameAlike(@RequestParam(defaultValue = "") String username) {
         return ResponseEntity.ok(userService.getUserByUsernameAlike(username));
     }
 
     @GetMapping("/username")
-    public ResponseEntity<UserResponseDTO> getUserByUsername(@RequestParam("username") String username) {
+    public ResponseEntity<UserResponseDTO> getUserByUsername(@RequestParam(defaultValue = "") String username) {
         return ResponseEntity.ok(userService.getUserByUsername(username));
     }
 

@@ -42,4 +42,12 @@ public interface UserService {
     default Page<UserResponseDTO> getUsersPage(int page, int size) {
         throw new NotImplementedException();
     }
+
+    default UserResponseDTO getUserByIdHQL(long id) {
+        throw new NotImplementedException();
+    }
+
+    default UserResponseDTO getUserByIdNativeQuery(long id) {
+        throw new NotImplementedException();
+    }
 }
