@@ -1,9 +1,6 @@
 package tech.obss.controller;
 
 import jakarta.validation.Valid;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tech.obss.model.SaveUserRequestDTO;
@@ -17,13 +14,9 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
 
-    private final ApplicationContext applicationContext;
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
-
     private final UserService userService;
 
-    public UserController(ApplicationContext applicationContext, UserService userService) {
-        this.applicationContext = applicationContext;
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
@@ -33,8 +26,8 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<String> getUsers(@PathVariable("id") long id) {
-        return ResponseEntity.ok("Get user: " + id);
+    public ResponseEntity<UserResponseDTO> getUsers(@PathVariable("id") long id) {
+        return ResponseEntity.ok(userService.getUser(id));
     }
 
     @PostMapping("")
@@ -43,12 +36,12 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable("id") long id) {
-        return ResponseEntity.ok("Delete user: " + id);
+    public ResponseEntity<UserResponseDTO> deleteUser(@PathVariable("id") long id) {
+        return ResponseEntity.ok(userService.deleteUser(id));
     }
 
     @PutMapping("/{id}")
-    public UpdateUserRequestDTO updateUser(@PathVariable("id") long id, @Valid @RequestBody UpdateUserRequestDTO updateUserRequestDTO) {
-        return updateUserRequestDTO;
+    public ResponseEntity<UserResponseDTO> updateUser(@PathVariable("id") long id, @Valid @RequestBody UpdateUserRequestDTO updateUserRequestDTO) {
+        return ResponseEntity.ok(userService.updateUser(id, updateUserRequestDTO));
     }
 }

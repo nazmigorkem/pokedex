@@ -1,15 +1,12 @@
 package tech.obss.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "USER_ACCOUNT")
-public class User {
-
-    @Id
-    @Column(name = "ID", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+public class User extends EntityBase {
 
     @Column(name = "USERNAME", nullable = false, unique = true)
     private String username;
@@ -17,13 +14,6 @@ public class User {
     @Column(name = "PASSWORD", nullable = false)
     private String password;
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getUsername() {
         return username;
