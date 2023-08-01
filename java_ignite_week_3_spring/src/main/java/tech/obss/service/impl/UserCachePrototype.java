@@ -4,7 +4,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import tech.obss.model.SaveUserRequestDTO;
 import tech.obss.model.UserResponseDTO;
@@ -15,21 +15,21 @@ import java.util.Map;
 import java.util.TreeMap;
 
 @Service
-@Primary
-public class UserCacheSingleton implements UserService {
+@Scope("prototype")
+public class UserCachePrototype implements UserService {
 
     private Map<String, SaveUserRequestDTO> users;
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserCacheSingleton.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(UserCachePrototype.class);
 
     @PostConstruct
     public void init() {
-        LOGGER.info("UserCacheSingleton is initialized");
+        LOGGER.info("UserCachePrototype is initialized");
         users = new TreeMap<>();
     }
 
     @PreDestroy
     public void destroy() {
-        LOGGER.info("UserCacheSingleton is destroyed");
+        LOGGER.info("UserCachePrototype is destroyed");
     }
 
     @Override
