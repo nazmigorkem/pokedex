@@ -43,6 +43,10 @@ public interface UserService {
         throw new NotImplementedException();
     }
 
+    default List<UserResponseDTO> getUsersPageWithDAO(int pageNumber, int pageSize) {
+        throw new NotImplementedException();
+    }
+
     default UserResponseDTO getUserByIdHQL(long id) {
         throw new NotImplementedException();
     }
@@ -50,4 +54,6 @@ public interface UserService {
     default UserResponseDTO getUserByIdNativeQuery(long id) {
         throw new NotImplementedException();
     }
+
+
 }

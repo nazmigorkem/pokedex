@@ -8,6 +8,7 @@ import tech.obss.entity.User;
 import tech.obss.model.SaveUserRequestDTO;
 import tech.obss.model.UpdateUserRequestDTO;
 import tech.obss.model.UserResponseDTO;
+import tech.obss.repository.UserDAO;
 import tech.obss.repository.UserRepository;
 import tech.obss.service.UserService;
 
@@ -19,9 +20,11 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final UserDAO userDAO;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, UserDAO userDAO) {
         this.userRepository = userRepository;
+        this.userDAO = userDAO;
     }
 
     @Override
@@ -104,5 +107,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponseDTO getUserByIdNativeQuery(long id) {
         return mapUserToUserResponseDTO(userRepository.findByIdWithNativeQuery(id).orElseThrow(() -> new RuntimeException("User not found")));
+    }
+
+    @Override
+    public List<UserResponseDTO> getUsersPageWithDAO(int pageNumber, int pageSize) {
+        return userDAO.getUsers(pageNumber, pageSize).stream().map(this::mapUserToUserResponseDTO).toList();
     }
 }

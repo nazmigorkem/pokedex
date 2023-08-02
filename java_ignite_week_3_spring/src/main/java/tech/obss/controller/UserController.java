@@ -56,6 +56,11 @@ public class UserController {
         return ResponseEntity.ok(userService.getUsersPage(number, size));
     }
 
+    @GetMapping("/page-with-dao")
+    public ResponseEntity<List<UserResponseDTO>> getUsersPageWithDAO(@RequestParam(defaultValue = "0") int number, @RequestParam(defaultValue = "0") int size) {
+        return ResponseEntity.ok(userService.getUsersPageWithDAO(number, size));
+    }
+
     @PostMapping("")
     public ResponseEntity<UserResponseDTO> saveUser(@Valid @RequestBody SaveUserRequestDTO saveUserRequestDTO) {
         return ResponseEntity.ok(userService.saveUser(saveUserRequestDTO));
