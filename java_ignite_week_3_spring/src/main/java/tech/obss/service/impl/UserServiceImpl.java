@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import tech.obss.entity.Role;
 import tech.obss.entity.User;
@@ -32,18 +33,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepository userRepository;
     private final UserDAO userDAO;
     private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, UserDAO userDAO, RoleRepository roleRepository) {
+    public UserServiceImpl(UserRepository userRepository, UserDAO userDAO, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userDAO = userDAO;
         this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public UserResponseDTO saveUser(SaveUserRequestDTO saveUserRequestDTO) {
         var user = new User();
         user.setUsername(saveUserRequestDTO.getUsername());
-        user.setPassword(saveUserRequestDTO.getPassword());
+        user.setPassword(passwordEncoder.encode(saveUserRequestDTO.getPassword()));
         var roleUser = roleRepository.findByName("ROLE_USER");
         roleUser.ifPresent(x -> user.setRoles(Set.of(x)));
         var savedUser = userRepository.save(user);

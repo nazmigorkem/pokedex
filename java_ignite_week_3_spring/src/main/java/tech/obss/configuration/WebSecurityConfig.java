@@ -8,7 +8,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 import tech.obss.service.impl.UserServiceImpl;
@@ -18,9 +18,11 @@ import tech.obss.service.impl.UserServiceImpl;
 public class WebSecurityConfig {
 
     private final UserServiceImpl userService;
+    private final PasswordEncoder passwordEncoder;
 
-    public WebSecurityConfig(UserServiceImpl userService) {
+    public WebSecurityConfig(UserServiceImpl userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     private static final String[] AUTH_WHITELIST = { //
@@ -39,7 +41,7 @@ public class WebSecurityConfig {
     public DaoAuthenticationProvider authenticationProvider() {
         var daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setUserDetailsService(userService);
-        daoAuthenticationProvider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
+        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);
         return daoAuthenticationProvider;
     }
 
