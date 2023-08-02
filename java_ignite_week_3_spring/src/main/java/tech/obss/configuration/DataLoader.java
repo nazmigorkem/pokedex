@@ -4,12 +4,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.stereotype.Component;
 import tech.obss.entity.Role;
 import tech.obss.repository.RoleRepository;
 
+@Component
 public class DataLoader implements ApplicationRunner {
-    public static final String USER_ROLE = "USER_ROLE";
-    public static final String ADMIN_ROLE = "ADMIN_ROLE";
+    public static final String USER_ROLE = "ROLE_USER";
+    public static final String ADMIN_ROLE = "ROLE_ADMIN";
     private final Logger LOGGER = LoggerFactory.getLogger(DataLoader.class);
 
     RoleRepository roleRepository;

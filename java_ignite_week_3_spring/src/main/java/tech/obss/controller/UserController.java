@@ -31,6 +31,11 @@ public class UserController {
         return ResponseEntity.ok(userService.getUser(id));
     }
 
+    @GetMapping("/with-role-names")
+    public ResponseEntity<List<UserResponseDTO>> getUsersWithRoleNames(@RequestParam(defaultValue = "") List<String> roleNames) {
+        return ResponseEntity.ok(userService.getUsersWithRoleNames(roleNames));
+    }
+
     @GetMapping("/hql/{id}")
     public ResponseEntity<UserResponseDTO> getUsersWithHQL(@PathVariable("id") long id) {
         return ResponseEntity.ok(userService.getUserByIdHQL(id));

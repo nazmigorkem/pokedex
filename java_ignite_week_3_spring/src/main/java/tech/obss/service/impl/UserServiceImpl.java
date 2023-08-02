@@ -4,15 +4,19 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import tech.obss.entity.Role;
 import tech.obss.entity.User;
 import tech.obss.model.SaveUserRequestDTO;
 import tech.obss.model.UpdateUserRequestDTO;
 import tech.obss.model.UserResponseDTO;
+import tech.obss.repository.RoleRepository;
 import tech.obss.repository.UserDAO;
 import tech.obss.repository.UserRepository;
 import tech.obss.service.UserService;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -21,10 +25,12 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserDAO userDAO;
+    private final RoleRepository roleRepository;
 
-    public UserServiceImpl(UserRepository userRepository, UserDAO userDAO) {
+    public UserServiceImpl(UserRepository userRepository, UserDAO userDAO, RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.userDAO = userDAO;
+        this.roleRepository = roleRepository;
     }
 
     @Override
@@ -32,17 +38,17 @@ public class UserServiceImpl implements UserService {
         var user = new User();
         user.setUsername(saveUserRequestDTO.getUsername());
         user.setPassword(saveUserRequestDTO.getPassword());
+        var roleUser = roleRepository.findByName("ROLE_USER");
+        roleUser.ifPresent(x -> user.setRoles(Set.of(x)));
         var savedUser = userRepository.save(user);
-        var responseDTO = new UserResponseDTO();
-        responseDTO.setUsername(savedUser.getUsername());
-        responseDTO.setId(savedUser.getId());
-        return responseDTO;
+        return mapUserToUserResponseDTO(savedUser);
     }
 
     private UserResponseDTO mapUserToUserResponseDTO(User user) {
         var userResponseDTO = new UserResponseDTO();
         userResponseDTO.setUsername(user.getUsername());
         userResponseDTO.setId(user.getId());
+        userResponseDTO.setRoles(user.getRoles().stream().map(Role::getName).collect(Collectors.toSet()));
         return userResponseDTO;
     }
 
@@ -54,6 +60,11 @@ public class UserServiceImpl implements UserService {
             user.setId(x.getId());
             return user;
         }).toList();
+    }
+
+    @Override
+    public List<UserResponseDTO> getUsersWithRoleNames(List<String> roleNames) {
+        return userRepository.findByRoles_NameIn(roleNames).stream().map(this::mapUserToUserResponseDTO).toList();
     }
 
     @Override

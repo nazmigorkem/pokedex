@@ -15,6 +15,10 @@ public interface UserService {
 
     List<UserResponseDTO> getUsers();
 
+    default List<UserResponseDTO> getUsersWithRoleNames(List<String> roleNames) {
+        throw new NotImplementedException();
+    }
+
     default User getUserById(long id) {
         throw new NotImplementedException();
     }

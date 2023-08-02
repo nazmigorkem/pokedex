@@ -1,9 +1,13 @@
 package tech.obss.model;
 
+import java.util.Set;
+
 public class UserResponseDTO {
 
     private long id;
     private String username;
+
+    private Set<String> roles;
 
     public long getId() {
         return id;
@@ -19,5 +23,13 @@ public class UserResponseDTO {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public Set<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<String> roles) {
+        this.roles = roles;
     }
 }

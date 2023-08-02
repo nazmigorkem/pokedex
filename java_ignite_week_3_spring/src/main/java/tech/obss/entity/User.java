@@ -1,8 +1,8 @@
 package tech.obss.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import java.util.Set;
 
 @Entity
 @Table(name = "USER_ACCOUNT")
@@ -13,6 +13,13 @@ public class User extends EntityBase {
 
     @Column(name = "PASSWORD", nullable = false)
     private String password;
+
+    @ManyToMany
+    @JoinTable(
+            name = "USER_ROLES",
+            joinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "ID"),
+            inverseJoinColumns = @JoinColumn(name = "ROLE_ID", referencedColumnName = "ID"))
+    private Set<Role> roles;
 
 
     public String getUsername() {
@@ -29,5 +36,17 @@ public class User extends EntityBase {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public void addRole(Role role) {
+        this.roles.add(role);
     }
 }

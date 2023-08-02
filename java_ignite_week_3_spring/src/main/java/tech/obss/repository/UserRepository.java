@@ -14,6 +14,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByUsername(String username);
 
+    List<User> findByRoles_NameIn(List<String> roleNames);
+
     @Query("select u from User u where u.id = :id")
     Optional<User> findByIdWithHQL(long id);
 
