@@ -1,11 +1,17 @@
 package tech.obss.service.impl;
 
+import jakarta.transaction.Transactional;
+import org.hibernate.Hibernate;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import tech.obss.entity.Role;
 import tech.obss.entity.User;
+import tech.obss.model.MyUserDetails;
 import tech.obss.model.SaveUserRequestDTO;
 import tech.obss.model.UpdateUserRequestDTO;
 import tech.obss.model.UserResponseDTO;
@@ -21,7 +27,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Primary
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository userRepository;
     private final UserDAO userDAO;
@@ -123,5 +129,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserResponseDTO> getUsersPageWithDAO(int pageNumber, int pageSize) {
         return userDAO.getUsers(pageNumber, pageSize).stream().map(this::mapUserToUserResponseDTO).toList();
+    }
+
+    @Override
+    @Transactional
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        var user = userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
+        Hibernate.initialize(user.getRoles());
+        return new MyUserDetails(user);
     }
 }

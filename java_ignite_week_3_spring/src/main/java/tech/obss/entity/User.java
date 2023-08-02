@@ -46,7 +46,4 @@ public class User extends EntityBase {
         this.roles = roles;
     }
 
-    public void addRole(Role role) {
-        this.roles.add(role);
-    }
 }
