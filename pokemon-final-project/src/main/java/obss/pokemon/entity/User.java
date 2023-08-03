@@ -14,7 +14,7 @@ public class User extends EntityBase {
     @Column(name = "NAME")
     private String name;
 
-    @OneToMany(mappedBy = "trainer")
+    @ManyToMany(mappedBy = "users")
     private Set<Pokemon> pokemons;
 
     @ManyToMany

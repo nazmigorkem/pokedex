@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Getter
 @Setter
 @Entity
@@ -31,7 +33,10 @@ public class Pokemon extends EntityBase {
     @Column(name = "IMAGE", nullable = false)
     private String image;
 
-    @ManyToOne
-    @JoinColumn(name = "TRAINER_ID", nullable = false)
-    private User trainer;
+    @ManyToMany
+    @JoinTable(name = "POKEMON_USER",
+            joinColumns = @JoinColumn(name = "POKEMON_ID", referencedColumnName = "ID"),
+            inverseJoinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
+    )
+    private Set<User> users;
 }
