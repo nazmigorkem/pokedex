@@ -34,11 +34,8 @@ public class PokemonTypeService implements PokemonTypeServiceContract {
     }
 
     @Override
-    public PokemonTypeResponseDTO getPokemonTypeByName(String name) {
-        return modelMapper.map(
-                pokemonTypeRepository.findByName(name).orElseThrow(),
-                PokemonTypeResponseDTO.class
-        );
+    public PokemonType getPokemonTypeByName(String name) {
+        return pokemonTypeRepository.findByName(name).orElseThrow();
     }
 
     @Override

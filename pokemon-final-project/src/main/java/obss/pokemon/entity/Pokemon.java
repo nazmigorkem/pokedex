@@ -20,18 +20,30 @@ public class Pokemon extends EntityBase {
     @Column(name = "ATTACK", nullable = false)
     private int attack;
 
+    @Column(name = "DESCRIPTION", nullable = false)
+    private String description;
+
+    @Column(name = "SPECIAL_ATTACK", nullable = false)
+    private int specialAttack;
+
+    @Column(name = "SPECIAL_DEFENSE", nullable = false)
+    private int specialDefense;
+
     @Column(name = "DEFENSE", nullable = false)
     private int defense;
 
     @Column(name = "SPEED", nullable = false)
     private int speed;
 
-    @ManyToOne
-    @JoinColumn(name = "TYPE_ID", nullable = false)
-    private PokemonType type;
+    @Column(name = "IMAGE_URL", nullable = false)
+    private String imageUrl;
 
-    @Column(name = "IMAGE", nullable = false)
-    private String image;
+    @ManyToMany
+    @JoinTable(name = "POKEMON_POKEMON_TYPE",
+            joinColumns = @JoinColumn(name = "POKEMON_ID", referencedColumnName = "ID"),
+            inverseJoinColumns = @JoinColumn(name = "TYPE_ID", referencedColumnName = "ID"))
+    private Set<PokemonType> types;
+
 
     @ManyToMany
     @JoinTable(name = "POKEMON_USER",

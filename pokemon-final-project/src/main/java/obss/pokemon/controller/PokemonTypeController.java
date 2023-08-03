@@ -33,7 +33,7 @@ public class PokemonTypeController {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<Void> deletePokemonType(@RequestParam @NotBlank String name) {
+    public ResponseEntity<Void> deletePokemonType(@NotBlank @RequestParam String name) {
         pokemonTypeService.deletePokemonType(name);
         return ResponseEntity.ok().build();
     }

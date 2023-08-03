@@ -1,5 +1,6 @@
 package obss.pokemon.service.contract;
 
+import obss.pokemon.entity.PokemonType;
 import obss.pokemon.model.PokemonTypeResponseDTO;
 import obss.pokemon.model.PokemonTypeSaveRequestDTO;
 
@@ -10,7 +11,7 @@ public interface PokemonTypeServiceContract {
 
     List<PokemonTypeResponseDTO> getPokemonTypeByNameStartsWith(String name);
 
-    PokemonTypeResponseDTO getPokemonTypeByName(String name);
+    PokemonType getPokemonTypeByName(String name);
 
 
     void deletePokemonType(String name);
