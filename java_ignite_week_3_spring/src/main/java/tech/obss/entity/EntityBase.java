@@ -1,19 +1,33 @@
 package tech.obss.entity;
 
 import jakarta.persistence.*;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.Date;
 
 @MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
 public class EntityBase {
     @Id
     @Column(name = "ID", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @CreatedBy
+    private String createdBy;
+
+    @LastModifiedBy
+    private String updatedBy;
+
+    @CreatedDate
     @Column(name = "CREATED_DATE")
     private Date createdDate;
 
+    @LastModifiedDate
     @Column(name = "UPDATED_DATE")
     private Date updatedDate;
 
@@ -25,15 +39,12 @@ public class EntityBase {
 
     @PrePersist
     public void onPrePersist() {
-        this.createdDate = new Date();
-        this.updatedDate = new Date();
         this.active = true;
         this.operation = "SAVE";
     }
 
     @PreUpdate
     public void onPreUpdate() {
-        this.updatedDate = new Date();
         this.operation = "UPDATE";
     }
 
