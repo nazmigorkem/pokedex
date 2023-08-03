@@ -2,9 +2,12 @@ package tech.obss.service.impl;
 
 import jakarta.transaction.Transactional;
 import org.hibernate.Hibernate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -30,6 +33,7 @@ import java.util.stream.Collectors;
 @Primary
 public class UserServiceImpl implements UserService, UserDetailsService {
 
+    private final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
     private final UserRepository userRepository;
     private final UserDAO userDAO;
     private final RoleRepository roleRepository;
@@ -140,5 +144,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         var user = userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
         Hibernate.initialize(user.getRoles());
         return new MyUserDetails(user);
+    }
+
+    @Scheduled(cron = "*/5 * * * * *")
+    public void scheduledLog() {
+        LOGGER.info("Scheduled log");
     }
 }
