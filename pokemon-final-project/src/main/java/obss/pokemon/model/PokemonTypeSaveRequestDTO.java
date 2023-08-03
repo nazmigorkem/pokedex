@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class PokemonTypeSaveRequestDTO {
-    @Size(min = 2, max = 20)
+    @Size(min = 2, max = 20, message = "Name should be between 2 and 20 characters.")
     @NotBlank(message = "Name cannot be blank.")
     private String name;
 }

@@ -3,10 +3,13 @@ package obss.pokemon.service.implementation;
 import obss.pokemon.entity.PokemonType;
 import obss.pokemon.model.PokemonTypeResponseDTO;
 import obss.pokemon.model.PokemonTypeSaveRequestDTO;
+import obss.pokemon.model.PokemonTypeUpdateRequestDTO;
 import obss.pokemon.repository.PokemonTypeRepository;
 import obss.pokemon.service.contract.PokemonTypeServiceContract;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class PokemonTypeService implements PokemonTypeServiceContract {
@@ -28,5 +31,34 @@ public class PokemonTypeService implements PokemonTypeServiceContract {
                 ),
                 PokemonTypeResponseDTO.class
         );
+    }
+
+    @Override
+    public PokemonTypeResponseDTO getPokemonTypeByName(String name) {
+        return modelMapper.map(
+                pokemonTypeRepository.findByName(name).orElseThrow(),
+                PokemonTypeResponseDTO.class
+        );
+    }
+
+    @Override
+    public List<PokemonTypeResponseDTO> getPokemonTypeByNameStartsWith(String name) {
+        return pokemonTypeRepository.findPokemonTypeByNameStartsWith(name).stream()
+                .map(pokemonType -> modelMapper.map(pokemonType, PokemonTypeResponseDTO.class))
+                .toList();
+    }
+
+    public PokemonTypeResponseDTO updatePokemonType(PokemonTypeUpdateRequestDTO pokemonTypeUpdateRequestDTO) {
+        var pokemonType = pokemonTypeRepository.findByName(pokemonTypeUpdateRequestDTO.getSearchName()).orElseThrow();
+        pokemonType.setName(pokemonTypeUpdateRequestDTO.getNewName());
+        return modelMapper.map(
+                pokemonTypeRepository.save(pokemonType),
+                PokemonTypeResponseDTO.class
+        );
+    }
+
+    @Override
+    public void deletePokemonType(String name) {
+        pokemonTypeRepository.delete(pokemonTypeRepository.findByName(name).orElseThrow());
     }
 }
