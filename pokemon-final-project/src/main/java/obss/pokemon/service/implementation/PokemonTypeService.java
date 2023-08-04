@@ -26,7 +26,7 @@ public class PokemonTypeService implements PokemonTypeServiceContract {
 
     @Override
     public PokemonTypeResponse addPokemonType(PokemonTypeSaveRequest pokemonTypeSaveRequest) {
-        throwErrorIfPokemonTypeExistsWithName(pokemonTypeSaveRequest);
+        throwErrorIfPokemonTypeExistsWithNameIgnoreCase(pokemonTypeSaveRequest);
         return modelMapper.map(
                 pokemonTypeRepository.save(
                         modelMapper.map(pokemonTypeSaveRequest, PokemonType.class)
@@ -37,20 +37,20 @@ public class PokemonTypeService implements PokemonTypeServiceContract {
 
     @Override
     public PokemonType getPokemonTypeByName(String name) {
-        throwErrorIfPokemonTypeDoesNotExistWithName(name);
-        return pokemonTypeRepository.findByName(name).orElseThrow();
+        throwErrorIfPokemonTypeDoesNotExistWithNameIgnoreCase(name);
+        return pokemonTypeRepository.findByNameIgnoreCase(name).orElseThrow();
     }
 
     @Override
     public List<PokemonTypeResponse> getPokemonTypeByNameStartsWith(String name) {
-        return pokemonTypeRepository.findPokemonTypeByNameStartsWith(name).stream()
+        return pokemonTypeRepository.findPokemonTypeByNameStartsWithIgnoreCase(name).stream()
                 .map(pokemonType -> modelMapper.map(pokemonType, PokemonTypeResponse.class))
                 .toList();
     }
 
     public PokemonTypeResponse updatePokemonType(PokemonTypeUpdateRequest pokemonTypeUpdateRequest) {
-        throwErrorIfPokemonTypeDoesNotExistWithName(pokemonTypeUpdateRequest.getSearchName());
-        var pokemonType = pokemonTypeRepository.findByName(pokemonTypeUpdateRequest.getSearchName()).orElseThrow();
+        throwErrorIfPokemonTypeDoesNotExistWithNameIgnoreCase(pokemonTypeUpdateRequest.getSearchName());
+        var pokemonType = pokemonTypeRepository.findByNameIgnoreCase(pokemonTypeUpdateRequest.getSearchName()).orElseThrow();
         pokemonType.setName(pokemonTypeUpdateRequest.getNewName());
         return modelMapper.map(
                 pokemonTypeRepository.save(pokemonType),
@@ -60,21 +60,21 @@ public class PokemonTypeService implements PokemonTypeServiceContract {
 
     @Override
     public void deletePokemonType(String name) {
-        throwErrorIfPokemonTypeDoesNotExistWithName(name);
-        pokemonTypeRepository.delete(pokemonTypeRepository.findByName(name).orElseThrow());
+        throwErrorIfPokemonTypeDoesNotExistWithNameIgnoreCase(name);
+        pokemonTypeRepository.delete(pokemonTypeRepository.findByNameIgnoreCase(name).orElseThrow());
     }
 
     //*****************//
     //* GUARD CLAUSES *//
     //*************** *//
 
-    public void throwErrorIfPokemonTypeDoesNotExistWithName(String name) {
+    public void throwErrorIfPokemonTypeDoesNotExistWithNameIgnoreCase(String name) {
         if (!pokemonTypeRepository.existsByNameIgnoreCase(name)) {
             throw ServiceException.PokemonTypeWithNameNotFound(name);
         }
     }
 
-    public void throwErrorIfPokemonTypeExistsWithName(PokemonTypeSaveRequest pokemonTypeSaveRequest) {
+    public void throwErrorIfPokemonTypeExistsWithNameIgnoreCase(PokemonTypeSaveRequest pokemonTypeSaveRequest) {
         if (pokemonTypeRepository.existsByNameIgnoreCase(pokemonTypeSaveRequest.getName())) {
             throw ServiceException.PokemonTypeWithNameAlreadyExists(pokemonTypeSaveRequest.getName());
         }

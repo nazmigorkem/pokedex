@@ -7,7 +7,7 @@ import obss.pokemon.model.user.UserSaveRequest;
 public interface UserServiceContract {
     UserResponse addUser(UserSaveRequest userSaveRequest);
 
-    UserResponse getUserByUsername(String username);
+    UserResponse getUserByUsernameIgnoreCase(String username);
 
     UserResponse addPokemonToCatchListOfUser(UserPokemonAddRequest userPokemonAddRequest);
 

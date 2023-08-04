@@ -26,23 +26,23 @@ public class UserService implements UserServiceContract {
 
     @Override
     public UserResponse addUser(UserSaveRequest userSaveRequest) {
-        throwErrorIfUserExistsWithName(userSaveRequest.getUsername());
+        throwErrorIfUserExistsWithNameIgnoreCase(userSaveRequest.getUsername());
         var user = modelMapper.map(userSaveRequest, User.class);
         userRepository.save(user);
         return modelMapper.map(user, UserResponse.class);
     }
 
     @Override
-    public UserResponse getUserByUsername(String username) {
-        throwErrorIfUserDoesNotExistWithName(username);
+    public UserResponse getUserByUsernameIgnoreCase(String username) {
+        throwErrorIfUserDoesNotExistWithNameIgnoreCase(username);
         var user = userRepository.findByUsernameIgnoreCase(username).orElseThrow();
         return modelMapper.map(user, UserResponse.class);
     }
 
     @Override
     public UserResponse addPokemonToCatchListOfUser(UserPokemonAddRequest userPokemonAddRequest) {
-        throwErrorIfUserDoesNotExistWithName(userPokemonAddRequest.getUsername());
-        pokemonService.throwErrorIfPokemonDoesNotExistWithName(userPokemonAddRequest.getPokemonName());
+        throwErrorIfUserDoesNotExistWithNameIgnoreCase(userPokemonAddRequest.getUsername());
+        pokemonService.throwErrorIfPokemonDoesNotExistWithNameIgnoreCase(userPokemonAddRequest.getPokemonName());
         var user = userRepository.findByUsernameIgnoreCase(userPokemonAddRequest.getUsername()).orElseThrow();
         var pokemon = pokemonService.getPokemonByNameIgnoreCase(userPokemonAddRequest.getPokemonName());
         user.getCatchList().add(pokemon);
@@ -51,8 +51,8 @@ public class UserService implements UserServiceContract {
 
     @Override
     public UserResponse addPokemonToWishListOfUser(UserPokemonAddRequest userPokemonAddRequest) {
-        throwErrorIfUserDoesNotExistWithName(userPokemonAddRequest.getUsername());
-        pokemonService.throwErrorIfPokemonDoesNotExistWithName(userPokemonAddRequest.getPokemonName());
+        throwErrorIfUserDoesNotExistWithNameIgnoreCase(userPokemonAddRequest.getUsername());
+        pokemonService.throwErrorIfPokemonDoesNotExistWithNameIgnoreCase(userPokemonAddRequest.getPokemonName());
         var user = userRepository.findByUsernameIgnoreCase(userPokemonAddRequest.getUsername()).orElseThrow();
         var pokemon = pokemonService.getPokemonByNameIgnoreCase(userPokemonAddRequest.getPokemonName());
         user.getWishlist().add(pokemon);
@@ -71,13 +71,13 @@ public class UserService implements UserServiceContract {
     //* GUARD CLAUSES *//
     //*************** *//
 
-    private void throwErrorIfUserExistsWithName(String username) {
+    private void throwErrorIfUserExistsWithNameIgnoreCase(String username) {
         if (userRepository.existsByUsernameIgnoreCase(username)) {
             throw ServiceException.UserWithNameAlreadyExists(username);
         }
     }
 
-    private void throwErrorIfUserDoesNotExistWithName(String username) {
+    private void throwErrorIfUserDoesNotExistWithNameIgnoreCase(String username) {
         if (!userRepository.existsByUsernameIgnoreCase(username)) {
             throw ServiceException.UserWithUsernameNotFound(username);
         }

@@ -20,7 +20,7 @@ public class UserController {
 
     @GetMapping("/{username}")
     public ResponseEntity<UserResponse> getUserByUsername(@PathVariable String username) {
-        return ResponseEntity.ok(userService.getUserByUsername(username));
+        return ResponseEntity.ok(userService.getUserByUsernameIgnoreCase(username));
     }
 
     @PostMapping("/add")
@@ -33,5 +33,9 @@ public class UserController {
         return ResponseEntity.ok(userService.addPokemonToCatchListOfUser(userPokemonAddRequest));
     }
 
+    @PostMapping("/wish-list/add")
+    public ResponseEntity<UserResponse> addPokemonToWishListOfUser(@Valid @RequestBody UserPokemonAddRequest userPokemonAddRequest) {
+        return ResponseEntity.ok(userService.addPokemonToWishListOfUser(userPokemonAddRequest));
+    }
 
 }

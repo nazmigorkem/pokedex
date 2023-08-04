@@ -28,7 +28,7 @@ public class PokemonService implements PokemonServiceContract {
 
     @Override
     public PokemonResponse addPokemon(PokemonSaveRequest pokemonSaveRequest) {
-        throwErrorIfPokemonExistsWithName(pokemonSaveRequest.getName());
+        throwErrorIfPokemonExistsWithNameIgnoreCase(pokemonSaveRequest.getName());
         var pokemonTypes = pokemonSaveRequest.getTypes().stream().map(pokemonTypeService::getPokemonTypeByName).collect(Collectors.toSet());
         var newPokemon = modelMapper.map(pokemonSaveRequest, Pokemon.class);
         newPokemon.setTypes(pokemonTypes);
@@ -47,20 +47,20 @@ public class PokemonService implements PokemonServiceContract {
 
     @Override
     public Pokemon getPokemonByNameIgnoreCase(String pokemonName) {
-        throwErrorIfPokemonDoesNotExistWithName(pokemonName);
+        throwErrorIfPokemonDoesNotExistWithNameIgnoreCase(pokemonName);
         return pokemonRepository.getPokemonByNameIgnoreCase(pokemonName).orElseThrow();
     }
 
     @Override
     public void deletePokemon(String pokemonName) {
-        throwErrorIfPokemonDoesNotExistWithName(pokemonName);
+        throwErrorIfPokemonDoesNotExistWithNameIgnoreCase(pokemonName);
         pokemonRepository.delete(pokemonRepository.getPokemonByNameIgnoreCase(pokemonName).orElseThrow());
     }
 
     @Override
     public PokemonResponse updatePokemon(PokemonUpdateRequest pokemonUpdateRequest) {
-        throwErrorIfPokemonDoesNotExistWithName(pokemonUpdateRequest.getSearchName());
-        throwErrorIfPokemonExistsWithName(pokemonUpdateRequest.getName());
+        throwErrorIfPokemonDoesNotExistWithNameIgnoreCase(pokemonUpdateRequest.getSearchName());
+        throwErrorIfPokemonExistsWithNameIgnoreCase(pokemonUpdateRequest.getName());
         var pokemon = pokemonRepository.getPokemonByNameIgnoreCase(pokemonUpdateRequest.getSearchName()).orElseThrow();
         modelMapper.map(pokemonUpdateRequest, pokemon);
         pokemonRepository.save(pokemon);
@@ -72,13 +72,13 @@ public class PokemonService implements PokemonServiceContract {
     //* GUARD CLAUSES *//
     //*************** *//
 
-    public void throwErrorIfPokemonExistsWithName(String pokemonName) {
+    public void throwErrorIfPokemonExistsWithNameIgnoreCase(String pokemonName) {
         if (pokemonRepository.existsByNameIgnoreCase(pokemonName)) {
             throw ServiceException.PokemonWithNameAlreadyExists(pokemonName);
         }
     }
 
-    public void throwErrorIfPokemonDoesNotExistWithName(String pokemonName) {
+    public void throwErrorIfPokemonDoesNotExistWithNameIgnoreCase(String pokemonName) {
         if (!pokemonRepository.existsByNameIgnoreCase(pokemonName)) {
             throw ServiceException.PokemonWithNameNotFound(pokemonName);
         }
