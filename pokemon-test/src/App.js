@@ -1,25 +1,16 @@
-import logo from './logo.svg';
 import './App.css';
+import ShoppingList from './ShoppingList';
+import ShoppingTitle from './ShoppingTitle';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	return (
+		<div>
+			<ShoppingTitle title="My Shopping List" numItems={9} />
+			<ShoppingList items={['Apple', 'Bread', 'Cheese']} title="Food" />
+			<ShoppingList items={['Shirt', 'Pants', 'Hat']} title="Clothes" />
+			<ShoppingList items={['Pen', 'Paper', 'Glue']} title="Supplies" />
+		</div>
+	);
 }
 
 export default App;
