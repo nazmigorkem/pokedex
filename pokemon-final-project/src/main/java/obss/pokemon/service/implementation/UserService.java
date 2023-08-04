@@ -23,7 +23,7 @@ public class UserService implements UserServiceContract {
     @Override
     public UserSaveResponseDTO addUser(UserSaveRequestDTO userSaveRequestDTO) {
         if (userRepository.existsByUsername(userSaveRequestDTO.getUsername())) {
-            throw new ServiceException(String.format("User with username %s already exists.", userSaveRequestDTO.getUsername()));
+            throw ServiceException.UserWithNameAlreadyExists(userSaveRequestDTO.getUsername());
         }
         return modelMapper.map(userRepository.save(modelMapper.map(userSaveRequestDTO, User.class)), UserSaveResponseDTO.class);
     }

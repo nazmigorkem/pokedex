@@ -4,6 +4,7 @@ import obss.pokemon.entity.Pokemon;
 import obss.pokemon.exceptions.ServiceException;
 import obss.pokemon.model.pokemon.PokemonResponseDTO;
 import obss.pokemon.model.pokemon.PokemonSaveRequestDTO;
+import obss.pokemon.model.pokemon.PokemonUpdateRequestDTO;
 import obss.pokemon.repository.PokemonRepository;
 import obss.pokemon.service.contract.PokemonServiceContract;
 import org.modelmapper.ModelMapper;
@@ -27,9 +28,7 @@ public class PokemonService implements PokemonServiceContract {
 
     @Override
     public PokemonResponseDTO addPokemon(PokemonSaveRequestDTO pokemonSaveRequestDTO) {
-        if (pokemonRepository.existsByNameIgnoreCase(pokemonSaveRequestDTO.getName())) {
-            throw new ServiceException(String.format("Pokemon with name %s already exists.", pokemonSaveRequestDTO.getName()));
-        }
+        throwErrorIfPokemonExistsWithName(pokemonSaveRequestDTO.getName());
         var pokemonTypes = pokemonSaveRequestDTO.getTypes().stream().map(pokemonTypeService::getPokemonTypeByName).collect(Collectors.toSet());
         var newPokemon = modelMapper.map(pokemonSaveRequestDTO, Pokemon.class);
         newPokemon.setTypes(pokemonTypes);
@@ -48,15 +47,35 @@ public class PokemonService implements PokemonServiceContract {
 
     @Override
     public void deletePokemon(String name) {
-        if (!pokemonRepository.existsByNameIgnoreCase(name)) {
-            throw new ServiceException(String.format("Pokemon with name %s does not exist.", name));
-        }
+        throwErrorIfPokemonIsNotExistsWithName(name);
         pokemonRepository.delete(pokemonRepository.getPokemonByNameIgnoreCase(name).orElseThrow());
     }
 
     @Override
-    public void updatePokemon() {
+    public PokemonResponseDTO updatePokemon(PokemonUpdateRequestDTO pokemonUpdateRequestDTO) {
+        throwErrorIfPokemonIsNotExistsWithName(pokemonUpdateRequestDTO.getSearchName());
+        throwErrorIfPokemonExistsWithName(pokemonUpdateRequestDTO.getName());
+        var pokemon = pokemonRepository.getPokemonByNameIgnoreCase(pokemonUpdateRequestDTO.getSearchName()).orElseThrow();
+        modelMapper.map(pokemonUpdateRequestDTO, pokemon);
+        pokemonRepository.save(pokemon);
+        return modelMapper.map(pokemon, PokemonResponseDTO.class);
+    }
 
+
+    //*****************//
+    //* GUARD CLAUSES *//
+    //*************** *//
+
+    private void throwErrorIfPokemonExistsWithName(String pokemonName) {
+        if (pokemonRepository.existsByNameIgnoreCase(pokemonName)) {
+            throw ServiceException.PokemonWithNameAlreadyExists(pokemonName);
+        }
+    }
+
+    private void throwErrorIfPokemonIsNotExistsWithName(String pokemonName) {
+        if (!pokemonRepository.existsByNameIgnoreCase(pokemonName)) {
+            throw ServiceException.PokemonNotFound(pokemonName);
+        }
     }
 
 }

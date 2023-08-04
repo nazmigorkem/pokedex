@@ -19,6 +19,7 @@ public class PokemonSaveRequestDTO {
     @NotNull(message = "Types cannot be blank.")
     private Set<String> types;
 
+    //    @URL(message = "Image url must be a valid url.", host = "i.imgur.com")
     @NotBlank(message = "Image url cannot be blank.")
     private String imageUrl;
 

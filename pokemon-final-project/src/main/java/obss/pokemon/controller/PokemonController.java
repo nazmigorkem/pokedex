@@ -3,6 +3,7 @@ package obss.pokemon.controller;
 import jakarta.validation.Valid;
 import obss.pokemon.model.pokemon.PokemonResponseDTO;
 import obss.pokemon.model.pokemon.PokemonSaveRequestDTO;
+import obss.pokemon.model.pokemon.PokemonUpdateRequestDTO;
 import obss.pokemon.service.implementation.PokemonService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +35,11 @@ public class PokemonController {
     public ResponseEntity<Void> deletePokemon(@RequestParam String name) {
         pokemonService.deletePokemon(name);
         return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<PokemonResponseDTO> updatePokemon(@Valid @RequestBody PokemonUpdateRequestDTO pokemonUpdateRequestDTO) {
+        return ResponseEntity.ok(pokemonService.updatePokemon(pokemonUpdateRequestDTO));
     }
 
 }
