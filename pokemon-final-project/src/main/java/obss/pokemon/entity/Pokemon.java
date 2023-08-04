@@ -46,17 +46,9 @@ public class Pokemon extends EntityBase {
     private Set<PokemonType> types;
 
 
-    @ManyToMany
-    @JoinTable(name = "POKEMON_USER_WISHLIST",
-            joinColumns = @JoinColumn(name = "POKEMON_ID", referencedColumnName = "ID"),
-            inverseJoinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
-    )
+    @ManyToMany(mappedBy = "wishlist")
     private List<User> usersWishList;
 
-    @ManyToMany
-    @JoinTable(name = "POKEMON_USER_CATCHLIST",
-            joinColumns = @JoinColumn(name = "POKEMON_ID", referencedColumnName = "ID"),
-            inverseJoinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
-    )
+    @ManyToMany(mappedBy = "catchList")
     private List<User> usersCatchList;
 }

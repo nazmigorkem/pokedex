@@ -2,9 +2,9 @@ package obss.pokemon.service.implementation;
 
 import obss.pokemon.entity.PokemonType;
 import obss.pokemon.exceptions.ServiceException;
-import obss.pokemon.model.pokemonType.PokemonTypeResponseDTO;
-import obss.pokemon.model.pokemonType.PokemonTypeSaveRequestDTO;
-import obss.pokemon.model.pokemonType.PokemonTypeUpdateRequestDTO;
+import obss.pokemon.model.pokemonType.PokemonTypeResponse;
+import obss.pokemon.model.pokemonType.PokemonTypeSaveRequest;
+import obss.pokemon.model.pokemonType.PokemonTypeUpdateRequest;
 import obss.pokemon.repository.PokemonTypeRepository;
 import obss.pokemon.service.contract.PokemonTypeServiceContract;
 import org.modelmapper.ModelMapper;
@@ -25,42 +25,42 @@ public class PokemonTypeService implements PokemonTypeServiceContract {
     }
 
     @Override
-    public PokemonTypeResponseDTO addPokemonType(PokemonTypeSaveRequestDTO pokemonTypeSaveRequest) {
+    public PokemonTypeResponse addPokemonType(PokemonTypeSaveRequest pokemonTypeSaveRequest) {
         throwErrorIfPokemonTypeExistsWithName(pokemonTypeSaveRequest);
         return modelMapper.map(
                 pokemonTypeRepository.save(
                         modelMapper.map(pokemonTypeSaveRequest, PokemonType.class)
                 ),
-                PokemonTypeResponseDTO.class
+                PokemonTypeResponse.class
         );
     }
 
     @Override
     public PokemonType getPokemonTypeByName(String name) {
-        throwErrorIfPokemonTypeIsNotExistsWithName(name);
+        throwErrorIfPokemonTypeDoesNotExistWithName(name);
         return pokemonTypeRepository.findByName(name).orElseThrow();
     }
 
     @Override
-    public List<PokemonTypeResponseDTO> getPokemonTypeByNameStartsWith(String name) {
+    public List<PokemonTypeResponse> getPokemonTypeByNameStartsWith(String name) {
         return pokemonTypeRepository.findPokemonTypeByNameStartsWith(name).stream()
-                .map(pokemonType -> modelMapper.map(pokemonType, PokemonTypeResponseDTO.class))
+                .map(pokemonType -> modelMapper.map(pokemonType, PokemonTypeResponse.class))
                 .toList();
     }
 
-    public PokemonTypeResponseDTO updatePokemonType(PokemonTypeUpdateRequestDTO pokemonTypeUpdateRequestDTO) {
-        throwErrorIfPokemonTypeIsNotExistsWithName(pokemonTypeUpdateRequestDTO.getSearchName());
-        var pokemonType = pokemonTypeRepository.findByName(pokemonTypeUpdateRequestDTO.getSearchName()).orElseThrow();
-        pokemonType.setName(pokemonTypeUpdateRequestDTO.getNewName());
+    public PokemonTypeResponse updatePokemonType(PokemonTypeUpdateRequest pokemonTypeUpdateRequest) {
+        throwErrorIfPokemonTypeDoesNotExistWithName(pokemonTypeUpdateRequest.getSearchName());
+        var pokemonType = pokemonTypeRepository.findByName(pokemonTypeUpdateRequest.getSearchName()).orElseThrow();
+        pokemonType.setName(pokemonTypeUpdateRequest.getNewName());
         return modelMapper.map(
                 pokemonTypeRepository.save(pokemonType),
-                PokemonTypeResponseDTO.class
+                PokemonTypeResponse.class
         );
     }
 
     @Override
     public void deletePokemonType(String name) {
-        throwErrorIfPokemonTypeIsNotExistsWithName(name);
+        throwErrorIfPokemonTypeDoesNotExistWithName(name);
         pokemonTypeRepository.delete(pokemonTypeRepository.findByName(name).orElseThrow());
     }
 
@@ -68,13 +68,13 @@ public class PokemonTypeService implements PokemonTypeServiceContract {
     //* GUARD CLAUSES *//
     //*************** *//
 
-    private void throwErrorIfPokemonTypeIsNotExistsWithName(String name) {
+    public void throwErrorIfPokemonTypeDoesNotExistWithName(String name) {
         if (!pokemonTypeRepository.existsByNameIgnoreCase(name)) {
-            throw ServiceException.PokemonTypeNotFound(name);
+            throw ServiceException.PokemonTypeWithNameNotFound(name);
         }
     }
 
-    private void throwErrorIfPokemonTypeExistsWithName(PokemonTypeSaveRequestDTO pokemonTypeSaveRequest) {
+    public void throwErrorIfPokemonTypeExistsWithName(PokemonTypeSaveRequest pokemonTypeSaveRequest) {
         if (pokemonTypeRepository.existsByNameIgnoreCase(pokemonTypeSaveRequest.getName())) {
             throw ServiceException.PokemonTypeWithNameAlreadyExists(pokemonTypeSaveRequest.getName());
         }

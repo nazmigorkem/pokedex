@@ -3,16 +3,16 @@ package obss.pokemon.model.pokemon;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import obss.pokemon.model.pokemonType.PokemonTypeResponseDTO;
+import obss.pokemon.model.pokemonType.PokemonTypeResponse;
 
 import java.util.Set;
 
 @NoArgsConstructor
 @Getter
 @Setter
-public class PokemonResponseDTO {
+public class PokemonResponse {
     private String name;
-    private Set<PokemonTypeResponseDTO> types;
+    private Set<PokemonTypeResponse> types;
     private String imageUrl;
     private String description;
     private int health;

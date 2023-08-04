@@ -1,18 +1,17 @@
 package obss.pokemon.service.contract;
 
 import obss.pokemon.entity.PokemonType;
-import obss.pokemon.model.pokemonType.PokemonTypeResponseDTO;
-import obss.pokemon.model.pokemonType.PokemonTypeSaveRequestDTO;
+import obss.pokemon.model.pokemonType.PokemonTypeResponse;
+import obss.pokemon.model.pokemonType.PokemonTypeSaveRequest;
 
 import java.util.List;
 
 public interface PokemonTypeServiceContract {
-    PokemonTypeResponseDTO addPokemonType(PokemonTypeSaveRequestDTO pokemonTypeSaveRequest);
+    PokemonTypeResponse addPokemonType(PokemonTypeSaveRequest pokemonTypeSaveRequest);
 
-    List<PokemonTypeResponseDTO> getPokemonTypeByNameStartsWith(String name);
+    List<PokemonTypeResponse> getPokemonTypeByNameStartsWith(String name);
 
     PokemonType getPokemonTypeByName(String name);
-
 
     void deletePokemonType(String name);
 }

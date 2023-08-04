@@ -18,11 +18,19 @@ public class User extends EntityBase {
     @Column(name = "PASSWORD", nullable = false, length = 20)
     private String password;
 
-    @ManyToMany(mappedBy = "usersWishList")
+    @ManyToMany
+    @JoinTable(name = "POKEMON_USER_WISHLIST",
+            joinColumns = @JoinColumn(name = "POKEMON_ID", referencedColumnName = "ID"),
+            inverseJoinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
+    )
     private List<Pokemon> wishlist;
 
 
-    @ManyToMany(mappedBy = "usersCatchList")
+    @ManyToMany
+    @JoinTable(name = "POKEMON_USER_CATCHLIST",
+            joinColumns = @JoinColumn(name = "POKEMON_ID", referencedColumnName = "ID"),
+            inverseJoinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
+    )
     private List<Pokemon> catchList;
 
     @ManyToMany

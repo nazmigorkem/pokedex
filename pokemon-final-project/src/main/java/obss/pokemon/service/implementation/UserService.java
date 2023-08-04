@@ -2,8 +2,10 @@ package obss.pokemon.service.implementation;
 
 import obss.pokemon.entity.User;
 import obss.pokemon.exceptions.ServiceException;
-import obss.pokemon.model.user.UserSaveRequestDTO;
-import obss.pokemon.model.user.UserSaveResponseDTO;
+import obss.pokemon.model.pokemon.PokemonResponse;
+import obss.pokemon.model.user.UserPokemonAddRequest;
+import obss.pokemon.model.user.UserResponse;
+import obss.pokemon.model.user.UserSaveRequest;
 import obss.pokemon.repository.UserRepository;
 import obss.pokemon.service.contract.UserServiceContract;
 import org.modelmapper.ModelMapper;
@@ -14,17 +16,70 @@ public class UserService implements UserServiceContract {
 
     private final ModelMapper modelMapper;
     private final UserRepository userRepository;
+    private final PokemonService pokemonService;
 
-    public UserService(ModelMapper modelMapper, UserRepository userRepository) {
+    public UserService(ModelMapper modelMapper, UserRepository userRepository, PokemonService pokemonService) {
         this.modelMapper = modelMapper;
         this.userRepository = userRepository;
+        this.pokemonService = pokemonService;
     }
 
     @Override
-    public UserSaveResponseDTO addUser(UserSaveRequestDTO userSaveRequestDTO) {
-        if (userRepository.existsByUsername(userSaveRequestDTO.getUsername())) {
-            throw ServiceException.UserWithNameAlreadyExists(userSaveRequestDTO.getUsername());
+    public UserResponse addUser(UserSaveRequest userSaveRequest) {
+        throwErrorIfUserExistsWithName(userSaveRequest.getUsername());
+        var user = modelMapper.map(userSaveRequest, User.class);
+        userRepository.save(user);
+        return modelMapper.map(user, UserResponse.class);
+    }
+
+    @Override
+    public UserResponse getUserByUsername(String username) {
+        throwErrorIfUserDoesNotExistWithName(username);
+        var user = userRepository.findByUsernameIgnoreCase(username).orElseThrow();
+        return modelMapper.map(user, UserResponse.class);
+    }
+
+    @Override
+    public UserResponse addPokemonToCatchListOfUser(UserPokemonAddRequest userPokemonAddRequest) {
+        throwErrorIfUserDoesNotExistWithName(userPokemonAddRequest.getUsername());
+        pokemonService.throwErrorIfPokemonDoesNotExistWithName(userPokemonAddRequest.getPokemonName());
+        var user = userRepository.findByUsernameIgnoreCase(userPokemonAddRequest.getUsername()).orElseThrow();
+        var pokemon = pokemonService.getPokemonByNameIgnoreCase(userPokemonAddRequest.getPokemonName());
+        user.getCatchList().add(pokemon);
+        return getUserResponse(user);
+    }
+
+    @Override
+    public UserResponse addPokemonToWishListOfUser(UserPokemonAddRequest userPokemonAddRequest) {
+        throwErrorIfUserDoesNotExistWithName(userPokemonAddRequest.getUsername());
+        pokemonService.throwErrorIfPokemonDoesNotExistWithName(userPokemonAddRequest.getPokemonName());
+        var user = userRepository.findByUsernameIgnoreCase(userPokemonAddRequest.getUsername()).orElseThrow();
+        var pokemon = pokemonService.getPokemonByNameIgnoreCase(userPokemonAddRequest.getPokemonName());
+        user.getWishlist().add(pokemon);
+        return getUserResponse(user);
+    }
+
+    private UserResponse getUserResponse(User user) {
+        userRepository.save(user);
+        var userResponse = modelMapper.map(user, UserResponse.class);
+        userResponse.setCatchList(user.getCatchList().stream().map(x -> modelMapper.map(x, PokemonResponse.class)).toList());
+        userResponse.setWishList(user.getWishlist().stream().map(x -> modelMapper.map(x, PokemonResponse.class)).toList());
+        return userResponse;
+    }
+
+    //*****************//
+    //* GUARD CLAUSES *//
+    //*************** *//
+
+    private void throwErrorIfUserExistsWithName(String username) {
+        if (userRepository.existsByUsernameIgnoreCase(username)) {
+            throw ServiceException.UserWithNameAlreadyExists(username);
         }
-        return modelMapper.map(userRepository.save(modelMapper.map(userSaveRequestDTO, User.class)), UserSaveResponseDTO.class);
+    }
+
+    private void throwErrorIfUserDoesNotExistWithName(String username) {
+        if (!userRepository.existsByUsernameIgnoreCase(username)) {
+            throw ServiceException.UserWithUsernameNotFound(username);
+        }
     }
 }

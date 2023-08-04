@@ -7,6 +7,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class PokemonTypeResponseDTO {
+public class PokemonTypeResponse {
     private String name;
 }

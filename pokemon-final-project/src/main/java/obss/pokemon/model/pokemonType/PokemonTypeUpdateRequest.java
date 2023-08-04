@@ -9,7 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class PokemonTypeUpdateRequestDTO {
+public class PokemonTypeUpdateRequest {
     @Size(min = 2, max = 20, message = "Search name should be between 2 and 20 characters.")
     @NotBlank(message = "Search name cannot be blank.")
     private String searchName;

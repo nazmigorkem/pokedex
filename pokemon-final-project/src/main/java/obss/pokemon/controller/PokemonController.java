@@ -1,9 +1,9 @@
 package obss.pokemon.controller;
 
 import jakarta.validation.Valid;
-import obss.pokemon.model.pokemon.PokemonResponseDTO;
-import obss.pokemon.model.pokemon.PokemonSaveRequestDTO;
-import obss.pokemon.model.pokemon.PokemonUpdateRequestDTO;
+import obss.pokemon.model.pokemon.PokemonResponse;
+import obss.pokemon.model.pokemon.PokemonSaveRequest;
+import obss.pokemon.model.pokemon.PokemonUpdateRequest;
 import obss.pokemon.service.implementation.PokemonService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,13 +22,13 @@ public class PokemonController {
 
 
     @PostMapping("/add")
-    public ResponseEntity<PokemonResponseDTO> addPokemon(@Valid @RequestBody PokemonSaveRequestDTO pokemonSaveRequestDTO) {
-        return ResponseEntity.ok(pokemonService.addPokemon(pokemonSaveRequestDTO));
+    public ResponseEntity<PokemonResponse> addPokemon(@Valid @RequestBody PokemonSaveRequest pokemonSaveRequest) {
+        return ResponseEntity.ok(pokemonService.addPokemon(pokemonSaveRequest));
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<PokemonResponseDTO>> getPokemonByName(@RequestParam(defaultValue = "") String name) {
-        return ResponseEntity.ok(pokemonService.getPokemonByNameStartsWith(name));
+    public ResponseEntity<List<PokemonResponse>> getPokemonByName(@RequestParam(defaultValue = "") String name) {
+        return ResponseEntity.ok(pokemonService.getPokemonByNameStartsWithIgnoreCase(name));
     }
 
     @DeleteMapping("/delete")
@@ -38,8 +38,8 @@ public class PokemonController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<PokemonResponseDTO> updatePokemon(@Valid @RequestBody PokemonUpdateRequestDTO pokemonUpdateRequestDTO) {
-        return ResponseEntity.ok(pokemonService.updatePokemon(pokemonUpdateRequestDTO));
+    public ResponseEntity<PokemonResponse> updatePokemon(@Valid @RequestBody PokemonUpdateRequest pokemonUpdateRequest) {
+        return ResponseEntity.ok(pokemonService.updatePokemon(pokemonUpdateRequest));
     }
 
 }

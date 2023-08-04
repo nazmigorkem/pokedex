@@ -2,9 +2,9 @@ package obss.pokemon.controller;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
-import obss.pokemon.model.pokemonType.PokemonTypeResponseDTO;
-import obss.pokemon.model.pokemonType.PokemonTypeSaveRequestDTO;
-import obss.pokemon.model.pokemonType.PokemonTypeUpdateRequestDTO;
+import obss.pokemon.model.pokemonType.PokemonTypeResponse;
+import obss.pokemon.model.pokemonType.PokemonTypeSaveRequest;
+import obss.pokemon.model.pokemonType.PokemonTypeUpdateRequest;
 import obss.pokemon.service.implementation.PokemonTypeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,12 +23,12 @@ public class PokemonTypeController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<PokemonTypeResponseDTO> addPokemonType(@Valid @RequestBody PokemonTypeSaveRequestDTO pokemonTypeSaveRequest) {
+    public ResponseEntity<PokemonTypeResponse> addPokemonType(@Valid @RequestBody PokemonTypeSaveRequest pokemonTypeSaveRequest) {
         return ResponseEntity.ok(pokemonTypeService.addPokemonType(pokemonTypeSaveRequest));
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<PokemonTypeResponseDTO>> getPokemonTypeByName(@RequestParam(defaultValue = "") String name) {
+    public ResponseEntity<List<PokemonTypeResponse>> getPokemonTypeByName(@RequestParam(defaultValue = "") String name) {
         return ResponseEntity.ok(pokemonTypeService.getPokemonTypeByNameStartsWith(name));
     }
 
@@ -39,7 +39,7 @@ public class PokemonTypeController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<PokemonTypeResponseDTO> updatePokemonType(@Valid @RequestBody PokemonTypeUpdateRequestDTO pokemonTypeUpdateRequestDTO) {
-        return ResponseEntity.ok(pokemonTypeService.updatePokemonType(pokemonTypeUpdateRequestDTO));
+    public ResponseEntity<PokemonTypeResponse> updatePokemonType(@Valid @RequestBody PokemonTypeUpdateRequest pokemonTypeUpdateRequest) {
+        return ResponseEntity.ok(pokemonTypeService.updatePokemonType(pokemonTypeUpdateRequest));
     }
 }

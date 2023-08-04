@@ -2,9 +2,9 @@ package obss.pokemon.service.implementation;
 
 import obss.pokemon.entity.Pokemon;
 import obss.pokemon.exceptions.ServiceException;
-import obss.pokemon.model.pokemon.PokemonResponseDTO;
-import obss.pokemon.model.pokemon.PokemonSaveRequestDTO;
-import obss.pokemon.model.pokemon.PokemonUpdateRequestDTO;
+import obss.pokemon.model.pokemon.PokemonResponse;
+import obss.pokemon.model.pokemon.PokemonSaveRequest;
+import obss.pokemon.model.pokemon.PokemonUpdateRequest;
 import obss.pokemon.repository.PokemonRepository;
 import obss.pokemon.service.contract.PokemonServiceContract;
 import org.modelmapper.ModelMapper;
@@ -27,38 +27,44 @@ public class PokemonService implements PokemonServiceContract {
     }
 
     @Override
-    public PokemonResponseDTO addPokemon(PokemonSaveRequestDTO pokemonSaveRequestDTO) {
-        throwErrorIfPokemonExistsWithName(pokemonSaveRequestDTO.getName());
-        var pokemonTypes = pokemonSaveRequestDTO.getTypes().stream().map(pokemonTypeService::getPokemonTypeByName).collect(Collectors.toSet());
-        var newPokemon = modelMapper.map(pokemonSaveRequestDTO, Pokemon.class);
+    public PokemonResponse addPokemon(PokemonSaveRequest pokemonSaveRequest) {
+        throwErrorIfPokemonExistsWithName(pokemonSaveRequest.getName());
+        var pokemonTypes = pokemonSaveRequest.getTypes().stream().map(pokemonTypeService::getPokemonTypeByName).collect(Collectors.toSet());
+        var newPokemon = modelMapper.map(pokemonSaveRequest, Pokemon.class);
         newPokemon.setTypes(pokemonTypes);
         return modelMapper.map(
                 pokemonRepository.save(newPokemon),
-                PokemonResponseDTO.class
+                PokemonResponse.class
         );
     }
 
 
     @Override
-    public List<PokemonResponseDTO> getPokemonByNameStartsWith(String name) {
-        return pokemonRepository.getPokemonByNameStartsWith(name).stream()
-                .map(pokemon -> modelMapper.map(pokemon, PokemonResponseDTO.class)).toList();
+    public List<PokemonResponse> getPokemonByNameStartsWithIgnoreCase(String pokemonName) {
+        return pokemonRepository.getPokemonByNameStartsWithIgnoreCase(pokemonName).stream()
+                .map(pokemon -> modelMapper.map(pokemon, PokemonResponse.class)).toList();
     }
 
     @Override
-    public void deletePokemon(String name) {
-        throwErrorIfPokemonIsNotExistsWithName(name);
-        pokemonRepository.delete(pokemonRepository.getPokemonByNameIgnoreCase(name).orElseThrow());
+    public Pokemon getPokemonByNameIgnoreCase(String pokemonName) {
+        throwErrorIfPokemonDoesNotExistWithName(pokemonName);
+        return pokemonRepository.getPokemonByNameIgnoreCase(pokemonName).orElseThrow();
     }
 
     @Override
-    public PokemonResponseDTO updatePokemon(PokemonUpdateRequestDTO pokemonUpdateRequestDTO) {
-        throwErrorIfPokemonIsNotExistsWithName(pokemonUpdateRequestDTO.getSearchName());
-        throwErrorIfPokemonExistsWithName(pokemonUpdateRequestDTO.getName());
-        var pokemon = pokemonRepository.getPokemonByNameIgnoreCase(pokemonUpdateRequestDTO.getSearchName()).orElseThrow();
-        modelMapper.map(pokemonUpdateRequestDTO, pokemon);
+    public void deletePokemon(String pokemonName) {
+        throwErrorIfPokemonDoesNotExistWithName(pokemonName);
+        pokemonRepository.delete(pokemonRepository.getPokemonByNameIgnoreCase(pokemonName).orElseThrow());
+    }
+
+    @Override
+    public PokemonResponse updatePokemon(PokemonUpdateRequest pokemonUpdateRequest) {
+        throwErrorIfPokemonDoesNotExistWithName(pokemonUpdateRequest.getSearchName());
+        throwErrorIfPokemonExistsWithName(pokemonUpdateRequest.getName());
+        var pokemon = pokemonRepository.getPokemonByNameIgnoreCase(pokemonUpdateRequest.getSearchName()).orElseThrow();
+        modelMapper.map(pokemonUpdateRequest, pokemon);
         pokemonRepository.save(pokemon);
-        return modelMapper.map(pokemon, PokemonResponseDTO.class);
+        return modelMapper.map(pokemon, PokemonResponse.class);
     }
 
 
@@ -66,15 +72,15 @@ public class PokemonService implements PokemonServiceContract {
     //* GUARD CLAUSES *//
     //*************** *//
 
-    private void throwErrorIfPokemonExistsWithName(String pokemonName) {
+    public void throwErrorIfPokemonExistsWithName(String pokemonName) {
         if (pokemonRepository.existsByNameIgnoreCase(pokemonName)) {
             throw ServiceException.PokemonWithNameAlreadyExists(pokemonName);
         }
     }
 
-    private void throwErrorIfPokemonIsNotExistsWithName(String pokemonName) {
+    public void throwErrorIfPokemonDoesNotExistWithName(String pokemonName) {
         if (!pokemonRepository.existsByNameIgnoreCase(pokemonName)) {
-            throw ServiceException.PokemonNotFound(pokemonName);
+            throw ServiceException.PokemonWithNameNotFound(pokemonName);
         }
     }
 

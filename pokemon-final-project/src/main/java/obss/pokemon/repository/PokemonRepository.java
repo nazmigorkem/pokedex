@@ -9,9 +9,9 @@ import java.util.Optional;
 
 @Repository
 public interface PokemonRepository extends JpaRepository<Pokemon, Long> {
-    List<Pokemon> getPokemonByNameStartsWith(String name);
+    List<Pokemon> getPokemonByNameStartsWithIgnoreCase(String name);
 
     boolean existsByNameIgnoreCase(String name);
-    
+
     Optional<Pokemon> getPokemonByNameIgnoreCase(String name);
 }

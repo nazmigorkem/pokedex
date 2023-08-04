@@ -11,7 +11,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-public class PokemonUpdateRequestDTO {
+public class PokemonUpdateRequest {
     @NotBlank(message = "Search name cannot be blank.")
     private String searchName;
 

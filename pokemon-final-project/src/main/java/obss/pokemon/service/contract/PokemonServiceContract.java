@@ -1,18 +1,21 @@
 package obss.pokemon.service.contract;
 
-import obss.pokemon.model.pokemon.PokemonResponseDTO;
-import obss.pokemon.model.pokemon.PokemonSaveRequestDTO;
-import obss.pokemon.model.pokemon.PokemonUpdateRequestDTO;
+import obss.pokemon.entity.Pokemon;
+import obss.pokemon.model.pokemon.PokemonResponse;
+import obss.pokemon.model.pokemon.PokemonSaveRequest;
+import obss.pokemon.model.pokemon.PokemonUpdateRequest;
 
 import java.util.List;
 
 public interface PokemonServiceContract {
-    PokemonResponseDTO addPokemon(PokemonSaveRequestDTO pokemonSaveRequest);
+    PokemonResponse addPokemon(PokemonSaveRequest pokemonSaveRequest);
 
-    List<PokemonResponseDTO> getPokemonByNameStartsWith(String name);
+    List<PokemonResponse> getPokemonByNameStartsWithIgnoreCase(String name);
 
     void deletePokemon(String name);
 
-    PokemonResponseDTO updatePokemon(PokemonUpdateRequestDTO pokemonUpdateRequestDTO);
+    PokemonResponse updatePokemon(PokemonUpdateRequest pokemonUpdateRequest);
+
+    Pokemon getPokemonByNameIgnoreCase(String name);
 
 }

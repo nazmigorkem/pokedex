@@ -12,7 +12,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-public class PokemonSaveRequestDTO {
+public class PokemonSaveRequest {
     @NotBlank(message = "Name cannot be blank.")
     private String name;
 
