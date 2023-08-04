@@ -1,8 +1,8 @@
 package obss.pokemon.service.contract;
 
 import obss.pokemon.entity.PokemonType;
-import obss.pokemon.model.PokemonTypeResponseDTO;
-import obss.pokemon.model.PokemonTypeSaveRequestDTO;
+import obss.pokemon.model.pokemonType.PokemonTypeResponseDTO;
+import obss.pokemon.model.pokemonType.PokemonTypeSaveRequestDTO;
 
 import java.util.List;
 

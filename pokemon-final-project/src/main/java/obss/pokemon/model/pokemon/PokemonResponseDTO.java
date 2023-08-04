@@ -1,8 +1,9 @@
-package obss.pokemon.model;
+package obss.pokemon.model.pokemon;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import obss.pokemon.model.pokemonType.PokemonTypeResponseDTO;
 
 import java.util.Set;
 

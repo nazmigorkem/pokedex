@@ -1,8 +1,8 @@
 package obss.pokemon.service.implementation;
 
 import obss.pokemon.entity.Pokemon;
-import obss.pokemon.model.PokemonResponseDTO;
-import obss.pokemon.model.PokemonSaveRequestDTO;
+import obss.pokemon.model.pokemon.PokemonResponseDTO;
+import obss.pokemon.model.pokemon.PokemonSaveRequestDTO;
 import obss.pokemon.repository.PokemonRepository;
 import obss.pokemon.service.contract.PokemonServiceContract;
 import org.modelmapper.ModelMapper;
@@ -43,8 +43,8 @@ public class PokemonService implements PokemonServiceContract {
     }
 
     @Override
-    public void deletePokemon() {
-
+    public void deletePokemon(String name) {
+        pokemonRepository.delete(pokemonRepository.getPokemonByNameIgnoreCase(name).orElseThrow());
     }
 
     @Override

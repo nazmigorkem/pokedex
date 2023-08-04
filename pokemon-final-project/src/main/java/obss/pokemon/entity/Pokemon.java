@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -46,9 +47,16 @@ public class Pokemon extends EntityBase {
 
 
     @ManyToMany
-    @JoinTable(name = "POKEMON_USER",
+    @JoinTable(name = "POKEMON_USER_WISHLIST",
             joinColumns = @JoinColumn(name = "POKEMON_ID", referencedColumnName = "ID"),
             inverseJoinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
     )
-    private Set<User> users;
+    private List<User> usersWishList;
+
+    @ManyToMany
+    @JoinTable(name = "POKEMON_USER_CATCHLIST",
+            joinColumns = @JoinColumn(name = "POKEMON_ID", referencedColumnName = "ID"),
+            inverseJoinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
+    )
+    private List<User> usersCatchList;
 }

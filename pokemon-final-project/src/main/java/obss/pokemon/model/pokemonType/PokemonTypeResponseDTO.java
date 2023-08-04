@@ -1,4 +1,4 @@
-package obss.pokemon.model;
+package obss.pokemon.model.pokemonType;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

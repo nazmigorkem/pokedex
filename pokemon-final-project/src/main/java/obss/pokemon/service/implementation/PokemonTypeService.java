@@ -1,9 +1,9 @@
 package obss.pokemon.service.implementation;
 
 import obss.pokemon.entity.PokemonType;
-import obss.pokemon.model.PokemonTypeResponseDTO;
-import obss.pokemon.model.PokemonTypeSaveRequestDTO;
-import obss.pokemon.model.PokemonTypeUpdateRequestDTO;
+import obss.pokemon.model.pokemonType.PokemonTypeResponseDTO;
+import obss.pokemon.model.pokemonType.PokemonTypeSaveRequestDTO;
+import obss.pokemon.model.pokemonType.PokemonTypeUpdateRequestDTO;
 import obss.pokemon.repository.PokemonTypeRepository;
 import obss.pokemon.service.contract.PokemonTypeServiceContract;
 import org.modelmapper.ModelMapper;

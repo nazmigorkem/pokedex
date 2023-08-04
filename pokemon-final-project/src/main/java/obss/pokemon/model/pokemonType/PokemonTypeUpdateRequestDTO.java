@@ -1,4 +1,4 @@
-package obss.pokemon.model;
+package obss.pokemon.model.pokemonType;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

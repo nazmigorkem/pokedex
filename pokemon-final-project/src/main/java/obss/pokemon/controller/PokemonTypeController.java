@@ -2,9 +2,9 @@ package obss.pokemon.controller;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
-import obss.pokemon.model.PokemonTypeResponseDTO;
-import obss.pokemon.model.PokemonTypeSaveRequestDTO;
-import obss.pokemon.model.PokemonTypeUpdateRequestDTO;
+import obss.pokemon.model.pokemonType.PokemonTypeResponseDTO;
+import obss.pokemon.model.pokemonType.PokemonTypeSaveRequestDTO;
+import obss.pokemon.model.pokemonType.PokemonTypeUpdateRequestDTO;
 import obss.pokemon.service.implementation.PokemonTypeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

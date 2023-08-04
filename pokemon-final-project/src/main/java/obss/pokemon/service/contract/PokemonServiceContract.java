@@ -1,7 +1,7 @@
 package obss.pokemon.service.contract;
 
-import obss.pokemon.model.PokemonResponseDTO;
-import obss.pokemon.model.PokemonSaveRequestDTO;
+import obss.pokemon.model.pokemon.PokemonResponseDTO;
+import obss.pokemon.model.pokemon.PokemonSaveRequestDTO;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ public interface PokemonServiceContract {
 
     List<PokemonResponseDTO> getPokemonByNameStartsWith(String name);
 
-    void deletePokemon();
+    void deletePokemon(String name);
 
     void updatePokemon();
 
