@@ -1,6 +1,7 @@
 package obss.pokemon.service.implementation;
 
 import obss.pokemon.entity.Pokemon;
+import obss.pokemon.exceptions.ServiceException;
 import obss.pokemon.model.pokemon.PokemonResponseDTO;
 import obss.pokemon.model.pokemon.PokemonSaveRequestDTO;
 import obss.pokemon.repository.PokemonRepository;
@@ -26,6 +27,9 @@ public class PokemonService implements PokemonServiceContract {
 
     @Override
     public PokemonResponseDTO addPokemon(PokemonSaveRequestDTO pokemonSaveRequestDTO) {
+        if (pokemonRepository.existsByNameIgnoreCase(pokemonSaveRequestDTO.getName())) {
+            throw new ServiceException(String.format("Pokemon with name %s already exists.", pokemonSaveRequestDTO.getName()));
+        }
         var pokemonTypes = pokemonSaveRequestDTO.getTypes().stream().map(pokemonTypeService::getPokemonTypeByName).collect(Collectors.toSet());
         var newPokemon = modelMapper.map(pokemonSaveRequestDTO, Pokemon.class);
         newPokemon.setTypes(pokemonTypes);
@@ -44,6 +48,9 @@ public class PokemonService implements PokemonServiceContract {
 
     @Override
     public void deletePokemon(String name) {
+        if (!pokemonRepository.existsByNameIgnoreCase(name)) {
+            throw new ServiceException(String.format("Pokemon with name %s does not exist.", name));
+        }
         pokemonRepository.delete(pokemonRepository.getPokemonByNameIgnoreCase(name).orElseThrow());
     }
 

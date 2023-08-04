@@ -13,4 +13,6 @@ public interface PokemonTypeRepository extends JpaRepository<PokemonType, Long> 
     List<PokemonType> findPokemonTypeByNameStartsWith(String name);
 
     Optional<PokemonType> findByName(String name);
+
+    boolean existsByNameIgnoreCase(String name);
 }

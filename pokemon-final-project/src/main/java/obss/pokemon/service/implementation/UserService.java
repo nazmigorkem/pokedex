@@ -1,6 +1,7 @@
 package obss.pokemon.service.implementation;
 
 import obss.pokemon.entity.User;
+import obss.pokemon.exceptions.ServiceException;
 import obss.pokemon.model.user.UserSaveRequestDTO;
 import obss.pokemon.model.user.UserSaveResponseDTO;
 import obss.pokemon.repository.UserRepository;
@@ -21,7 +22,9 @@ public class UserService implements UserServiceContract {
 
     @Override
     public UserSaveResponseDTO addUser(UserSaveRequestDTO userSaveRequestDTO) {
-        
+        if (userRepository.existsByUsername(userSaveRequestDTO.getUsername())) {
+            throw new ServiceException(String.format("User with username %s already exists.", userSaveRequestDTO.getUsername()));
+        }
         return modelMapper.map(userRepository.save(modelMapper.map(userSaveRequestDTO, User.class)), UserSaveResponseDTO.class);
     }
 }

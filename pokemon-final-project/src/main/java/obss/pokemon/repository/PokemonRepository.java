@@ -11,5 +11,7 @@ import java.util.Optional;
 public interface PokemonRepository extends JpaRepository<Pokemon, Long> {
     List<Pokemon> getPokemonByNameStartsWith(String name);
 
+    boolean existsByNameIgnoreCase(String name);
+    
     Optional<Pokemon> getPokemonByNameIgnoreCase(String name);
 }

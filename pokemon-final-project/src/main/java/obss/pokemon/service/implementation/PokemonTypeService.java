@@ -1,6 +1,7 @@
 package obss.pokemon.service.implementation;
 
 import obss.pokemon.entity.PokemonType;
+import obss.pokemon.exceptions.ServiceException;
 import obss.pokemon.model.pokemonType.PokemonTypeResponseDTO;
 import obss.pokemon.model.pokemonType.PokemonTypeSaveRequestDTO;
 import obss.pokemon.model.pokemonType.PokemonTypeUpdateRequestDTO;
@@ -25,6 +26,9 @@ public class PokemonTypeService implements PokemonTypeServiceContract {
 
     @Override
     public PokemonTypeResponseDTO addPokemonType(PokemonTypeSaveRequestDTO pokemonTypeSaveRequest) {
+        if (pokemonTypeRepository.existsByNameIgnoreCase(pokemonTypeSaveRequest.getName())) {
+            throw new ServiceException(String.format("Pokemon type with name %s already exists.", pokemonTypeSaveRequest.getName()));
+        }
         return modelMapper.map(
                 pokemonTypeRepository.save(
                         modelMapper.map(pokemonTypeSaveRequest, PokemonType.class)
@@ -35,6 +39,9 @@ public class PokemonTypeService implements PokemonTypeServiceContract {
 
     @Override
     public PokemonType getPokemonTypeByName(String name) {
+        if (!pokemonTypeRepository.existsByNameIgnoreCase(name)) {
+            throw new ServiceException(String.format("Pokemon type with name %s does not exist.", name));
+        }
         return pokemonTypeRepository.findByName(name).orElseThrow();
     }
 
@@ -46,6 +53,9 @@ public class PokemonTypeService implements PokemonTypeServiceContract {
     }
 
     public PokemonTypeResponseDTO updatePokemonType(PokemonTypeUpdateRequestDTO pokemonTypeUpdateRequestDTO) {
+        if (!pokemonTypeRepository.existsByNameIgnoreCase(pokemonTypeUpdateRequestDTO.getSearchName())) {
+            throw new ServiceException(String.format("Pokemon type with name %s does not exist.", pokemonTypeUpdateRequestDTO.getSearchName()));
+        }
         var pokemonType = pokemonTypeRepository.findByName(pokemonTypeUpdateRequestDTO.getSearchName()).orElseThrow();
         pokemonType.setName(pokemonTypeUpdateRequestDTO.getNewName());
         return modelMapper.map(
@@ -56,6 +66,9 @@ public class PokemonTypeService implements PokemonTypeServiceContract {
 
     @Override
     public void deletePokemonType(String name) {
+        if (!pokemonTypeRepository.existsByNameIgnoreCase(name)) {
+            throw new ServiceException(String.format("Pokemon type with name %s does not exist.", name));
+        }
         pokemonTypeRepository.delete(pokemonTypeRepository.findByName(name).orElseThrow());
     }
 }
