@@ -52,6 +52,7 @@ public class PokemonTypeService implements PokemonTypeServiceContract {
         throwErrorIfPokemonTypeDoesNotExistWithNameIgnoreCase(pokemonTypeUpdateRequest.getSearchName());
         var pokemonType = pokemonTypeRepository.findByNameIgnoreCase(pokemonTypeUpdateRequest.getSearchName()).orElseThrow();
         pokemonType.setName(pokemonTypeUpdateRequest.getNewName());
+        pokemonType.setColor(pokemonTypeUpdateRequest.getNewColor());
         return modelMapper.map(
                 pokemonTypeRepository.save(pokemonType),
                 PokemonTypeResponse.class

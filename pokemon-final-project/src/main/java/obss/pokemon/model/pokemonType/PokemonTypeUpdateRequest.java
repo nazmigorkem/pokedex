@@ -16,4 +16,8 @@ public class PokemonTypeUpdateRequest {
     @Size(min = 2, max = 20, message = "New name should be between 2 and 20 characters.")
     @NotBlank(message = "New name cannot be blank.")
     private String newName;
+
+    @Size(min = 7, max = 7, message = "New color should be 7 characters.")
+    @NotBlank(message = "New color cannot be blank.")
+    private String newColor;
 }

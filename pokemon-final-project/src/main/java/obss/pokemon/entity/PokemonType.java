@@ -14,6 +14,9 @@ public class PokemonType extends EntityBase {
     @Column(name = "NAME", nullable = false, unique = true)
     private String name;
 
+    @Column(name = "COLOR", nullable = false)
+    private String color;
+
     @ManyToMany(mappedBy = "types")
     private Set<Pokemon> pokemons;
 

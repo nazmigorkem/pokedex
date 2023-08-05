@@ -9,4 +9,5 @@ import lombok.Setter;
 @Setter
 public class PokemonTypeResponse {
     private String name;
+    private String color;
 }
