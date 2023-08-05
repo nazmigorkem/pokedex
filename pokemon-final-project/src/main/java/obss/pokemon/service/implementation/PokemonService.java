@@ -37,8 +37,7 @@ public class PokemonService implements PokemonServiceContract {
                 PokemonResponse.class
         );
     }
-
-
+    
     @Override
     public List<PokemonResponse> getPokemonByNameStartsWithIgnoreCase(String pokemonName) {
         return pokemonRepository.getPokemonByNameStartsWithIgnoreCase(pokemonName).stream()
@@ -62,9 +61,11 @@ public class PokemonService implements PokemonServiceContract {
         throwErrorIfPokemonDoesNotExistWithNameIgnoreCase(pokemonUpdateRequest.getSearchName());
         throwErrorIfPokemonExistsWithNameIgnoreCase(pokemonUpdateRequest.getName());
         var pokemon = pokemonRepository.getPokemonByNameIgnoreCase(pokemonUpdateRequest.getSearchName()).orElseThrow();
+        if (pokemonUpdateRequest.getTypes() != null) {
+            pokemonUpdateRequest.getTypes().stream().map(pokemonTypeService::getPokemonTypeByName).forEach(pokemon::addType);
+        }
         modelMapper.map(pokemonUpdateRequest, pokemon);
-        pokemonRepository.save(pokemon);
-        return modelMapper.map(pokemon, PokemonResponse.class);
+        return modelMapper.map(pokemonRepository.save(pokemon), PokemonResponse.class);
     }
 
 

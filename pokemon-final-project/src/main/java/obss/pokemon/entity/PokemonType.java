@@ -1,9 +1,6 @@
 package obss.pokemon.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,4 +16,12 @@ public class PokemonType extends EntityBase {
 
     @ManyToMany(mappedBy = "types")
     private Set<Pokemon> pokemons;
+
+    @PreRemove
+    public void onPreRemove() {
+        for (Pokemon pokemon : pokemons) {
+            pokemon.getTypes().remove(this);
+        }
+    }
+
 }

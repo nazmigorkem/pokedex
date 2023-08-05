@@ -45,10 +45,26 @@ public class Pokemon extends EntityBase {
             inverseJoinColumns = @JoinColumn(name = "TYPE_ID", referencedColumnName = "ID"))
     private Set<PokemonType> types;
 
-
     @ManyToMany(mappedBy = "wishlist")
     private List<User> usersWishList;
 
     @ManyToMany(mappedBy = "catchList")
     private List<User> usersCatchList;
+
+    @PreRemove
+    public void onPreRemove() {
+        for (User user : usersWishList) {
+            user.getWishlist().remove(this);
+        }
+        for (User user : usersCatchList) {
+            user.getCatchList().remove(this);
+        }
+        for (PokemonType type : types) {
+            type.getPokemons().remove(this);
+        }
+    }
+
+    public void addType(PokemonType pokemonType) {
+        types.add(pokemonType);
+    }
 }

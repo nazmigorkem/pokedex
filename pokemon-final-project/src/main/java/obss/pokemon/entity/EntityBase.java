@@ -52,10 +52,5 @@ public class EntityBase {
         this.operation = "UPDATE";
     }
 
-    @PreRemove
-    public void onPreRemove() {
-        this.updatedDate = new Date();
-        this.active = false;
-        this.operation = "DELETE";
-    }
+  
 }
