@@ -7,6 +7,10 @@ const nextConfig = {
 				protocol: 'https',
 				hostname: 'imgur.com',
 			},
+			{
+				hostname: 'assets.pokemon.com',
+				protocol: 'https',
+			},
 		],
 	},
 };
