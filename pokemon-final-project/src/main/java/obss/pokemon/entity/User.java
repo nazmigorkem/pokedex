@@ -15,7 +15,7 @@ public class User extends EntityBase {
     @Column(name = "USERNAME", nullable = false, unique = true, length = 20)
     private String username;
 
-    @Column(name = "PASSWORD", nullable = false, length = 20)
+    @Column(name = "PASSWORD", nullable = false)
     private String password;
 
     @ManyToMany
