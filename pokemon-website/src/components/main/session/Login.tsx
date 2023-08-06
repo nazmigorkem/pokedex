@@ -1,9 +1,10 @@
+import { BASE_SERVER_URL, HEARTBEAT_ENDPOINT, LOGIN_ENDPOINT } from '#/endpoints/User';
 import { useState } from 'react';
-import { mutate } from 'swr';
+import { useSWRConfig } from 'swr';
 
 export default function Login() {
 	const [values, setValues] = useState({ username: '', password: '', errors: [] as string[], success: false });
-
+	const { mutate } = useSWRConfig();
 	return (
 		<>
 			<div className="btn btn-accent w-1/2" onClick={() => (window as any).login_modal.showModal()}>
@@ -35,7 +36,7 @@ export default function Login() {
 									setValues({ ...values, errors: ['Please fill out all fields.'] });
 									return;
 								}
-								const response = await fetch('http://localhost:3000/api/@me/login', {
+								const response = await fetch(`${BASE_SERVER_URL}${LOGIN_ENDPOINT}`, {
 									method: 'POST',
 									headers: {
 										'Content-Type': 'application/json',
@@ -45,8 +46,14 @@ export default function Login() {
 										password: values.password,
 									}),
 								});
+								const data = await response.json();
+								if (data.errors) {
+									setValues({ ...values, errors: data.errors });
+									return;
+								}
 
-								mutate('http://localhost:3000/api/@me/hearbeat');
+								await mutate(HEARTBEAT_ENDPOINT, false);
+								setValues({ ...values, success: true });
 							}}
 							className="btn btn-accent"
 						>

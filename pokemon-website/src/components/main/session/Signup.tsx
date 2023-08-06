@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import ErrorList from './ErrorList';
+import ErrorList from '#/components/main/view/ErrorList';
 import { mutate } from 'swr';
 
 export default function Signup() {

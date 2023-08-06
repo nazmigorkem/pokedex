@@ -5,8 +5,6 @@ import cookie from 'cookie';
 export default withIronSessionApiRoute(handle, sessionOptions);
 
 async function handle(req: NextApiRequest, res: NextApiResponse) {
-	console.log('Login');
-
 	const { username, password } = req.body as { username: string; password: string };
 
 	const loginResponse = await fetch('http://localhost:8080/api/login', {

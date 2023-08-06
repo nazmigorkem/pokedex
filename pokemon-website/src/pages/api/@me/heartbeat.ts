@@ -7,7 +7,7 @@ export default withIronSessionApiRoute(handle, sessionOptions);
 
 async function handle(req: NextApiRequest, res: NextApiResponse) {
 	if (!req.session.user?.JSESSIONID) {
-		return res.status(401).json({ errors: ['Not logged in.'] });
+		return res.status(401).send(undefined);
 	}
 
 	const response = await fetch(`http://localhost:8080/api/user/${req.session.user.username}`, {
@@ -18,11 +18,11 @@ async function handle(req: NextApiRequest, res: NextApiResponse) {
 		},
 	});
 
-	console.log('Heartbeat response ', response.status, req.session.user.JSESSIONID, req.session.user.username);
+	console.log('Heartbeat response', response.status, req.session.user.JSESSIONID, req.session.user.username);
 
 	if (!response.ok) {
-		return res.status(response.status).json({ errors: ['Failed to heartbeat.'] });
+		return res.status(response.status).send(undefined);
 	}
 
-	res.send({ username: req.session.user.username });
+	res.status(200).json({ username: req.session.user.username });
 }

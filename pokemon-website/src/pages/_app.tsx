@@ -1,5 +1,5 @@
-import Context from '#/components/main/Context';
-import Sidebar from '#/components/main/Sidebar';
+import Context from '#/components/main/view/Context';
+import Sidebar from '#/components/main/view/Sidebar';
 import '#/styles/globals.css';
 import type { AppProps } from 'next/app';
 
