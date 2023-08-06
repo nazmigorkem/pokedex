@@ -2,12 +2,13 @@ import { sessionOptions } from '#/session/options';
 import { withIronSessionApiRoute } from 'iron-session/next';
 import { NextApiRequest, NextApiResponse } from 'next';
 import cookie from 'cookie';
+import { BACKEND_URL, BACKEND_USER_GET_ENDPOINT, BACKEND_USER_LOGIN_ENDPOINT } from '#/endpoints/User';
 export default withIronSessionApiRoute(handle, sessionOptions);
 
 async function handle(req: NextApiRequest, res: NextApiResponse) {
 	const { username, password } = req.body as { username: string; password: string };
 
-	const loginResponse = await fetch('http://localhost:8080/api/login', {
+	const loginResponse = await fetch(`${BACKEND_URL}${BACKEND_USER_LOGIN_ENDPOINT}`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/x-www-form-urlencoded',
@@ -28,7 +29,7 @@ async function handle(req: NextApiRequest, res: NextApiResponse) {
 		return res.status(500).json({ errors: ['Failed to create user'] });
 	}
 
-	const userResponse = await fetch(`http://localhost:8080/api/user/${username}`, {
+	const userResponse = await fetch(`${BACKEND_URL}${BACKEND_USER_GET_ENDPOINT}/${username}`, {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',

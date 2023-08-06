@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import ErrorList from '#/components/main/view/ErrorList';
 import { mutate } from 'swr';
-import { HEARTBEAT_ENDPOINT } from '#/endpoints/User';
+import { SERVER_HEARTBEAT_ENDPOINT, SERVER_SIGNUP_ENDPOINT, SERVER_URL } from '#/endpoints/User';
 
 export default function Signup() {
 	const [values, setValues] = useState({ username: '', password: '', confirmPassword: '', agreed: false, errors: [] as string[], success: false });
@@ -61,7 +61,7 @@ export default function Signup() {
 								if (values.password !== values.confirmPassword) return setValues({ ...values, errors: ['Passwords do not match!'] });
 								if (!values.agreed) return setValues({ ...values, errors: ['You must agree to the terms and conditions.'] });
 
-								const response = await fetch('http://localhost:3000/api/@me/signup', {
+								const response = await fetch(`${SERVER_URL}${SERVER_SIGNUP_ENDPOINT}`, {
 									method: 'POST',
 									headers: {
 										'Content-Type': 'application/json',
@@ -76,7 +76,7 @@ export default function Signup() {
 								if (response.status !== 200) {
 									setValues({ ...values, errors: data.errors });
 								} else {
-									mutate(HEARTBEAT_ENDPOINT, undefined);
+									mutate(SERVER_HEARTBEAT_ENDPOINT, undefined);
 									setValues({ ...values, errors: [], success: true });
 								}
 							}}

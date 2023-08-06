@@ -3,6 +3,7 @@ import { withIronSessionApiRoute } from 'iron-session/next';
 import { sessionOptions } from '#/session/options';
 import cookie from 'cookie';
 import { log } from 'console';
+import { BACKEND_URL, BACKEND_USER_ADD_ENDPOINT, BACKEND_USER_GET_ENDPOINT, BACKEND_USER_LOGIN_ENDPOINT } from '#/endpoints/User';
 
 export default withIronSessionApiRoute(handle, sessionOptions);
 
@@ -13,7 +14,7 @@ async function handle(req: NextApiRequest, res: NextApiResponse) {
 		return res.status(400).json({ errors: ['Missing username or password'] });
 	}
 
-	const signUpResponse = await fetch('http://localhost:8080/api/user/add', {
+	const signUpResponse = await fetch(`${BACKEND_URL}${BACKEND_USER_ADD_ENDPOINT}`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
@@ -26,7 +27,7 @@ async function handle(req: NextApiRequest, res: NextApiResponse) {
 		return res.status(signUpResponse.status).json(errors);
 	}
 
-	const loginResponse = await fetch('http://localhost:8080/api/login', {
+	const loginResponse = await fetch(`${BACKEND_URL}${BACKEND_USER_LOGIN_ENDPOINT}`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/x-www-form-urlencoded',
@@ -43,7 +44,7 @@ async function handle(req: NextApiRequest, res: NextApiResponse) {
 		return res.status(500).json({ errors: ['Failed to create user'] });
 	}
 
-	const userResponse = await fetch(`http://localhost:8080/api/user/${username}`, {
+	const userResponse = await fetch(`${BACKEND_URL}${BACKEND_USER_GET_ENDPOINT}/${username}`, {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',

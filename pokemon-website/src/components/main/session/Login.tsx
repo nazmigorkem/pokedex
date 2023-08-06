@@ -1,4 +1,4 @@
-import { BASE_SERVER_URL, HEARTBEAT_ENDPOINT, LOGIN_ENDPOINT } from '#/endpoints/User';
+import { SERVER_URL, SERVER_HEARTBEAT_ENDPOINT, SERVER_LOGIN_ENDPOINT } from '#/endpoints/User';
 import { useState } from 'react';
 import { useSWRConfig } from 'swr';
 import ErrorList from '../view/ErrorList';
@@ -38,7 +38,7 @@ export default function Login() {
 									setValues({ ...values, errors: ['Please fill out all fields.'] });
 									return;
 								}
-								const response = await fetch(`${BASE_SERVER_URL}${LOGIN_ENDPOINT}`, {
+								const response = await fetch(`${SERVER_URL}${SERVER_LOGIN_ENDPOINT}`, {
 									method: 'POST',
 									headers: {
 										'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ export default function Login() {
 									return;
 								}
 
-								await mutate(HEARTBEAT_ENDPOINT, undefined);
+								await mutate(SERVER_HEARTBEAT_ENDPOINT, undefined);
 								setValues({ ...values, success: true });
 							}}
 							className="btn btn-accent"
