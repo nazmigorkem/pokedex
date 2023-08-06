@@ -18,8 +18,6 @@ async function handle(req: NextApiRequest, res: NextApiResponse) {
 		},
 	});
 
-	console.log('Heartbeat response', response.status, req.session.user.JSESSIONID, req.session.user.username);
-
 	if (!response.ok) {
 		return res.status(response.status).send({ username: undefined });
 	}

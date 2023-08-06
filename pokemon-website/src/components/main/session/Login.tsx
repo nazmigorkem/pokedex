@@ -1,6 +1,7 @@
 import { BASE_SERVER_URL, HEARTBEAT_ENDPOINT, LOGIN_ENDPOINT } from '#/endpoints/User';
 import { useState } from 'react';
 import { useSWRConfig } from 'swr';
+import ErrorList from '../view/ErrorList';
 
 export default function Login() {
 	const [values, setValues] = useState({ username: '', password: '', errors: [] as string[], success: false });
@@ -12,6 +13,7 @@ export default function Login() {
 			</div>
 			<dialog id="login_modal" className="modal">
 				<form method="dialog" className="modal-box flex flex-col gap-5">
+					{values.errors.length !== 0 && <ErrorList errors={values.errors} />}
 					<h3 className="font-bold text-lg">Hello! Fill out the form down below to login.</h3>
 					<input
 						type="text"

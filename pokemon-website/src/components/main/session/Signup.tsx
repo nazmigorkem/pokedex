@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import ErrorList from '#/components/main/view/ErrorList';
 import { mutate } from 'swr';
+import { HEARTBEAT_ENDPOINT } from '#/endpoints/User';
 
 export default function Signup() {
 	const [values, setValues] = useState({ username: '', password: '', confirmPassword: '', agreed: false, errors: [] as string[], success: false });
@@ -12,11 +13,7 @@ export default function Signup() {
 			</div>
 			<dialog id="sign_up_modal" className="modal">
 				<form method="dialog" className="modal-box flex flex-col gap-5">
-					{values.errors.length !== 0 && (
-						<div className="alert alert-error rounded-lg">
-							<ErrorList errors={values.errors} />
-						</div>
-					)}
+					{values.errors.length !== 0 && <ErrorList errors={values.errors} />}
 					<h3 className="font-bold text-lg">Hello! Fill out the form down below to sign up.</h3>
 					<input
 						type="text"
@@ -79,12 +76,8 @@ export default function Signup() {
 								if (response.status !== 200) {
 									setValues({ ...values, errors: data.errors });
 								} else {
-									mutate('http://localhost:3000/api/@me/hearbeat');
+									mutate(HEARTBEAT_ENDPOINT, undefined);
 									setValues({ ...values, errors: [], success: true });
-									setTimeout(() => {
-										(window as any).sign_up_modal.close();
-										setValues({ ...values, errors: [], success: false });
-									}, 1000);
 								}
 							}}
 						>

@@ -18,6 +18,10 @@ async function handle(req: NextApiRequest, res: NextApiResponse) {
 		}),
 	});
 
+	if (loginResponse.status === 403) {
+		return res.status(loginResponse.status).json({ errors: ['Invalid username or password.'] });
+	}
+
 	const JSESSIONID = cookie.parse(loginResponse.headers.get('set-cookie') ?? '').JSESSIONID;
 
 	if (!JSESSIONID) {

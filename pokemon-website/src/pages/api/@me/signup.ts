@@ -26,10 +26,10 @@ async function handle(req: NextApiRequest, res: NextApiResponse) {
 		return res.status(signUpResponse.status).json(errors);
 	}
 
-	const loginResponse = await fetch('http://localhost:8080/api/user/login', {
+	const loginResponse = await fetch('http://localhost:8080/api/login', {
 		method: 'POST',
 		headers: {
-			'Content-Type': 'x-www-form-urlencoded',
+			'Content-Type': 'application/x-www-form-urlencoded',
 		},
 		body: new URLSearchParams({
 			username,
@@ -53,7 +53,7 @@ async function handle(req: NextApiRequest, res: NextApiResponse) {
 
 	req.session.user = {
 		username,
-		JSESSIONID: JSESSIONID,
+		JSESSIONID,
 	};
 
 	await req.session.save();
