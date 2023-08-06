@@ -1,5 +1,4 @@
-import Pokecard from '#/components/Pokecard';
-import { animate } from 'framer-motion';
+import Pokecard from '#/components/Pokemon/Pokecard';
 import { useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 

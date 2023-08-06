@@ -1,3 +1,4 @@
+import Context from '#/components/main/Context';
 import Sidebar from '#/components/main/Sidebar';
 import '#/styles/globals.css';
 import type { AppProps } from 'next/app';
@@ -6,7 +7,9 @@ export default function App({ Component, pageProps }: AppProps) {
 	return (
 		<>
 			<Sidebar />
-			<Component {...pageProps} />
+			<Context>
+				<Component {...pageProps} />
+			</Context>
 		</>
 	);
 }

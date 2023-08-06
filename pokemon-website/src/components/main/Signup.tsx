@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import ErrorList from '../ErrorList';
+import ErrorList from './ErrorList';
+import { mutate } from 'swr';
 
 export default function Signup() {
 	const [values, setValues] = useState({ username: '', password: '', confirmPassword: '', agreed: false, errors: [] as string[], success: false });
@@ -63,7 +64,7 @@ export default function Signup() {
 								if (values.password !== values.confirmPassword) return setValues({ ...values, errors: ['Passwords do not match!'] });
 								if (!values.agreed) return setValues({ ...values, errors: ['You must agree to the terms and conditions.'] });
 
-								const response = await fetch('http://localhost:3000/api/user/signup', {
+								const response = await fetch('http://localhost:3000/api/@me/signup', {
 									method: 'POST',
 									headers: {
 										'Content-Type': 'application/json',
@@ -78,6 +79,7 @@ export default function Signup() {
 								if (response.status !== 200) {
 									setValues({ ...values, errors: data.errors });
 								} else {
+									mutate('http://localhost:3000/api/@me/hearbeat');
 									setValues({ ...values, errors: [], success: true });
 									setTimeout(() => {
 										(window as any).sign_up_modal.close();
