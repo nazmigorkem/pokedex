@@ -6,6 +6,7 @@ import obss.pokemon.model.user.UserResponse;
 import obss.pokemon.model.user.UserSaveRequest;
 import obss.pokemon.service.implementation.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/user")
@@ -18,6 +19,7 @@ public class UserController {
         this.userService = userService;
     }
 
+    @PreAuthorize("hasRole('TRAINER') or hasRole('ADMIN')")
     @GetMapping("/{username}")
     public ResponseEntity<UserResponse> getUserByUsername(@PathVariable String username) {
         return ResponseEntity.ok(userService.getUserByUsernameIgnoreCase(username));
@@ -33,6 +35,7 @@ public class UserController {
         return ResponseEntity.ok(userService.addPokemonToCatchListOfUser(userPokemonAddRequest));
     }
 
+    @PreAuthorize("hasRole('TRAINER')")
     @PostMapping("/wish-list/add")
     public ResponseEntity<UserResponse> addPokemonToWishListOfUser(@Valid @RequestBody UserPokemonAddRequest userPokemonAddRequest) {
         return ResponseEntity.ok(userService.addPokemonToWishListOfUser(userPokemonAddRequest));

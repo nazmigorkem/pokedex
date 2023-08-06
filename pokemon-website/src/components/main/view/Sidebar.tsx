@@ -9,12 +9,12 @@ export default function Sidebar() {
 	const { mutate } = useSWRConfig();
 
 	useEffect(() => {
-		mutate(HEARTBEAT_ENDPOINT, false);
+		mutate(HEARTBEAT_ENDPOINT, undefined);
 	}, []);
 
 	return (
 		<div className="min-h-screen flex flex-col items-center justify-center bg-base-300 w-1/6 fixed gap-5">
-			{isLoading ? (
+			{isLoading || data === undefined ? (
 				<div className="loading loading-spinner loading-lg"></div>
 			) : data?.username === undefined ? (
 				<>

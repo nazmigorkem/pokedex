@@ -22,20 +22,20 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<?> handleAccessDeniedException(RuntimeException e) {
         LOGGER.error("Runtime exception occurred: {}", e.getMessage());
-        var map = Map.of("message", "Access denied.");
+        var map = Map.of("errors", List.of("Access denied."));
         return new ResponseEntity<>(map, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<?> handleRuntimeException(RuntimeException e) {
         LOGGER.error("Runtime exception occurred: {}", e.getMessage());
-        var map = Map.of("message", "Unexpected error occurred.");
+        var map = Map.of("errors", List.of("Unexpected error occurred."));
         return new ResponseEntity<>(map, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(ServiceException.class)
     public ResponseEntity<?> handleServiceException(ServiceException e) {
-        var map = Map.of("message", e.getMessage());
+        var map = Map.of("errors", List.of(e.getMessage()));
         return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);
     }
 
@@ -49,14 +49,14 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NoSuchElementException.class)
     public ResponseEntity<?> handleNoSuchElementException(NoSuchElementException e) {
         LOGGER.warn("No such element exception occurred");
-        var map = Map.of("message", "No such element.");
+        var map = Map.of("errors", List.of("No such element."));
         return new ResponseEntity<>(map, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public ResponseEntity<?> handleMissingServletRequestParameterException(MissingServletRequestParameterException e) {
         LOGGER.warn("Missing servlet request parameter exception occurred");
-        var map = Map.of("message", "Missing request parameter. Parameter {" + e.getParameterName() + "} required.");
+        var map = Map.of("errors", List.of("Missing request parameter. Parameter {" + e.getParameterName() + "} required."));
         return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);
     }
 }

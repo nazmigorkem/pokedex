@@ -52,7 +52,7 @@ export default function Login() {
 									return;
 								}
 
-								await mutate(HEARTBEAT_ENDPOINT, false);
+								await mutate(HEARTBEAT_ENDPOINT, undefined);
 								setValues({ ...values, success: true });
 							}}
 							className="btn btn-accent"
