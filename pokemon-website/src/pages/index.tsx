@@ -1,6 +1,6 @@
 import InfiniteScrollPokelist from '#/components/main/view/InfiniteScrollPokelist';
-import { SERVER_URL } from '#/endpoints/Fetcher';
-import { SERVER_POKEMON_ENDPOINT } from '#/endpoints/Pokemon';
+import { SERVER_URL, fetchForInfiniteScroll } from '#/endpoints/Fetcher';
+import { SERVER_SEARCH_POKEMON_ENDPOINT } from '#/endpoints/Pokemon';
 import { useState } from 'react';
 
 export default function Home() {
@@ -8,23 +8,14 @@ export default function Home() {
 	const [pageNumber, setPageNumber] = useState(0);
 	const [items, setItems] = useState([] as any[]);
 
-	const fetchPokemons = () => {
-		fetch(`${SERVER_URL}${SERVER_POKEMON_ENDPOINT}?pageNumber=${pageNumber}&pageSize=25`).then((response) => {
-			if (response.status !== 200) {
-				setHasMore(false);
-				return;
-			}
-			response.json().then((data) => {
-				setPageNumber(pageNumber + 1);
-				setHasMore(!data.last);
-				setItems(items.concat(data.content));
-			});
-		});
-	};
-
-	return (
-		<div className="w-5/6 float-right min-h-screen">
-			<InfiniteScrollPokelist items={items} fetchFunction={fetchPokemons} hasMore={hasMore} />
-		</div>
+	const fetchPokemons = fetchForInfiniteScroll(
+		`${SERVER_URL}${SERVER_SEARCH_POKEMON_ENDPOINT}`,
+		pageNumber,
+		items,
+		setHasMore,
+		setPageNumber,
+		setItems
 	);
+
+	return <InfiniteScrollPokelist items={items} fetchFunction={fetchPokemons} hasMore={hasMore} />;
 }

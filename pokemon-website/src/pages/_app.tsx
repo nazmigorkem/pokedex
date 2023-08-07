@@ -8,7 +8,9 @@ export default function App({ Component, pageProps }: AppProps) {
 		<>
 			<Container>
 				<Sidebar />
-				<Component {...pageProps} />
+				<div className="w-5/6 float-right min-h-screen">
+					<Component {...pageProps} />
+				</div>
 			</Container>
 		</>
 	);
