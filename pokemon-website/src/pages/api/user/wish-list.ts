@@ -1,6 +1,5 @@
 import { BACKEND_URL } from '#/endpoints/Fetcher';
-import { BACKEND_POKEMON_ENDPOINT, BACKEND_POKEMON_GET_ENDPOINT } from '#/endpoints/Pokemon';
-import { BACKEND_GET_USER_CATCH_LIST_ENDPOINT, BACKEND_GET_USER_WISH_LIST_ENDPOINT } from '#/endpoints/User';
+import { USER_BACKEND_ENDPOINTS } from '#/endpoints/User';
 import { sessionOptions } from '#/session/options';
 import cookie from 'cookie';
 import { withIronSessionApiRoute } from 'iron-session/next';
@@ -19,7 +18,7 @@ async function handle(req: NextApiRequest, res: NextApiResponse) {
 		pageSize: pageSize as string,
 	});
 
-	const response = await fetch(`${BACKEND_URL}${BACKEND_GET_USER_WISH_LIST_ENDPOINT}/${req.session.user.username}?${query}`, {
+	const response = await fetch(`${BACKEND_URL}${USER_BACKEND_ENDPOINTS.WISH_LIST.GET}/${req.session.user.username}?${query}`, {
 		headers: {
 			Cookie: cookie.serialize('JSESSIONID', req.session.user.JSESSIONID),
 		},

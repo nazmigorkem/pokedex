@@ -1,4 +1,4 @@
-import { SERVER_HEARTBEAT_ENDPOINT, useHeartBeat } from '#/endpoints/User';
+import { USER_SERVER_ENDPOINTS, useHeartBeat } from '#/endpoints/User';
 import { createContext, useContext, useEffect } from 'react';
 import { mutate } from 'swr';
 
@@ -22,7 +22,7 @@ export default function Container({ children }: { children?: JSX.Element[] | JSX
 	const { data, error, isLoading } = useHeartBeat();
 
 	useEffect(() => {
-		mutate(SERVER_HEARTBEAT_ENDPOINT, undefined);
+		mutate(USER_SERVER_ENDPOINTS.HEARTBEAT, undefined);
 	}, []);
 	return (
 		<ContainerContext.Provider

@@ -1,8 +1,8 @@
 import { SERVER_URL } from '#/endpoints/Fetcher';
-import { SERVER_LOGIN_ENDPOINT } from '#/endpoints/User';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import ErrorList from '../view/ErrorList';
+import { USER_SERVER_ENDPOINTS } from '#/endpoints/User';
 
 export default function Login() {
 	const [values, setValues] = useState({ username: '', password: '', errors: [] as string[], success: false });
@@ -39,7 +39,7 @@ export default function Login() {
 									setValues({ ...values, errors: ['Please fill out all fields.'] });
 									return;
 								}
-								const response = await fetch(`${SERVER_URL}${SERVER_LOGIN_ENDPOINT}`, {
+								const response = await fetch(`${SERVER_URL}${USER_SERVER_ENDPOINTS.LOGIN}`, {
 									method: 'POST',
 									headers: {
 										'Content-Type': 'application/json',

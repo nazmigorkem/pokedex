@@ -1,6 +1,6 @@
 import InfiniteScrollPokelist from '#/components/main/view/InfiniteScrollPokelist';
 import { SERVER_URL, fetchForInfiniteScroll } from '#/endpoints/Fetcher';
-import { SERVER_USER_WISH_LIST_ENDPOINT } from '#/endpoints/User';
+import { USER_SERVER_ENDPOINTS } from '#/endpoints/User';
 import { useState } from 'react';
 
 export default function Wish() {
@@ -9,7 +9,7 @@ export default function Wish() {
 	const [items, setItems] = useState([] as any[]);
 
 	const fetchPokemons = fetchForInfiniteScroll(
-		`${SERVER_URL}${SERVER_USER_WISH_LIST_ENDPOINT}`,
+		`${SERVER_URL}${USER_SERVER_ENDPOINTS.WISH_LIST.GET}`,
 		pageNumber,
 		items,
 		setHasMore,

@@ -1,6 +1,6 @@
 import ErrorList from '#/components/main/view/ErrorList';
 import { SERVER_URL } from '#/endpoints/Fetcher';
-import { SERVER_SIGNUP_ENDPOINT } from '#/endpoints/User';
+import { USER_SERVER_ENDPOINTS } from '#/endpoints/User';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
@@ -63,7 +63,7 @@ export default function Signup() {
 								if (values.password !== values.confirmPassword) return setValues({ ...values, errors: ['Passwords do not match!'] });
 								if (!values.agreed) return setValues({ ...values, errors: ['You must agree to the terms and conditions.'] });
 
-								const response = await fetch(`${SERVER_URL}${SERVER_SIGNUP_ENDPOINT}`, {
+								const response = await fetch(`${SERVER_URL}${USER_SERVER_ENDPOINTS.LOGIN}`, {
 									method: 'POST',
 									headers: {
 										'Content-Type': 'application/json',
