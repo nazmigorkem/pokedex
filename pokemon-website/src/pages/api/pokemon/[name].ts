@@ -11,14 +11,10 @@ async function handle(req: NextApiRequest, res: NextApiResponse) {
 	if (!req.session.user?.JSESSIONID) {
 		return res.status(401).send({ username: undefined });
 	}
-	const { pageNumber, pageSize } = req.query;
 
-	const query = new URLSearchParams({
-		pageNumber: pageNumber as string,
-		pageSize: pageSize as string,
-	});
+	const { name } = req.query;
 
-	const response = await fetch(`${BACKEND_URL}${POKEMON_BACKEND_ENDPOINTS.SEARCH}?${query}`, {
+	const response = await fetch(`${BACKEND_URL}${POKEMON_BACKEND_ENDPOINTS.GET}/${name}`, {
 		headers: {
 			Cookie: cookie.serialize('JSESSIONID', req.session.user.JSESSIONID),
 		},

@@ -1,4 +1,9 @@
-export const BACKEND_POKEMON_GET_ENDPOINT = '/search';
-export const BACKEND_POKEMON_ENDPOINT = '/pokemon';
+export const POKEMON_BACKEND_ENDPOINTS = {
+	GET: '/pokemon',
+	SEARCH: '/pokemon/search',
+} as const;
 
-export const SERVER_SEARCH_POKEMON_ENDPOINT = '/api/pokemon/search';
+export const POKEMON_SERVER_ENDPOINTS = {
+	GET: '/api/pokemon',
+	SEARCH: '/api/pokemon/search',
+} as const;

@@ -1,5 +1,5 @@
 import { BACKEND_URL } from '#/endpoints/Fetcher';
-import { POKEMON_BACKEND_ENDPOINTS } from '#/endpoints/Pokemon';
+import { USER_BACKEND_ENDPOINTS } from '#/endpoints/User';
 import { sessionOptions } from '#/session/options';
 import cookie from 'cookie';
 import { withIronSessionApiRoute } from 'iron-session/next';
@@ -11,17 +11,18 @@ async function handle(req: NextApiRequest, res: NextApiResponse) {
 	if (!req.session.user?.JSESSIONID) {
 		return res.status(401).send({ username: undefined });
 	}
-	const { pageNumber, pageSize } = req.query;
 
-	const query = new URLSearchParams({
-		pageNumber: pageNumber as string,
-		pageSize: pageSize as string,
-	});
+	if (req.method !== 'POST') {
+		return res.status(405).send({ errors: ['Method not allowed.'] });
+	}
 
-	const response = await fetch(`${BACKEND_URL}${POKEMON_BACKEND_ENDPOINTS.SEARCH}?${query}`, {
+	const response = await fetch(`${BACKEND_URL}${USER_BACKEND_ENDPOINTS.WISH_LIST.DELETE}`, {
 		headers: {
 			Cookie: cookie.serialize('JSESSIONID', req.session.user.JSESSIONID),
+			'Content-Type': 'application/json',
 		},
+		method: 'POST',
+		body: JSON.stringify({ ...req.body, username: req.session.user.username }),
 	});
 
 	if (!response.ok) {

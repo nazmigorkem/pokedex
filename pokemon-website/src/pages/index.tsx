@@ -1,6 +1,6 @@
 import InfiniteScrollPokelist from '#/components/main/view/InfiniteScrollPokelist';
 import { SERVER_URL, fetchForInfiniteScroll } from '#/endpoints/Fetcher';
-import { SERVER_SEARCH_POKEMON_ENDPOINT } from '#/endpoints/Pokemon';
+import { POKEMON_SERVER_ENDPOINTS } from '#/endpoints/Pokemon';
 import { useState } from 'react';
 
 export default function Home() {
@@ -9,7 +9,7 @@ export default function Home() {
 	const [items, setItems] = useState([] as any[]);
 
 	const fetchPokemons = fetchForInfiniteScroll(
-		`${SERVER_URL}${SERVER_SEARCH_POKEMON_ENDPOINT}`,
+		`${SERVER_URL}${POKEMON_SERVER_ENDPOINTS.SEARCH}`,
 		pageNumber,
 		items,
 		setHasMore,
