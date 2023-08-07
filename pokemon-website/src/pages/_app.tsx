@@ -1,5 +1,5 @@
 import Container from '#/components/main/view/Container';
-import Sidebar from '#/components/main/view/Sidebar';
+import Sidebar from '#/components/main/view/sidebar/Sidebar';
 import '#/styles/globals.css';
 import type { AppProps } from 'next/app';
 
