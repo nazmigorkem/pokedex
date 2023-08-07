@@ -1,12 +1,12 @@
-import { SERVER_HEARTBEAT_ENDPOINT, SERVER_LOGIN_ENDPOINT } from '#/endpoints/User';
-import { useState } from 'react';
-import { useSWRConfig } from 'swr';
-import ErrorList from '../view/ErrorList';
 import { SERVER_URL } from '#/endpoints/Fetcher';
+import { SERVER_LOGIN_ENDPOINT } from '#/endpoints/User';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+import ErrorList from '../view/ErrorList';
 
 export default function Login() {
 	const [values, setValues] = useState({ username: '', password: '', errors: [] as string[], success: false });
-	const { mutate } = useSWRConfig();
+	const router = useRouter();
 	return (
 		<>
 			<div className="btn btn-accent w-1/2" onClick={() => (window as any).login_modal.showModal()}>
@@ -55,8 +55,7 @@ export default function Login() {
 									return;
 								}
 
-								await mutate(SERVER_HEARTBEAT_ENDPOINT, undefined);
-								setValues({ ...values, success: true });
+								router.reload();
 							}}
 							className="btn btn-accent"
 						>

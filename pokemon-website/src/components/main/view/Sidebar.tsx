@@ -1,30 +1,27 @@
-import { SERVER_HEARTBEAT_ENDPOINT, SERVER_LOGOUT_ENDPOINT, useHeartBeat } from '#/endpoints/User';
-import { useEffect } from 'react';
+import { SERVER_LOGOUT_ENDPOINT } from '#/endpoints/User';
 import Login from '../session/Login';
 import Signup from '../session/Signup';
-import { useSWRConfig } from 'swr';
 import { SERVER_URL } from '#/endpoints/Fetcher';
+import { useContainerContext } from './Container';
+import { useRouter } from 'next/router';
 
 export default function Sidebar() {
-	const { data, error, isLoading } = useHeartBeat();
-	const { mutate } = useSWRConfig();
-
-	useEffect(() => {
-		mutate(SERVER_HEARTBEAT_ENDPOINT, undefined);
-	}, []);
+	const { heartbeatInfo } = useContainerContext();
+	const { isLoading, heartbeat } = heartbeatInfo;
+	const router = useRouter();
 
 	return (
 		<div className="min-h-screen flex flex-col items-center justify-center bg-base-300 w-1/6 fixed gap-5">
-			{isLoading || data === undefined ? (
+			{isLoading || heartbeat === undefined ? (
 				<div className="loading loading-spinner loading-lg"></div>
-			) : data?.username === undefined ? (
+			) : heartbeat?.username === undefined ? (
 				<>
 					<Login />
 					<Signup />
 				</>
 			) : (
 				<>
-					<h3 className="text-2xl">Welcome, {data?.username}</h3>
+					<h3 className="text-2xl">Welcome, {heartbeat?.username}</h3>
 					<a href="/wish-list" className="btn btn-accent w-1/2">
 						Wish List
 					</a>
@@ -34,7 +31,7 @@ export default function Sidebar() {
 					<button
 						onClick={async () => {
 							await fetch(`${SERVER_URL}${SERVER_LOGOUT_ENDPOINT}`);
-							await mutate(SERVER_HEARTBEAT_ENDPOINT, undefined);
+							router.reload();
 						}}
 						className="btn btn-accent w-1/2"
 					>

@@ -1,11 +1,12 @@
-import { useState } from 'react';
 import ErrorList from '#/components/main/view/ErrorList';
-import { mutate } from 'swr';
-import { SERVER_HEARTBEAT_ENDPOINT, SERVER_SIGNUP_ENDPOINT } from '#/endpoints/User';
 import { SERVER_URL } from '#/endpoints/Fetcher';
+import { SERVER_SIGNUP_ENDPOINT } from '#/endpoints/User';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
 
 export default function Signup() {
 	const [values, setValues] = useState({ username: '', password: '', confirmPassword: '', agreed: false, errors: [] as string[], success: false });
+	const router = useRouter();
 
 	return (
 		<>
@@ -77,7 +78,7 @@ export default function Signup() {
 								if (response.status !== 200) {
 									setValues({ ...values, errors: data.errors });
 								} else {
-									mutate(SERVER_HEARTBEAT_ENDPOINT, undefined);
+									router.reload();
 									setValues({ ...values, errors: [], success: true });
 								}
 							}}
