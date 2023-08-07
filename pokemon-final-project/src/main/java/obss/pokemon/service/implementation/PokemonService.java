@@ -45,9 +45,9 @@ public class PokemonService implements PokemonServiceContract {
     }
 
     @Override
-    public Pokemon getPokemonByNameIgnoreCase(String pokemonName) {
+    public PokemonResponse getPokemonByNameIgnoreCase(String pokemonName) {
         throwErrorIfPokemonDoesNotExistWithNameIgnoreCase(pokemonName);
-        return pokemonRepository.getPokemonByNameIgnoreCase(pokemonName).orElseThrow();
+        return modelMapper.map(pokemonRepository.getPokemonByNameIgnoreCase(pokemonName).orElseThrow(), PokemonResponse.class);
     }
 
     @Override

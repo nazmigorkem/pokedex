@@ -15,7 +15,15 @@ public interface UserServiceContract {
 
     UserResponse addPokemonToWishListOfUser(UserPokemonAddRequest userPokemonAddRequest);
 
+    UserResponse deletePokemonFromCatchListOfUser(UserPokemonAddRequest userPokemonAddRequest);
+
+    UserResponse deletePokemonFromWishListOfUser(UserPokemonAddRequest userPokemonAddRequest);
+
     Page<PokemonResponse> getCatchListOfUser(String username, int pageNumber, int pageSize);
 
     Page<PokemonResponse> getWishListOfUser(String username, int pageNumber, int pageSize);
+
+    boolean isPokemonInCatchList(String username, String pokemonName);
+
+    boolean isPokemonInWishList(String username, String pokemonName);
 }

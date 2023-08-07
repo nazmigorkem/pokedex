@@ -28,4 +28,12 @@ public class ServiceException extends RuntimeException {
     public static ServiceException UserWithUsernameNotFound(String username) {
         return new ServiceException(String.format("A user with the username %s was not found.", username));
     }
+
+    public static ServiceException PokemonNotInCatchList(String pokemonName) {
+        return new ServiceException(String.format("A Pokemon with the name %s is not in the catch list.", pokemonName));
+    }
+
+    public static ServiceException PokemonNotInWishList(String pokemonName) {
+        return new ServiceException(String.format("A Pokemon with the name %s is not in the wish list.", pokemonName));
+    }
 }

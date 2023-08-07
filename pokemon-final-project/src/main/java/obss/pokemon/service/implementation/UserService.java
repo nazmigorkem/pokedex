@@ -9,6 +9,7 @@ import obss.pokemon.model.user.MyUserDetails;
 import obss.pokemon.model.user.UserPokemonAddRequest;
 import obss.pokemon.model.user.UserResponse;
 import obss.pokemon.model.user.UserSaveRequest;
+import obss.pokemon.repository.PokemonRepository;
 import obss.pokemon.repository.RoleRepository;
 import obss.pokemon.repository.UserRepository;
 import obss.pokemon.service.contract.UserServiceContract;
@@ -31,13 +32,15 @@ public class UserService implements UserServiceContract, UserDetailsService {
     private final PokemonService pokemonService;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+    private final PokemonRepository pokemonRepository;
 
-    public UserService(ModelMapper modelMapper, UserRepository userRepository, PokemonService pokemonService, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+    public UserService(ModelMapper modelMapper, UserRepository userRepository, PokemonService pokemonService, RoleRepository roleRepository, PasswordEncoder passwordEncoder, PokemonRepository pokemonRepository) {
         this.modelMapper = modelMapper;
         this.userRepository = userRepository;
         this.pokemonService = pokemonService;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
+        this.pokemonRepository = pokemonRepository;
     }
 
     @Override
@@ -63,7 +66,7 @@ public class UserService implements UserServiceContract, UserDetailsService {
         throwErrorIfUserDoesNotExistWithNameIgnoreCase(userPokemonAddRequest.getUsername());
         pokemonService.throwErrorIfPokemonDoesNotExistWithNameIgnoreCase(userPokemonAddRequest.getPokemonName());
         var user = userRepository.findByUsernameIgnoreCase(userPokemonAddRequest.getUsername()).orElseThrow();
-        var pokemon = pokemonService.getPokemonByNameIgnoreCase(userPokemonAddRequest.getPokemonName());
+        var pokemon = pokemonRepository.getPokemonByNameIgnoreCase(userPokemonAddRequest.getPokemonName()).orElseThrow();
         user.getCatchList().add(pokemon);
         return getUserResponse(user);
     }
@@ -73,7 +76,7 @@ public class UserService implements UserServiceContract, UserDetailsService {
         throwErrorIfUserDoesNotExistWithNameIgnoreCase(userPokemonAddRequest.getUsername());
         pokemonService.throwErrorIfPokemonDoesNotExistWithNameIgnoreCase(userPokemonAddRequest.getPokemonName());
         var user = userRepository.findByUsernameIgnoreCase(userPokemonAddRequest.getUsername()).orElseThrow();
-        var pokemon = pokemonService.getPokemonByNameIgnoreCase(userPokemonAddRequest.getPokemonName());
+        var pokemon = pokemonRepository.getPokemonByNameIgnoreCase(userPokemonAddRequest.getPokemonName()).orElseThrow();
         user.getWishlist().add(pokemon);
         return getUserResponse(user);
     }
@@ -88,6 +91,40 @@ public class UserService implements UserServiceContract, UserDetailsService {
     public Page<PokemonResponse> getWishListOfUser(String username, int pageNumber, int pageSize) {
         throwErrorIfUserDoesNotExistWithNameIgnoreCase(username);
         return pokemonService.getWishListOfUser(username, pageNumber, pageSize);
+    }
+
+    public boolean isPokemonInCatchList(String username, String pokemonName) {
+        throwErrorIfUserDoesNotExistWithNameIgnoreCase(username);
+        pokemonService.throwErrorIfPokemonDoesNotExistWithNameIgnoreCase(pokemonName);
+        return userRepository.isPokemonInCatchList(username, pokemonName);
+    }
+
+    public boolean isPokemonInWishList(String username, String pokemonName) {
+        throwErrorIfUserDoesNotExistWithNameIgnoreCase(username);
+        pokemonService.throwErrorIfPokemonDoesNotExistWithNameIgnoreCase(pokemonName);
+        return userRepository.isPokemonInWishList(username, pokemonName);
+    }
+
+    @Override
+    public UserResponse deletePokemonFromCatchListOfUser(UserPokemonAddRequest userPokemonAddRequest) {
+        throwErrorIfUserDoesNotExistWithNameIgnoreCase(userPokemonAddRequest.getUsername());
+        pokemonService.throwErrorIfPokemonDoesNotExistWithNameIgnoreCase(userPokemonAddRequest.getPokemonName());
+        var user = userRepository.findByUsernameIgnoreCase(userPokemonAddRequest.getUsername()).orElseThrow();
+        throwErrorIfPokemonDoesNotExistInCatchList(user, userPokemonAddRequest.getPokemonName());
+        var pokemon = pokemonRepository.getPokemonByNameIgnoreCase(userPokemonAddRequest.getPokemonName()).orElseThrow();
+        user.getCatchList().remove(pokemon);
+        return getUserResponse(user);
+    }
+
+    @Override
+    public UserResponse deletePokemonFromWishListOfUser(UserPokemonAddRequest userPokemonAddRequest) {
+        throwErrorIfUserDoesNotExistWithNameIgnoreCase(userPokemonAddRequest.getUsername());
+        pokemonService.throwErrorIfPokemonDoesNotExistWithNameIgnoreCase(userPokemonAddRequest.getPokemonName());
+        var user = userRepository.findByUsernameIgnoreCase(userPokemonAddRequest.getUsername()).orElseThrow();
+        throwErrorIfPokemonDoesNotExistInWishList(user, userPokemonAddRequest.getPokemonName());
+        var pokemon = pokemonRepository.getPokemonByNameIgnoreCase(userPokemonAddRequest.getPokemonName()).orElseThrow();
+        user.getWishlist().remove(pokemon);
+        return getUserResponse(user);
     }
 
     private UserResponse getUserResponse(User user) {
@@ -119,6 +156,18 @@ public class UserService implements UserServiceContract, UserDetailsService {
     private void throwErrorIfUserDoesNotExistWithNameIgnoreCase(String username) {
         if (!userRepository.existsByUsernameIgnoreCase(username)) {
             throw ServiceException.UserWithUsernameNotFound(username);
+        }
+    }
+
+    private void throwErrorIfPokemonDoesNotExistInCatchList(User user, String pokemonName) {
+        if (user.getCatchList().stream().noneMatch(x -> x.getName().equalsIgnoreCase(pokemonName))) {
+            throw ServiceException.PokemonNotInCatchList(pokemonName);
+        }
+    }
+
+    private void throwErrorIfPokemonDoesNotExistInWishList(User user, String pokemonName) {
+        if (user.getWishlist().stream().noneMatch(x -> x.getName().equalsIgnoreCase(pokemonName))) {
+            throw ServiceException.PokemonNotInWishList(pokemonName);
         }
     }
 }

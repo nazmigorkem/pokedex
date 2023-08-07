@@ -1,6 +1,5 @@
 package obss.pokemon.service.contract;
 
-import obss.pokemon.entity.Pokemon;
 import obss.pokemon.model.pokemon.PokemonResponse;
 import obss.pokemon.model.pokemon.PokemonSaveRequest;
 import obss.pokemon.model.pokemon.PokemonUpdateRequest;
@@ -15,7 +14,7 @@ public interface PokemonServiceContract {
 
     PokemonResponse updatePokemon(PokemonUpdateRequest pokemonUpdateRequest);
 
-    Pokemon getPokemonByNameIgnoreCase(String name);
+    PokemonResponse getPokemonByNameIgnoreCase(String name);
 
     Page<PokemonResponse> getCatchListOfUser(String username, int pageNumber, int pageSize);
 

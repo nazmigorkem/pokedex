@@ -30,6 +30,11 @@ public class PokemonController {
         return ResponseEntity.ok(pokemonService.getPokemonByNameStartsWithIgnoreCase(name, pageNumber, pageSize));
     }
 
+    @GetMapping("/{name}")
+    public ResponseEntity<PokemonResponse> getPokemonByName(@PathVariable String name) {
+        return ResponseEntity.ok(pokemonService.getPokemonByNameIgnoreCase(name));
+    }
+
     @DeleteMapping("/delete")
     public ResponseEntity<Void> deletePokemon(@RequestParam String name) {
         pokemonService.deletePokemon(name);
