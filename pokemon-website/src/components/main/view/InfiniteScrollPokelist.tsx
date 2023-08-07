@@ -16,7 +16,7 @@ export default function InfiniteScrollPokelist({ items, hasMore, fetchFunction }
 				endMessage={<></>}
 			>
 				<div className="grid grid-cols-5 gap-5">
-					{items.map((_, index) => (
+					{items.map((data, index) => (
 						<Pokecard
 							variants={{
 								hidden: () => ({
@@ -36,9 +36,7 @@ export default function InfiniteScrollPokelist({ items, hasMore, fetchFunction }
 							initial="hidden"
 							key={index}
 							custom={index % 25}
-							imageURL={'https://assets.pokemon.com/assets/cms2/img/pokedex/full/' + String(index + 1).padStart(3, '0') + '.png'}
-							description="Lorem ipsum dolor sit amet consectetur adipisicing elit."
-							types={['fire', 'fire']}
+							pokemon={data}
 						/>
 					))}
 				</div>
