@@ -5,10 +5,9 @@ import obss.pokemon.model.pokemon.PokemonResponse;
 import obss.pokemon.model.pokemon.PokemonSaveRequest;
 import obss.pokemon.model.pokemon.PokemonUpdateRequest;
 import obss.pokemon.service.implementation.PokemonService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequestMapping("/pokemon")
 @RestController
@@ -27,8 +26,8 @@ public class PokemonController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<PokemonResponse>> getPokemonByName(@RequestParam(defaultValue = "") String name) {
-        return ResponseEntity.ok(pokemonService.getPokemonByNameStartsWithIgnoreCase(name));
+    public ResponseEntity<Page<PokemonResponse>> getPokemonByName(@RequestParam(defaultValue = "") String name, @RequestParam(defaultValue = "0") int pageNumber, @RequestParam(defaultValue = "5") int pageSize) {
+        return ResponseEntity.ok(pokemonService.getPokemonByNameStartsWithIgnoreCase(name, pageNumber, pageSize));
     }
 
     @DeleteMapping("/delete")

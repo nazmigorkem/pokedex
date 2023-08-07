@@ -8,9 +8,10 @@ import obss.pokemon.model.pokemon.PokemonUpdateRequest;
 import obss.pokemon.repository.PokemonRepository;
 import obss.pokemon.service.contract.PokemonServiceContract;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,11 +38,10 @@ public class PokemonService implements PokemonServiceContract {
                 PokemonResponse.class
         );
     }
-    
+
     @Override
-    public List<PokemonResponse> getPokemonByNameStartsWithIgnoreCase(String pokemonName) {
-        return pokemonRepository.getPokemonByNameStartsWithIgnoreCase(pokemonName).stream()
-                .map(pokemon -> modelMapper.map(pokemon, PokemonResponse.class)).toList();
+    public Page<PokemonResponse> getPokemonByNameStartsWithIgnoreCase(String pokemonName, int pageNumber, int pageSize) {
+        return pokemonRepository.getPokemonByNameStartsWithIgnoreCase(pokemonName, PageRequest.of(pageNumber, pageSize)).map(pokemon -> modelMapper.map(pokemon, PokemonResponse.class));
     }
 
     @Override
@@ -68,6 +68,15 @@ public class PokemonService implements PokemonServiceContract {
         return modelMapper.map(pokemonRepository.save(pokemon), PokemonResponse.class);
     }
 
+    @Override
+    public Page<PokemonResponse> getCatchListOfUser(String username, int pageNumber, int pageSize) {
+        return pokemonRepository.getAllByUsersCatchList_UsernameIgnoreCase(username, PageRequest.of(pageNumber, pageSize)).map(pokemon -> modelMapper.map(pokemon, PokemonResponse.class));
+    }
+
+    @Override
+    public Page<PokemonResponse> getWishListOfUser(String username, int pageNumber, int pageSize) {
+        return pokemonRepository.getAllByUsersWishList_UsernameIgnoreCase(username, PageRequest.of(pageNumber, pageSize)).map(pokemon -> modelMapper.map(pokemon, PokemonResponse.class));
+    }
 
     //*****************//
     //* GUARD CLAUSES *//

@@ -20,16 +20,16 @@ public class User extends EntityBase {
 
     @ManyToMany
     @JoinTable(name = "POKEMON_USER_WISHLIST",
-            joinColumns = @JoinColumn(name = "POKEMON_ID", referencedColumnName = "ID"),
-            inverseJoinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
+            joinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "ID"),
+            inverseJoinColumns = @JoinColumn(name = "POKEMON_ID", referencedColumnName = "ID")
     )
     private List<Pokemon> wishlist;
 
 
     @ManyToMany
     @JoinTable(name = "POKEMON_USER_CATCHLIST",
-            joinColumns = @JoinColumn(name = "POKEMON_ID", referencedColumnName = "ID"),
-            inverseJoinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
+            joinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "ID"),
+            inverseJoinColumns = @JoinColumn(name = "POKEMON_ID", referencedColumnName = "ID")
     )
     private List<Pokemon> catchList;
 

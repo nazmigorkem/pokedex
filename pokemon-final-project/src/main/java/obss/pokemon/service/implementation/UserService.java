@@ -14,6 +14,7 @@ import obss.pokemon.repository.UserRepository;
 import obss.pokemon.service.contract.UserServiceContract;
 import org.hibernate.Hibernate;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -75,6 +76,18 @@ public class UserService implements UserServiceContract, UserDetailsService {
         var pokemon = pokemonService.getPokemonByNameIgnoreCase(userPokemonAddRequest.getPokemonName());
         user.getWishlist().add(pokemon);
         return getUserResponse(user);
+    }
+
+    @Override
+    public Page<PokemonResponse> getCatchListOfUser(String username, int pageNumber, int pageSize) {
+        throwErrorIfUserDoesNotExistWithNameIgnoreCase(username);
+        return pokemonService.getCatchListOfUser(username, pageNumber, pageSize);
+    }
+
+    @Override
+    public Page<PokemonResponse> getWishListOfUser(String username, int pageNumber, int pageSize) {
+        throwErrorIfUserDoesNotExistWithNameIgnoreCase(username);
+        return pokemonService.getWishListOfUser(username, pageNumber, pageSize);
     }
 
     private UserResponse getUserResponse(User user) {
