@@ -12,6 +12,7 @@ export default function Wish() {
 		`${SERVER_URL}${USER_SERVER_ENDPOINTS.WISH_LIST.GET}`,
 		pageNumber,
 		items,
+		'',
 		setHasMore,
 		setPageNumber,
 		setItems

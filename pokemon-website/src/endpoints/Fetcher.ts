@@ -8,12 +8,18 @@ export const fetchForInfiniteScroll = (
 	url: string,
 	pageNumber: number,
 	items: any[],
+	searchValue: string,
 	setHasMore: Dispatch<SetStateAction<boolean>>,
 	setPageNumber: Dispatch<SetStateAction<number>>,
 	setItems: Dispatch<SetStateAction<any[]>>
 ) => {
 	return () => {
-		fetch(`${url}?pageNumber=${pageNumber}&pageSize=25`).then((response) => {
+		const query = new URLSearchParams({
+			pageNumber: pageNumber.toString(),
+			pageSize: '10',
+			name: searchValue,
+		});
+		fetch(`${url}?${query}`).then((response) => {
 			if (response.status !== 200) {
 				setHasMore(false);
 				return;

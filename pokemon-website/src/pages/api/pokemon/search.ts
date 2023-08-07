@@ -11,11 +11,12 @@ async function handle(req: NextApiRequest, res: NextApiResponse) {
 	if (!req.session.user?.JSESSIONID) {
 		return res.status(401).send({ username: undefined });
 	}
-	const { pageNumber, pageSize } = req.query;
+	const { pageNumber, pageSize, name } = req.query;
 
 	const query = new URLSearchParams({
 		pageNumber: pageNumber as string,
 		pageSize: pageSize as string,
+		name: name as string,
 	});
 
 	const response = await fetch(`${BACKEND_URL}${POKEMON_BACKEND_ENDPOINTS.SEARCH}?${query}`, {

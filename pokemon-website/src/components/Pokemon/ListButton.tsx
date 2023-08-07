@@ -31,7 +31,7 @@ export default function ListStateButton({
 
 						if (response.status !== 200) return;
 
-						mutate(`${listEndpoint.IS_EXIST}?${new URLSearchParams({ pokemonName: pokemonData.name })}`, undefined);
+						mutate(`${listEndpoint.IS_EXIST}?${new URLSearchParams({ pokemonName: pokemonData.name })}`, !isExists);
 					}}
 				/>
 			)}
@@ -54,7 +54,7 @@ export default function ListStateButton({
 
 						if (response.status !== 200) return;
 
-						mutate(`${listEndpoint.IS_EXIST}?${new URLSearchParams({ pokemonName: pokemonData.name })}`, undefined);
+						mutate(`${listEndpoint.IS_EXIST}?${new URLSearchParams({ pokemonName: pokemonData.name })}`, !isExists);
 					}}
 				/>
 			)}

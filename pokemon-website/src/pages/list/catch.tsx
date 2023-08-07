@@ -12,6 +12,7 @@ export default function Catch() {
 		`${SERVER_URL}${USER_SERVER_ENDPOINTS.CATCH_LIST.GET}`,
 		pageNumber,
 		items,
+		'',
 		setHasMore,
 		setPageNumber,
 		setItems

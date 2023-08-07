@@ -2,17 +2,27 @@ import Pokecard from '#/components/Pokemon/Pokecard';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useEffect } from 'react';
 
-export default function InfiniteScrollPokelist({ items, hasMore, fetchFunction }: { items: any[]; hasMore: boolean; fetchFunction: () => void }) {
+export default function InfiniteScrollPokelist({
+	items,
+	hasMore,
+	fetchFunction,
+	searchValue,
+}: {
+	items: any[];
+	hasMore: boolean;
+	fetchFunction: () => void;
+	searchValue?: string;
+}) {
 	useEffect(fetchFunction, []);
 
 	return (
-		<div className="m-20 flex flex-col gap-5 min-h-[90vh]">
-			<h1 className="text-5xl font-bold">Pokecards</h1>
+		<div className="m-20 flex flex-col gap-5 min-h-[90vh] items-center">
 			<InfiniteScroll
+				key={searchValue}
 				dataLength={items.length}
 				next={fetchFunction}
 				hasMore={hasMore}
-				loader={<div className="mx-auto loading loading-lg flex justify-center mt-5"></div>}
+				loader={<div className="loading loading-lg flex justify-center mt-5"></div>}
 				endMessage={<></>}
 			>
 				<div className="grid grid-cols-5 gap-5">

@@ -8,13 +8,14 @@ export default function Home() {
 	const [hasMore, setHasMore] = useState(true);
 	const [pageNumber, setPageNumber] = useState(0);
 	const [items, setItems] = useState([] as any[]);
-	const [searchValue, setSearchValue] = useState('');
 	const router = useRouter();
+	const query = router.query.query as string;
+	const [searchValue, setSearchValue] = useState(query);
 	const fetchPokemons = fetchForInfiniteScroll(
 		`${SERVER_URL}${POKEMON_SERVER_ENDPOINTS.SEARCH}`,
 		pageNumber,
 		items,
-		searchValue,
+		query,
 		setHasMore,
 		setPageNumber,
 		setItems
@@ -34,6 +35,7 @@ export default function Home() {
 				<button
 					onClick={() => {
 						router.push(`/pokemon/search/${searchValue}`);
+						router.reload();
 					}}
 					className="btn btn-outline btn-accent"
 				>

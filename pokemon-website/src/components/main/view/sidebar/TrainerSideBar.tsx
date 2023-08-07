@@ -14,6 +14,9 @@ export default function TrainerSideBar() {
 			<Link className="btn btn-accent w-1/2" href="/" passHref>
 				Home
 			</Link>
+			<Link className="btn btn-accent w-1/2" href="/pokemon/search" passHref>
+				Search
+			</Link>
 			<Link className="btn btn-accent w-1/2" href="/list/wish" passHref>
 				Wish List
 			</Link>
