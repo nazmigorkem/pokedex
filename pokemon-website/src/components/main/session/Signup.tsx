@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import ErrorList from '#/components/main/view/ErrorList';
 import { mutate } from 'swr';
-import { SERVER_HEARTBEAT_ENDPOINT, SERVER_SIGNUP_ENDPOINT, SERVER_URL } from '#/endpoints/User';
+import { SERVER_HEARTBEAT_ENDPOINT, SERVER_SIGNUP_ENDPOINT } from '#/endpoints/User';
+import { SERVER_URL } from '#/endpoints/Fetcher';
 
 export default function Signup() {
 	const [values, setValues] = useState({ username: '', password: '', confirmPassword: '', agreed: false, errors: [] as string[], success: false });

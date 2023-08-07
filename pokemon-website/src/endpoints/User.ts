@@ -1,9 +1,6 @@
 import useSWRImmutable from 'swr/immutable';
 import { fetcher } from './Fetcher';
 
-export const BACKEND_URL = 'http://localhost:8080/api';
-export const SERVER_URL = 'http://localhost:3000';
-
 export const SERVER_HEARTBEAT_ENDPOINT = '/api/@me/heartbeat';
 export const SERVER_LOGIN_ENDPOINT = '/api/@me/login';
 export const SERVER_LOGOUT_ENDPOINT = '/api/@me/logout';

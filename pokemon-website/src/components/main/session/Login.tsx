@@ -1,7 +1,8 @@
-import { SERVER_URL, SERVER_HEARTBEAT_ENDPOINT, SERVER_LOGIN_ENDPOINT } from '#/endpoints/User';
+import { SERVER_HEARTBEAT_ENDPOINT, SERVER_LOGIN_ENDPOINT } from '#/endpoints/User';
 import { useState } from 'react';
 import { useSWRConfig } from 'swr';
 import ErrorList from '../view/ErrorList';
+import { SERVER_URL } from '#/endpoints/Fetcher';
 
 export default function Login() {
 	const [values, setValues] = useState({ username: '', password: '', errors: [] as string[], success: false });

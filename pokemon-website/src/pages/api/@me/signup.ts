@@ -2,8 +2,8 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { withIronSessionApiRoute } from 'iron-session/next';
 import { sessionOptions } from '#/session/options';
 import cookie from 'cookie';
-import { log } from 'console';
-import { BACKEND_URL, BACKEND_USER_ADD_ENDPOINT, BACKEND_USER_GET_ENDPOINT, BACKEND_USER_LOGIN_ENDPOINT } from '#/endpoints/User';
+import { BACKEND_USER_ADD_ENDPOINT, BACKEND_USER_GET_ENDPOINT, BACKEND_USER_LOGIN_ENDPOINT } from '#/endpoints/User';
+import { BACKEND_URL } from '#/endpoints/Fetcher';
 
 export default withIronSessionApiRoute(handle, sessionOptions);
 
