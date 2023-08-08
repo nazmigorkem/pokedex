@@ -30,7 +30,7 @@ public class PokemonController {
         return ResponseEntity.ok(pokemonService.getPokemonByNameStartsWithIgnoreCase(name, pageNumber, pageSize));
     }
 
-    @GetMapping("/{name}")
+    @GetMapping("/search/{name}")
     public ResponseEntity<PokemonResponse> getPokemonByName(@PathVariable String name) {
         return ResponseEntity.ok(pokemonService.getPokemonByNameIgnoreCase(name));
     }
