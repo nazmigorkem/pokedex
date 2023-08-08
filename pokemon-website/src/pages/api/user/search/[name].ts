@@ -1,5 +1,5 @@
 import { BACKEND_URL } from '#/endpoints/Fetcher';
-import { POKEMON_BACKEND_ENDPOINTS } from '#/endpoints/Pokemon';
+import { USER_BACKEND_ENDPOINTS } from '#/endpoints/User';
 import { sessionOptions } from '#/session/options';
 import cookie from 'cookie';
 import { withIronSessionApiRoute } from 'iron-session/next';
@@ -11,10 +11,9 @@ async function handle(req: NextApiRequest, res: NextApiResponse) {
 	if (!req.session.user?.JSESSIONID) {
 		return res.status(401).send({ username: undefined });
 	}
-
 	const { name } = req.query;
 
-	const response = await fetch(`${BACKEND_URL}${POKEMON_BACKEND_ENDPOINTS.SEARCH}/${name}`, {
+	const response = await fetch(`${BACKEND_URL}${USER_BACKEND_ENDPOINTS.SEARCH}/${name}`, {
 		headers: {
 			Cookie: cookie.serialize('JSESSIONID', req.session.user.JSESSIONID),
 		},

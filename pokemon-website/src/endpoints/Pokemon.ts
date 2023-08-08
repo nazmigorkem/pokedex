@@ -2,7 +2,6 @@ import useSWRImmutable from 'swr/immutable';
 import { fetcher } from './Fetcher';
 
 export const POKEMON_BACKEND_ENDPOINTS = {
-	GET: '/pokemon/search',
 	SEARCH: '/pokemon/search',
 	ADD: '/pokemon/add',
 	DELETE: '/pokemon/delete',
@@ -12,7 +11,6 @@ export const POKEMON_BACKEND_ENDPOINTS = {
 } as const;
 
 export const POKEMON_SERVER_ENDPOINTS = {
-	GET: '/api/pokemon/search',
 	SEARCH: '/api/pokemon/search',
 	ADD: '/api/pokemon/add',
 	DELETE: '/api/pokemon/delete',

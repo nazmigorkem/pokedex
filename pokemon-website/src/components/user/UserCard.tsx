@@ -16,10 +16,8 @@ const UserCard = React.forwardRef(({ data }: { data: UserSearchResponse }, ref: 
 			{data.username}
 			{data.roles.map((role, index) => {
 				return (
-					<div className="flex gap-5 text-xs">
-						<span key={index} className="bg-primary text-primary-content rounded-md p-3 select-none">
-							{role}
-						</span>
+					<div key={index} className="flex gap-5 text-xs">
+						<span className="bg-primary text-primary-content rounded-md p-3 select-none">{role}</span>
 					</div>
 				);
 			})}

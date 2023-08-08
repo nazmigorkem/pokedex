@@ -22,7 +22,7 @@ export default function PokemonPage({ name }: { name: string }) {
 	}
 
 	const [errors, setErrors] = useState<string[]>([]);
-	const { data: pokemonData } = useSWR<PokemonResponse | ErrorResponse>(`${POKEMON_SERVER_ENDPOINTS.GET}/${name}`, fetcher);
+	const { data: pokemonData } = useSWR<PokemonResponse | ErrorResponse>(`${POKEMON_SERVER_ENDPOINTS.SEARCH}/${name}`, fetcher);
 	const { data: isExistsInCatchList } = useSWR<boolean>(
 		pokemonData && 'name' in pokemonData
 			? `${USER_SERVER_ENDPOINTS.CATCH_LIST.IS_EXIST}?${new URLSearchParams({

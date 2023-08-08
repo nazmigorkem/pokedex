@@ -1,6 +1,6 @@
+import { UserHeartbeatResponse } from '#/Types/UserResponse';
 import useSWRImmutable from 'swr/immutable';
 import { fetcher } from './Fetcher';
-import { UserHeartbeatResponse } from '#/Types/UserResponse';
 
 export const USER_SERVER_ENDPOINTS = {
 	HEARTBEAT: '/api/@me/heartbeat',
@@ -8,6 +8,7 @@ export const USER_SERVER_ENDPOINTS = {
 	LOGOUT: '/api/@me/logout',
 	SIGNUP: '/api/@me/signup',
 	SEARCH: '/api/user/search',
+	DELETE: '/api/user/delete',
 
 	CATCH_LIST: {
 		GET: '/api/user/list/catch',
@@ -27,6 +28,7 @@ export const USER_BACKEND_ENDPOINTS = {
 	SEARCH: '/user/search',
 	ADD: '/user/add',
 	LOGIN: '/login',
+	DELETE: '/user/delete',
 
 	CATCH_LIST: {
 		GET: '/user/list/catch',

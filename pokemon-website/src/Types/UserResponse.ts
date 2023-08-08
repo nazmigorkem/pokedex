@@ -8,6 +8,17 @@ export type UserSearchResponse = {
 	roles: Role[];
 };
 
+export type UserResponse = {
+	username: string;
+	roles: RoleResponse[];
+	catchList: PokemonResponse[];
+	wishlist: PokemonResponse[];
+};
+
+export type RoleResponse = {
+	name: Role;
+};
+
 export type Role = (typeof ROLES)[keyof typeof ROLES];
 
 export const ROLES = {
