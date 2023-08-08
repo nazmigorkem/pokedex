@@ -1,17 +1,25 @@
-import InfiniteScrollPokelist from '#/components/main/view/InfiniteScrollPokelist';
+import { UserSearchResponse, hasRoles } from '#/Types/UserResponse';
+import { useContainerContext } from '#/components/main/view/Container';
+import InfiniteScrollUserList from '#/components/main/view/InfiniteScrollUserList';
 import { SERVER_URL, fetchForInfiniteScroll } from '#/endpoints/Fetcher';
-import { POKEMON_SERVER_ENDPOINTS } from '#/endpoints/Pokemon';
+import { USER_SERVER_ENDPOINTS } from '#/endpoints/User';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
-export default function Home() {
+export default function Users() {
+	const { heartbeatInfo } = useContainerContext();
+	const router = useRouter();
+	if (!hasRoles(heartbeatInfo.heartbeat, ['ROLE_ADMIN'])) {
+		router.push('/');
+		return <></>;
+	}
+
 	const [hasMore, setHasMore] = useState(true);
 	const [pageNumber, setPageNumber] = useState(0);
-	const [items, setItems] = useState([] as PokemonResponse[]);
+	const [items, setItems] = useState([] as UserSearchResponse[]);
 	const [searchValue, setSearchValue] = useState('');
-	const router = useRouter();
-	const fetchPokemons = fetchForInfiniteScroll(
-		`${SERVER_URL}${POKEMON_SERVER_ENDPOINTS.SEARCH}`,
+	const fetchUsers = fetchForInfiniteScroll(
+		`${SERVER_URL}${USER_SERVER_ENDPOINTS.SEARCH}`,
 		pageNumber,
 		items,
 		searchValue,
@@ -40,7 +48,7 @@ export default function Home() {
 					<i className="fas fa-search"></i>
 				</button>
 			</div>
-			<InfiniteScrollPokelist items={items} fetchFunction={fetchPokemons} hasMore={hasMore} />
+			<InfiniteScrollUserList items={items} fetchFunction={fetchUsers} hasMore={hasMore} />
 		</div>
 	);
 }

@@ -13,7 +13,7 @@ async function handle(req: NextApiRequest, res: NextApiResponse) {
 		return res.status(401).send({ username: '', roles: [ROLES.anonymous] });
 	}
 
-	const response = await fetch(`${BACKEND_URL}${USER_BACKEND_ENDPOINTS.GET}/${req.session.user.username}/heartbeat`, {
+	const response = await fetch(`${BACKEND_URL}${USER_BACKEND_ENDPOINTS.SEARCH}/${req.session.user.username}/heartbeat`, {
 		method: 'GET',
 		headers: {
 			Cookie: cookie.serialize('JSESSIONID', req.session.user.JSESSIONID),

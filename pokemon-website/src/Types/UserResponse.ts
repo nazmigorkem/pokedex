@@ -3,6 +3,11 @@ export type UserHeartbeatResponse = {
 	roles: Role[];
 };
 
+export type UserSearchResponse = {
+	username: string;
+	roles: Role[];
+};
+
 export type Role = (typeof ROLES)[keyof typeof ROLES];
 
 export const ROLES = {

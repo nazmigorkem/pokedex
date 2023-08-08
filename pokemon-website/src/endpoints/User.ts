@@ -7,6 +7,7 @@ export const USER_SERVER_ENDPOINTS = {
 	LOGIN: '/api/@me/login',
 	LOGOUT: '/api/@me/logout',
 	SIGNUP: '/api/@me/signup',
+	SEARCH: '/api/user/search',
 
 	CATCH_LIST: {
 		GET: '/api/user/list/catch',
@@ -23,7 +24,7 @@ export const USER_SERVER_ENDPOINTS = {
 } as const;
 
 export const USER_BACKEND_ENDPOINTS = {
-	GET: '/user',
+	SEARCH: '/user/search',
 	ADD: '/user/add',
 	LOGIN: '/login',
 

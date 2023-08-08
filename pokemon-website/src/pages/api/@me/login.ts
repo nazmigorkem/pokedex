@@ -30,7 +30,7 @@ async function handle(req: NextApiRequest, res: NextApiResponse) {
 		return res.status(500).json({ errors: ['Failed to create user'] });
 	}
 
-	const userResponse = await fetch(`${BACKEND_URL}${USER_BACKEND_ENDPOINTS.GET}/${username}`, {
+	const userResponse = await fetch(`${BACKEND_URL}${USER_BACKEND_ENDPOINTS.SEARCH}/${username}`, {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',
