@@ -21,7 +21,7 @@ async function handle(req: NextApiRequest, res: NextApiResponse) {
 	});
 
 	if (!response.ok) {
-		return res.status(response.status).send({ errors: ['Failed to fetch.'] });
+		return res.status(response.status).send(await response.json());
 	}
 
 	const data = await response.json();

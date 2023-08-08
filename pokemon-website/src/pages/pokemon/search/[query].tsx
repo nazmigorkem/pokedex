@@ -34,7 +34,7 @@ export default function Search({ query }: { query: string }) {
 				/>
 				<button
 					onClick={() => {
-						router.replace(`/pokemon/search/${searchValue}`, undefined, { unstable_skipClientCache: true });
+						router.replace(`/pokemon/search/${searchValue}`, undefined, { unstable_skipClientCache: true }).then(() => router.reload());
 					}}
 					className="btn btn-outline btn-accent"
 				>
