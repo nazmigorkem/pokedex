@@ -63,7 +63,7 @@ export default function Signup() {
 								if (values.password !== values.confirmPassword) return setValues({ ...values, errors: ['Passwords do not match!'] });
 								if (!values.agreed) return setValues({ ...values, errors: ['You must agree to the terms and conditions.'] });
 
-								const response = await fetch(`${SERVER_URL}${USER_SERVER_ENDPOINTS.LOGIN}`, {
+								const response = await fetch(`${SERVER_URL}${USER_SERVER_ENDPOINTS.SIGNUP}`, {
 									method: 'POST',
 									headers: {
 										'Content-Type': 'application/json',

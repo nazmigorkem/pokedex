@@ -1,16 +1,16 @@
 import InfiniteScrollPokelist from '#/components/main/view/InfiniteScrollPokelist';
 import { SERVER_URL, fetchForInfiniteScroll } from '#/endpoints/Fetcher';
 import { POKEMON_SERVER_ENDPOINTS } from '#/endpoints/Pokemon';
+import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
-export default function Home() {
+export default function Search({ query }: { query: string }) {
 	const [hasMore, setHasMore] = useState(true);
 	const [pageNumber, setPageNumber] = useState(0);
 	const [items, setItems] = useState([] as any[]);
 	const router = useRouter();
-	const query = router.query.query as string;
-	const [searchValue, setSearchValue] = useState(query);
+	const [searchValue, setSearchValue] = useState('');
 	const fetchPokemons = fetchForInfiniteScroll(
 		`${SERVER_URL}${POKEMON_SERVER_ENDPOINTS.SEARCH}`,
 		pageNumber,
@@ -34,8 +34,7 @@ export default function Home() {
 				/>
 				<button
 					onClick={() => {
-						router.push(`/pokemon/search/${searchValue}`);
-						router.reload();
+						router.replace(`/pokemon/search/${searchValue}`, undefined, { unstable_skipClientCache: true });
 					}}
 					className="btn btn-outline btn-accent"
 				>
@@ -46,3 +45,9 @@ export default function Home() {
 		</div>
 	);
 }
+
+export const getServerSideProps: GetServerSideProps<{
+	query: string;
+}> = async ({ query }) => {
+	return { props: { query: query.query as string } };
+};
