@@ -14,7 +14,7 @@ export default function Login() {
 			</div>
 			<dialog id="login_modal" className="modal">
 				<form method="dialog" className="modal-box flex flex-col gap-5">
-					{values.errors.length !== 0 && <ErrorList errors={values.errors} />}
+					<ErrorList errors={values.errors} />
 					<h3 className="font-bold text-lg">Hello! Fill out the form down below to login.</h3>
 					<input
 						type="text"

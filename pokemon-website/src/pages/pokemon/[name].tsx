@@ -4,11 +4,13 @@ import ListStateButton from '#/components/Pokemon/ListButton';
 import PokemonTypeChips from '#/components/Pokemon/PokemonTypeChips';
 import StatChip from '#/components/Pokemon/StatChip';
 import { useContainerContext } from '#/components/main/view/Container';
-import { fetcher } from '#/endpoints/Fetcher';
+import ErrorList from '#/components/main/view/ErrorList';
+import { SERVER_URL, fetcher } from '#/endpoints/Fetcher';
 import { POKEMON_SERVER_ENDPOINTS } from '#/endpoints/Pokemon';
 import { USER_SERVER_ENDPOINTS } from '#/endpoints/User';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 import useSWR from 'swr';
 
 export default function PokemonPage({ name }: { name: string }) {
@@ -19,6 +21,7 @@ export default function PokemonPage({ name }: { name: string }) {
 		return <></>;
 	}
 
+	const [errors, setErrors] = useState<string[]>([]);
 	const { data: pokemonData } = useSWR<PokemonResponse | ErrorResponse>(`${POKEMON_SERVER_ENDPOINTS.GET}/${name}`, fetcher);
 	const { data: isExistsInCatchList } = useSWR<boolean>(
 		pokemonData && 'name' in pokemonData
@@ -47,6 +50,7 @@ export default function PokemonPage({ name }: { name: string }) {
 
 	return (
 		<div className="m-20 min-h-[70vh] flex flex-col gap-10">
+			<ErrorList errors={errors} />
 			<div className="flex items-center gap-3">
 				<h1 className="text-5xl font-bold">{pokemonData.name}</h1>
 				<ListStateButton
@@ -61,27 +65,47 @@ export default function PokemonPage({ name }: { name: string }) {
 					iconString="fa-bookmark"
 					listEndpoint={USER_SERVER_ENDPOINTS.WISH_LIST}
 				/>
+				{hasRoles(heartbeatInfo.heartbeat, ['ROLE_ADMIN']) && (
+					<button
+						onClick={async () => {
+							const response = await fetch(`${SERVER_URL}${POKEMON_SERVER_ENDPOINTS.DELETE}/${pokemonData.name}`, {
+								method: 'DELETE',
+							});
+
+							if (response.status === 200) {
+								router.replace('/');
+							} else {
+								setErrors((await response.json()).errors);
+							}
+						}}
+						className="btn btn-error btn-square btn-ghost btn-outline ml-auto"
+					>
+						<i className="fas fa-trash" />
+					</button>
+				)}
 			</div>
 			<div className="flex">
-				<img src={pokemonData.imageUrl} className="aspect-square rounded-l-md bg-neutral bg-opacity-25 w-[475px]" alt="Pokemon image" />
-				<div className="bg-neutral p-5 rounded-r-md border-base-300 flex-1">{pokemonData.description}</div>
-			</div>
-			<div className="flex justify-between items-start">
-				<div className="flex flex-col gap-3">
-					<h3 className="font-bold uppercase text-base">Types</h3>
-					<div className="flex gap-5">
-						{pokemonData.types.map((type, index) => (
-							<PokemonTypeChips key={index} typeName={type.name} typeColor={type.color} />
-						))}
+				<img src={pokemonData.imageUrl} className="aspect-square rounded-md bg-neutral w-[475px]" alt="Pokemon image" />
+				<div className="flex-1 flex flex-col justify-between pl-5">
+					<div className="bg-base-300 p-3 text-base-content h-1/2">{pokemonData.description}</div>
+					<div className="flex justify-between items-start">
+						<div className="flex flex-col gap-3 bg-base-300 rounded-md justify-center p-3">
+							<h3 className="font-bold uppercase text-base-content">Types</h3>
+							<div className="flex gap-5">
+								{pokemonData.types.map((type, index) => (
+									<PokemonTypeChips key={index} typeName={type.name} typeColor={type.color} />
+								))}
+							</div>
+						</div>
+						<div className="flex gap-5 h-full">
+							<StatChip stat={pokemonData.attack} statName="Attack" />
+							<StatChip stat={pokemonData.defense} statName="Defense" />
+							<StatChip stat={pokemonData.health} statName="Health" />
+							<StatChip stat={pokemonData.specialAttack} statName="S. Attack" />
+							<StatChip stat={pokemonData.specialDefense} statName="S. Defense" />
+							<StatChip stat={pokemonData.speed} statName="Speed" />
+						</div>
 					</div>
-				</div>
-				<div className="flex gap-5">
-					<StatChip stat={pokemonData.attack} statName="Attack" />
-					<StatChip stat={pokemonData.defense} statName="Defense" />
-					<StatChip stat={pokemonData.health} statName="Health" />
-					<StatChip stat={pokemonData.specialAttack} statName="S. Attack" />
-					<StatChip stat={pokemonData.specialDefense} statName="S. Defense" />
-					<StatChip stat={pokemonData.speed} statName="Speed" />
 				</div>
 			</div>
 		</div>

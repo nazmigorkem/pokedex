@@ -5,6 +5,7 @@ export const POKEMON_BACKEND_ENDPOINTS = {
 	GET: '/pokemon/search',
 	SEARCH: '/pokemon/search',
 	ADD: '/pokemon/add',
+	DELETE: '/pokemon/delete',
 	TYPES: {
 		GET: '/pokemon-type/search',
 	},
@@ -14,6 +15,7 @@ export const POKEMON_SERVER_ENDPOINTS = {
 	GET: '/api/pokemon/search',
 	SEARCH: '/api/pokemon/search',
 	ADD: '/api/pokemon/add',
+	DELETE: '/api/pokemon/delete',
 	TYPES: {
 		GET: '/api/pokemon/types/search',
 	},

@@ -20,6 +20,7 @@ body {
 	color: rgb(var(--foreground-rgb));
 	background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
 	font-family: Poppins, sans-serif;
+	@apply text-base-content;
 }
 
 .pokecard_description::-webkit-scrollbar {

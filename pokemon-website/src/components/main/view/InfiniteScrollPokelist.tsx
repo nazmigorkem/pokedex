@@ -31,11 +31,11 @@ export default function InfiniteScrollPokelist({
 							variants={{
 								hidden: () => ({
 									opacity: 0,
-									y: -30,
+									x: -30,
 								}),
 								visible: (key) => ({
 									opacity: 1,
-									y: -0,
+									x: -0,
 									transition: {
 										delay: key * 0.1,
 										bounce: false,
@@ -45,7 +45,7 @@ export default function InfiniteScrollPokelist({
 							animate="visible"
 							initial="hidden"
 							key={index}
-							custom={index % 25}
+							custom={index % 10}
 							pokemon={data}
 						/>
 					))}

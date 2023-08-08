@@ -41,8 +41,7 @@ export default function Add() {
 
 	return (
 		<div className="w-1/4 my-20 flex flex-col gap-5 mx-auto">
-			{errors.length !== 0 && <ErrorList errors={errors} />}
-
+			<ErrorList errors={errors} />
 			<CustomInput
 				label="Name"
 				onChange={(e) => {
