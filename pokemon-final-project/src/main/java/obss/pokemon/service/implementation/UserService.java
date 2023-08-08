@@ -2,13 +2,11 @@ package obss.pokemon.service.implementation;
 
 import jakarta.transaction.Transactional;
 import obss.pokemon.config.DataLoader;
+import obss.pokemon.entity.Role;
 import obss.pokemon.entity.User;
 import obss.pokemon.exceptions.ServiceException;
 import obss.pokemon.model.pokemon.PokemonResponse;
-import obss.pokemon.model.user.MyUserDetails;
-import obss.pokemon.model.user.UserPokemonAddRequest;
-import obss.pokemon.model.user.UserResponse;
-import obss.pokemon.model.user.UserSaveRequest;
+import obss.pokemon.model.user.*;
 import obss.pokemon.repository.PokemonRepository;
 import obss.pokemon.repository.RoleRepository;
 import obss.pokemon.repository.UserRepository;
@@ -125,6 +123,16 @@ public class UserService implements UserServiceContract, UserDetailsService {
         var pokemon = pokemonRepository.getPokemonByNameIgnoreCase(userPokemonAddRequest.getPokemonName()).orElseThrow();
         user.getWishlist().remove(pokemon);
         return getUserResponse(user);
+    }
+
+    @Override
+    public UserHeartbeatResponse getUserHeartbeatByUsernameIgnoreCase(String username) {
+        throwErrorIfUserDoesNotExistWithNameIgnoreCase(username);
+        var user = userRepository.findByUsernameIgnoreCase(username).orElseThrow();
+        var userHeartbeatResponse = new UserHeartbeatResponse();
+        userHeartbeatResponse.setUsername(user.getUsername());
+        userHeartbeatResponse.setRoles(user.getRoles().stream().map(Role::getName).toList());
+        return userHeartbeatResponse;
     }
 
     private UserResponse getUserResponse(User user) {

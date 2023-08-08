@@ -1,6 +1,7 @@
 package obss.pokemon.service.contract;
 
 import obss.pokemon.model.pokemon.PokemonResponse;
+import obss.pokemon.model.user.UserHeartbeatResponse;
 import obss.pokemon.model.user.UserPokemonAddRequest;
 import obss.pokemon.model.user.UserResponse;
 import obss.pokemon.model.user.UserSaveRequest;
@@ -23,7 +24,10 @@ public interface UserServiceContract {
 
     Page<PokemonResponse> getWishListOfUser(String username, int pageNumber, int pageSize);
 
+    UserHeartbeatResponse getUserHeartbeatByUsernameIgnoreCase(String username);
+
     boolean isPokemonInCatchList(String username, String pokemonName);
 
     boolean isPokemonInWishList(String username, String pokemonName);
+
 }

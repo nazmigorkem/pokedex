@@ -1,6 +1,7 @@
 package obss.pokemon.controller;
 
 import jakarta.validation.Valid;
+import obss.pokemon.model.user.UserHeartbeatResponse;
 import obss.pokemon.model.user.UserResponse;
 import obss.pokemon.model.user.UserSaveRequest;
 import obss.pokemon.service.implementation.UserService;
@@ -20,6 +21,11 @@ public class UserController {
     @GetMapping("/{username}")
     public ResponseEntity<UserResponse> getUserByUsername(@PathVariable String username) {
         return ResponseEntity.ok(userService.getUserByUsernameIgnoreCase(username));
+    }
+
+    @GetMapping("/{username}/heartbeat")
+    public ResponseEntity<UserHeartbeatResponse> getUserHeartbeatByUsername(@PathVariable String username) {
+        return ResponseEntity.ok(userService.getUserHeartbeatByUsernameIgnoreCase(username));
     }
 
     @PostMapping("/add")
