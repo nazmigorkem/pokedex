@@ -28,7 +28,12 @@ export default function PokemonPage({ name }: { name: string }) {
 	);
 
 	if (pokemonData && 'errors' in pokemonData) return <div className="text-center text-2xl font-bold mt-20">{pokemonData.errors[0]}</div>;
-	if (!pokemonData || isExistsInCatchList === undefined || isExistsInWishList === undefined) return <div className="loading loading-lg"></div>;
+	if (!pokemonData || isExistsInCatchList === undefined || isExistsInWishList === undefined)
+		return (
+			<div className="w-full min-h-screen flex items-center justify-center">
+				<div className="loading loading-lg"></div>
+			</div>
+		);
 	return (
 		<div className="m-20 min-h-[70vh] flex flex-col gap-10">
 			<div className="flex items-center gap-3">
