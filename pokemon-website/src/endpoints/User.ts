@@ -1,5 +1,6 @@
 import useSWRImmutable from 'swr/immutable';
 import { fetcher } from './Fetcher';
+import { UserHeartbeatResponse } from '#/Types/UserResponse';
 
 export const USER_SERVER_ENDPOINTS = {
 	HEARTBEAT: '/api/@me/heartbeat',
@@ -41,14 +42,14 @@ export const USER_BACKEND_ENDPOINTS = {
 } as const;
 
 export const useHeartBeat = () => {
-	const { data, error, isLoading } = useSWRImmutable(USER_SERVER_ENDPOINTS.HEARTBEAT, fetcher, {
+	const { data, error, isLoading } = useSWRImmutable<UserHeartbeatResponse>(USER_SERVER_ENDPOINTS.HEARTBEAT, fetcher, {
 		revalidateOnMount: false,
 		revalidateOnFocus: false,
 		revalidateOnReconnect: false,
 	});
 
 	return {
-		data: data as { username: string } | undefined,
+		data: data,
 		error,
 		isLoading,
 	};

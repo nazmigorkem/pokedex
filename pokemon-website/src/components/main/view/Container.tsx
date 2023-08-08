@@ -1,14 +1,13 @@
+import { UserHeartbeatResponse } from '#/Types/UserResponse';
 import { USER_SERVER_ENDPOINTS, useHeartBeat } from '#/endpoints/User';
 import { createContext, useContext, useEffect } from 'react';
 import { mutate } from 'swr';
 
-type Heartbeat = { username: string } | undefined;
-
 export const ContainerContext = createContext<{
-	heartbeatInfo: { heartbeat: Heartbeat; error: any; isLoading: boolean };
+	heartbeatInfo: { heartbeat: UserHeartbeatResponse; error: any; isLoading: boolean };
 }>({
 	heartbeatInfo: {
-		heartbeat: undefined,
+		heartbeat: { username: '', roles: [] },
 		error: undefined,
 		isLoading: true,
 	},
@@ -24,6 +23,13 @@ export default function Container({ children }: { children?: JSX.Element[] | JSX
 	useEffect(() => {
 		mutate(USER_SERVER_ENDPOINTS.HEARTBEAT, undefined);
 	}, []);
+
+	if (isLoading || data === undefined)
+		return (
+			<div className="w-full flex justify-center items-center min-h-screen bg-neutral">
+				<div className="loading loading-lg"></div>
+			</div>
+		);
 	return (
 		<ContainerContext.Provider
 			value={{

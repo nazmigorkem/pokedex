@@ -1,4 +1,5 @@
 import { useContainerContext } from '../Container';
+import AdminSidebar from './AdminSidebar';
 import AnonymousSideBar from './AnonymousSideBar';
 import TrainerSideBar from './TrainerSideBar';
 
@@ -12,6 +13,8 @@ export default function Sidebar() {
 				<div className="loading loading-spinner loading-lg"></div>
 			) : heartbeat?.username === undefined ? (
 				<AnonymousSideBar />
+			) : heartbeat.roles.includes('ROLE_ADMIN') ? (
+				<AdminSidebar />
 			) : (
 				<TrainerSideBar />
 			)}
