@@ -7,6 +7,7 @@ import obss.pokemon.model.pokemon.PokemonUpdateRequest;
 import obss.pokemon.service.implementation.PokemonService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/pokemon")
@@ -20,6 +21,7 @@ public class PokemonController {
     }
 
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/add")
     public ResponseEntity<PokemonResponse> addPokemon(@Valid @RequestBody PokemonSaveRequest pokemonSaveRequest) {
         return ResponseEntity.ok(pokemonService.addPokemon(pokemonSaveRequest));
@@ -35,8 +37,9 @@ public class PokemonController {
         return ResponseEntity.ok(pokemonService.getPokemonByNameIgnoreCase(name));
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<Void> deletePokemon(@RequestParam String name) {
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping("/delete/{name}")
+    public ResponseEntity<Void> deletePokemon(@PathVariable String name) {
         pokemonService.deletePokemon(name);
         return ResponseEntity.ok().build();
     }

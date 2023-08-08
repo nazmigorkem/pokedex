@@ -14,6 +14,7 @@ import obss.pokemon.service.contract.UserServiceContract;
 import org.hibernate.Hibernate;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -133,6 +134,26 @@ public class UserService implements UserServiceContract, UserDetailsService {
         userHeartbeatResponse.setUsername(user.getUsername());
         userHeartbeatResponse.setRoles(user.getRoles().stream().map(Role::getName).toList());
         return userHeartbeatResponse;
+    }
+
+    @Override
+    public Page<UserSearchResponse> getUserByUsernameStartsWithIgnoreCase(String username, int pageNumber, int pageSize) {
+        return userRepository.findByUsernameStartsWithIgnoreCase(username, PageRequest.of(pageNumber, pageSize)).map(x -> {
+            var userSearchResponse = new UserSearchResponse();
+            userSearchResponse.setUsername(x.getUsername());
+            userSearchResponse.setRoles(x.getRoles().stream().map(Role::getName).toList());
+            return userSearchResponse;
+        });
+    }
+
+    @Override
+    public void deleteUserByUsernameIgnoreCase(String username) {
+        throwErrorIfUserDoesNotExistWithNameIgnoreCase(username);
+        var user = userRepository.findByUsernameIgnoreCase(username).orElseThrow();
+        user.getRoles().forEach(x -> x.getUsers().remove(user));
+        user.getCatchList().forEach(x -> x.getUsersCatchList().remove(user));
+        user.getWishlist().forEach(x -> x.getUsersWishList().remove(user));
+        userRepository.delete(user);
     }
 
     private UserResponse getUserResponse(User user) {

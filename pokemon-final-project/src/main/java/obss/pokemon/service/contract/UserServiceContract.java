@@ -1,10 +1,7 @@
 package obss.pokemon.service.contract;
 
 import obss.pokemon.model.pokemon.PokemonResponse;
-import obss.pokemon.model.user.UserHeartbeatResponse;
-import obss.pokemon.model.user.UserPokemonAddRequest;
-import obss.pokemon.model.user.UserResponse;
-import obss.pokemon.model.user.UserSaveRequest;
+import obss.pokemon.model.user.*;
 import org.springframework.data.domain.Page;
 
 public interface UserServiceContract {
@@ -19,6 +16,10 @@ public interface UserServiceContract {
     UserResponse deletePokemonFromCatchListOfUser(UserPokemonAddRequest userPokemonAddRequest);
 
     UserResponse deletePokemonFromWishListOfUser(UserPokemonAddRequest userPokemonAddRequest);
+
+    void deleteUserByUsernameIgnoreCase(String username);
+
+    Page<UserSearchResponse> getUserByUsernameStartsWithIgnoreCase(String username, int pageNumber, int pageSize);
 
     Page<PokemonResponse> getCatchListOfUser(String username, int pageNumber, int pageSize);
 

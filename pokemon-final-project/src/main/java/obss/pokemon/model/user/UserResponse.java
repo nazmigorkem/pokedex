@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import obss.pokemon.model.pokemon.PokemonResponse;
+import obss.pokemon.model.role.RoleResponse;
 
 import java.util.List;
 
@@ -12,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 public class UserResponse {
     private String username;
+    private List<RoleResponse> roles;
     private List<PokemonResponse> catchList;
     private List<PokemonResponse> wishList;
 }
