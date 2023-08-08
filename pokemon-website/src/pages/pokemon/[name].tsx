@@ -1,14 +1,24 @@
 import { ErrorResponse } from '#/Types/ErrorResponse';
+import { hasRoles } from '#/Types/UserResponse';
 import ListStateButton from '#/components/Pokemon/ListButton';
 import PokemonTypeChips from '#/components/Pokemon/PokemonTypeChips';
 import StatChip from '#/components/Pokemon/StatChip';
+import { useContainerContext } from '#/components/main/view/Container';
 import { fetcher } from '#/endpoints/Fetcher';
 import { POKEMON_SERVER_ENDPOINTS } from '#/endpoints/Pokemon';
 import { USER_SERVER_ENDPOINTS } from '#/endpoints/User';
 import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
 import useSWR from 'swr';
 
 export default function PokemonPage({ name }: { name: string }) {
+	const { heartbeatInfo } = useContainerContext();
+	const router = useRouter();
+	if (!hasRoles(heartbeatInfo.heartbeat, ['ROLE_TRAINER', 'ROLE_ADMIN'])) {
+		router.push('/');
+		return <></>;
+	}
+
 	const { data: pokemonData } = useSWR<PokemonResponse | ErrorResponse>(`${POKEMON_SERVER_ENDPOINTS.GET}/${name}`, fetcher);
 	const { data: isExistsInCatchList } = useSWR<boolean>(
 		pokemonData && 'name' in pokemonData
@@ -34,6 +44,7 @@ export default function PokemonPage({ name }: { name: string }) {
 				<div className="loading loading-lg"></div>
 			</div>
 		);
+
 	return (
 		<div className="m-20 min-h-[70vh] flex flex-col gap-10">
 			<div className="flex items-center gap-3">

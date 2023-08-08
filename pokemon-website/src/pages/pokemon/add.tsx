@@ -1,4 +1,5 @@
 import { ErrorResponse } from '#/Types/ErrorResponse';
+import { hasRoles } from '#/Types/UserResponse';
 import { useContainerContext } from '#/components/main/view/Container';
 import CustomInput from '#/components/main/view/CustomInput';
 import ErrorList from '#/components/main/view/ErrorList';
@@ -9,8 +10,8 @@ import { useState } from 'react';
 
 export default function Add() {
 	const context = useContainerContext();
-
 	const heartbeatInfo = context.heartbeatInfo;
+	const router = useRouter();
 
 	const [properties, setProperties] = useState<PokemonAddRequest>({
 		name: '',
@@ -25,15 +26,17 @@ export default function Add() {
 		speed: -1,
 	});
 
-	const router = useRouter();
-
 	const [errors, setErrors] = useState<string[]>([]);
 
 	const { data: pokemonTypes } = usePokemonTypes();
-	console.log(pokemonTypes);
 
 	function setProperty<T extends keyof typeof properties>(property: T, value: (typeof properties)[T]) {
 		setProperties({ ...properties, [property]: value });
+	}
+
+	if (!hasRoles(heartbeatInfo.heartbeat, ['ROLE_ADMIN'])) {
+		router.push('/');
+		return <></>;
 	}
 
 	return (
