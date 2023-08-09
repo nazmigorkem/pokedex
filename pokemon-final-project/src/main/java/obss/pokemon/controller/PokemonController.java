@@ -26,7 +26,7 @@ public class PokemonController {
     public ResponseEntity<PokemonResponse> addPokemon(@Valid @RequestBody PokemonSaveRequest pokemonSaveRequest) {
         return ResponseEntity.ok(pokemonService.addPokemon(pokemonSaveRequest));
     }
-
+    
     @GetMapping("/search")
     public ResponseEntity<Page<PokemonResponse>> getPokemonByName(@RequestParam(defaultValue = "") String name, @RequestParam(defaultValue = "0") int pageNumber, @RequestParam(defaultValue = "5") int pageSize) {
         return ResponseEntity.ok(pokemonService.getPokemonByNameStartsWithIgnoreCase(name, pageNumber, pageSize));
@@ -44,6 +44,7 @@ public class PokemonController {
         return ResponseEntity.ok().build();
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/edit")
     public ResponseEntity<PokemonResponse> updatePokemon(@Valid @RequestBody PokemonUpdateRequest pokemonUpdateRequest) {
         return ResponseEntity.ok(pokemonService.updatePokemon(pokemonUpdateRequest));
