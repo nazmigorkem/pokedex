@@ -1,10 +1,7 @@
 package obss.pokemon.controller;
 
 import jakarta.validation.Valid;
-import obss.pokemon.model.user.UserHeartbeatResponse;
-import obss.pokemon.model.user.UserResponse;
-import obss.pokemon.model.user.UserSaveRequest;
-import obss.pokemon.model.user.UserSearchResponse;
+import obss.pokemon.model.user.*;
 import obss.pokemon.service.implementation.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +38,12 @@ public class UserController {
     @PostMapping("/add")
     public ResponseEntity<UserResponse> addUser(@Valid @RequestBody UserSaveRequest userSaveRequest) {
         return ResponseEntity.ok(userService.addUser(userSaveRequest));
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("/edit")
+    public ResponseEntity<UserResponse> updateUser(@Valid @RequestBody UserUpdateRequest userUpdateRequest) {
+        return ResponseEntity.ok(userService.updateUser(userUpdateRequest));
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")

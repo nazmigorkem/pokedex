@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService implements UserServiceContract, UserDetailsService {
@@ -55,11 +56,11 @@ public class UserService implements UserServiceContract, UserDetailsService {
         var user = new User();
         user.setUsername(userSaveRequest.getUsername());
         user.setPassword(passwordEncoder.encode(userSaveRequest.getPassword()));
-        user.setRoles(Set.of(roleRepository.findByName(DataLoader.TRAINER_ROLE).orElseThrow()));
+        user.setRoles(Set.of(roleRepository.findByNameIgnoreCase(DataLoader.TRAINER_ROLE).orElseThrow()));
         if (userSaveRequest.getRoles() != null && roles.stream().map(GrantedAuthority::getAuthority).anyMatch(t -> t.equals(DataLoader.ADMIN_ROLE))) {
             userSaveRequest.getRoles().forEach(role -> {
                 roleService.throwErrorIfRoleDoesNotExistWithNameIgnoreCase(role);
-                var roleEntity = roleRepository.findByName(role).orElseThrow();
+                var roleEntity = roleRepository.findByNameIgnoreCase(role).orElseThrow();
                 var userRoles = new HashSet<>(user.getRoles());
                 userRoles.add(roleEntity);
                 user.setRoles(userRoles);
@@ -170,6 +171,25 @@ public class UserService implements UserServiceContract, UserDetailsService {
         user.getCatchList().forEach(x -> x.getUsersCatchList().remove(user));
         user.getWishlist().forEach(x -> x.getUsersWishList().remove(user));
         userRepository.delete(user);
+    }
+
+    @Override
+    public UserResponse updateUser(UserUpdateRequest userUpdateRequest) {
+        throwErrorIfUserDoesNotExistWithNameIgnoreCase(userUpdateRequest.getSearchUsername());
+        var user = userRepository.findByUsernameIgnoreCase(userUpdateRequest.getSearchUsername()).orElseThrow();
+        if (userUpdateRequest.getUsername() != null) {
+            throwErrorIfUserExistsWithNameIgnoreCase(userUpdateRequest.getUsername());
+            user.setUsername(userUpdateRequest.getUsername());
+        }
+        if (userUpdateRequest.getPassword() != null) {
+            user.setPassword(passwordEncoder.encode(userUpdateRequest.getPassword()));
+        }
+        if (userUpdateRequest.getRoles() != null) {
+            user.getRoles().forEach(x -> x.getUsers().remove(user));
+            user.setRoles(userUpdateRequest.getRoles().stream().map(x -> roleRepository.findByNameIgnoreCase(x.getName()).orElseThrow()).collect(Collectors.toSet()));
+            user.getRoles().forEach(x -> x.getUsers().add(user));
+        }
+        return getUserResponse(user);
     }
 
     private UserResponse getUserResponse(User user) {

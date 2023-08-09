@@ -1,7 +1,6 @@
-import { SERVER_URL } from '#/endpoints/Fetcher';
-import { USER_SERVER_ENDPOINTS } from '#/endpoints/User';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import Logout from '../../session/Logout';
 import { useContainerContext } from '../Container';
 
 export default function AdminSidebar() {
@@ -29,15 +28,7 @@ export default function AdminSidebar() {
 			<Link className="btn btn-accent w-1/2" href="/users/add" passHref>
 				Add User
 			</Link>
-			<button
-				onClick={async () => {
-					await fetch(`${SERVER_URL}${USER_SERVER_ENDPOINTS.LOGOUT}`);
-					router.reload();
-				}}
-				className="btn btn-accent w-1/2"
-			>
-				Logout
-			</button>
+			<Logout />
 		</>
 	);
 }

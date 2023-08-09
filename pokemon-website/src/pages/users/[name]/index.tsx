@@ -1,16 +1,20 @@
 import { ErrorResponse } from '#/Types/ErrorResponse';
-import { UserResponse } from '#/Types/User';
+import { UserResponse, hasRoles } from '#/Types/User';
 import Admin from '#/components/main/session/auth/Admin';
+import { useContainerContext } from '#/components/main/view/Container';
 import FullScreenLoadingSpinner from '#/components/main/view/FullScreenLoadingSpinner';
-import { fetcher } from '#/endpoints/Fetcher';
+import { SERVER_URL, fetcher } from '#/endpoints/Fetcher';
 import { USER_SERVER_ENDPOINTS } from '#/endpoints/User';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 import useSWR from 'swr';
 
 export default function Name({ name }: { name: string }) {
+	const { heartbeatInfo } = useContainerContext();
 	const router = useRouter();
 
+	const [errors, setErrors] = useState<string[]>([]);
 	const { data: userData, error, isLoading } = useSWR<UserResponse | ErrorResponse>(`${USER_SERVER_ENDPOINTS.SEARCH}/${name}`, fetcher);
 	if (userData && 'errors' in userData) return <div className="text-center text-2xl font-bold mt-20">{userData.errors[0]}</div>;
 
@@ -22,21 +26,34 @@ export default function Name({ name }: { name: string }) {
 		<div className="m-20 flex flex-col gap-5">
 			<div className="flex justify-between transition-none">
 				<h1 className="text-5xl font-bold">{name}</h1>
-				<div className="ml-auto">
-					<button
-						onClick={async () => {
-							const res = await fetch(`${USER_SERVER_ENDPOINTS.DELETE}/${name}`, {
-								method: 'DELETE',
-							});
-							if (res.status === 200) {
-								router.replace('/users');
-							}
-						}}
-						className="btn btn-error btn-square btn-ghost btn-outline"
-					>
-						<i className="fas fa-trash" />
-					</button>
-				</div>
+				{hasRoles(heartbeatInfo.heartbeat, ['ROLE_ADMIN']) && (
+					<div className="ml-auto flex gap-3">
+						<button
+							onClick={async () => {
+								router.push(`/users/${name}/edit`);
+							}}
+							className="btn btn-neutral btn-square btn-outline"
+						>
+							<i className="fas fa-pen" />
+						</button>
+						<button
+							onClick={async () => {
+								const response = await fetch(`${SERVER_URL}${USER_SERVER_ENDPOINTS.DELETE}/${name}`, {
+									method: 'DELETE',
+								});
+
+								if (response.status === 200) {
+									router.replace('/users');
+								} else {
+									setErrors((await response.json()).errors);
+								}
+							}}
+							className="btn btn-error btn-square btn-outline"
+						>
+							<i className="fas fa-trash" />
+						</button>
+					</div>
+				)}
 			</div>
 			<div className="flex flex-col gap-3">
 				<h1 className="text-3xl">Roles</h1>

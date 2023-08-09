@@ -11,14 +11,23 @@ export type UserSearchResponse = {
 export type UserResponse = {
 	username: string;
 	roles: RoleResponse[];
-	catchList: PokemonResponse[];
-	wishlist: PokemonResponse[];
+	catchList: string[];
+	wishlist: string[];
 };
 
 export type UserAddRequest = {
 	username: string;
 	password: string;
-	roles: Role[];
+	roles: RoleResponse[];
+};
+
+export type UserEditRequest = {
+	searchUsername: string;
+	username?: string;
+	password?: string;
+	roles: RoleResponse[];
+	catchList: string[];
+	wishlist: string[];
 };
 
 export type RoleResponse = {

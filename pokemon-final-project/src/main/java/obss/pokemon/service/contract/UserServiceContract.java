@@ -31,4 +31,6 @@ public interface UserServiceContract {
 
     boolean isPokemonInWishList(String username, String pokemonName);
 
+    UserResponse updateUser(UserUpdateRequest userUpdateRequest);
+
 }

@@ -1,8 +1,7 @@
-import { SERVER_URL } from '#/endpoints/Fetcher';
-import { useRouter } from 'next/router';
-import { useContainerContext } from '../Container';
 import Link from 'next/link';
-import { USER_SERVER_ENDPOINTS } from '#/endpoints/User';
+import { useRouter } from 'next/router';
+import Logout from '../../session/Logout';
+import { useContainerContext } from '../Container';
 
 export default function TrainerSideBar() {
 	const { heartbeatInfo } = useContainerContext();
@@ -20,15 +19,7 @@ export default function TrainerSideBar() {
 			<Link className="btn btn-accent w-1/2" href="/list/catch" passHref>
 				Catch List
 			</Link>
-			<button
-				onClick={async () => {
-					await fetch(`${SERVER_URL}${USER_SERVER_ENDPOINTS.LOGOUT}`);
-					router.reload();
-				}}
-				className="btn btn-accent w-1/2"
-			>
-				Logout
-			</button>
+			<Logout />
 		</>
 	);
 }

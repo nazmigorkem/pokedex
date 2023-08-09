@@ -1,5 +1,5 @@
 import { ErrorResponse } from '#/Types/ErrorResponse';
-import { Role, UserAddRequest } from '#/Types/User';
+import { UserAddRequest } from '#/Types/User';
 import Admin from '#/components/main/session/auth/Admin';
 import CustomInput from '#/components/main/view/CustomInput';
 import ErrorList from '#/components/main/view/ErrorList';
@@ -40,27 +40,7 @@ export default function Add() {
 				type="text"
 			/>
 
-			<div>
-				<label className="label">Role</label>
-				<select
-					onChange={(e) => {
-						const propertyClone = { ...properties };
-						propertyClone.roles[0] = e.target.value as unknown as Role;
-						setProperties({ ...propertyClone });
-					}}
-					className="select select-accent w-full"
-				>
-					<option disabled selected>
-						Select a role
-					</option>
-					{roles &&
-						roles.map((role, index) => (
-							<option disabled={properties.roles.includes(role.name)} key={index}>
-								{role.name}
-							</option>
-						))}
-				</select>
-			</div>
+			{/*  */}
 
 			<CustomInput
 				label="Password"

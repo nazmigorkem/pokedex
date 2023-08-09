@@ -1,4 +1,5 @@
-import { UserHeartbeatResponse } from '#/Types/User';
+import { ErrorResponse } from '#/Types/ErrorResponse';
+import { UserHeartbeatResponse, UserResponse } from '#/Types/User';
 import useSWR from 'swr';
 import { fetcher } from './Fetcher';
 
@@ -10,6 +11,7 @@ export const USER_SERVER_ENDPOINTS = {
 	ADD: '/api/user/add',
 	SEARCH: '/api/user/search',
 	DELETE: '/api/user/delete',
+	EDIT: '/api/user/edit',
 
 	CATCH_LIST: {
 		GET: '/api/user/list/catch',
@@ -29,6 +31,7 @@ export const USER_BACKEND_ENDPOINTS = {
 	SEARCH: '/user/search',
 	ADD: '/user/add',
 	LOGIN: '/login',
+	EDIT: '/user/edit',
 	DELETE: '/user/delete',
 
 	CATCH_LIST: {
@@ -47,6 +50,16 @@ export const USER_BACKEND_ENDPOINTS = {
 
 export const useHeartBeat = () => {
 	const { data, error, isLoading } = useSWR<UserHeartbeatResponse>(USER_SERVER_ENDPOINTS.HEARTBEAT, fetcher);
+
+	return {
+		data: data,
+		error,
+		isLoading,
+	};
+};
+
+export const useUser = (name: string) => {
+	const { data, error, isLoading } = useSWR<UserResponse | ErrorResponse>(`${USER_SERVER_ENDPOINTS.SEARCH}/${name}`, fetcher);
 
 	return {
 		data: data,
