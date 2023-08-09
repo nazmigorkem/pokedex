@@ -22,6 +22,12 @@ public class UserController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/search")
+    public ResponseEntity<Page<UserSearchResponse>> getUserByUsernameStartsWith(@RequestParam(defaultValue = "") String name, @RequestParam(defaultValue = "0") int pageNumber, @RequestParam(defaultValue = "5") int pageSize) {
+        return ResponseEntity.ok(userService.getUserByUsernameStartsWithIgnoreCase(name, pageNumber, pageSize));
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/search/{username}")
     public ResponseEntity<UserResponse> getUserByUsername(@PathVariable String username) {
         return ResponseEntity.ok(userService.getUserByUsernameIgnoreCase(username));
@@ -30,12 +36,6 @@ public class UserController {
     @GetMapping("/search/{username}/heartbeat")
     public ResponseEntity<UserHeartbeatResponse> getUserHeartbeatByUsername(@PathVariable String username) {
         return ResponseEntity.ok(userService.getUserHeartbeatByUsernameIgnoreCase(username));
-    }
-
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/search")
-    public ResponseEntity<Page<UserSearchResponse>> getUserByUsernameStartsWith(@RequestParam(defaultValue = "") String name, @RequestParam(defaultValue = "0") int pageNumber, @RequestParam(defaultValue = "5") int pageSize) {
-        return ResponseEntity.ok(userService.getUserByUsernameStartsWithIgnoreCase(name, pageNumber, pageSize));
     }
 
     @PostMapping("/add")
