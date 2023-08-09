@@ -1,6 +1,6 @@
 import { ErrorResponse } from '#/Types/ErrorResponse';
-import { Role, UserAddRequest, hasRoles } from '#/Types/User';
-import { useContainerContext } from '#/components/main/view/Container';
+import { Role, UserAddRequest } from '#/Types/User';
+import Admin from '#/components/main/session/checker/Admin';
 import CustomInput from '#/components/main/view/CustomInput';
 import ErrorList from '#/components/main/view/ErrorList';
 import { SERVER_URL } from '#/endpoints/Fetcher';
@@ -10,8 +10,6 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 export default function Add() {
-	const context = useContainerContext();
-	const heartbeatInfo = context.heartbeatInfo;
 	const router = useRouter();
 
 	const [properties, setProperties] = useState<UserAddRequest>({
@@ -28,11 +26,6 @@ export default function Add() {
 
 	function setProperty<T extends keyof typeof properties>(property: T, value: (typeof properties)[T]) {
 		setProperties({ ...properties, [property]: value });
-	}
-
-	if (!hasRoles(heartbeatInfo.heartbeat, ['ROLE_ADMIN'])) {
-		router.push('/');
-		return <></>;
 	}
 
 	return (
@@ -130,3 +123,5 @@ export default function Add() {
 		</div>
 	);
 }
+
+Add.Layout = Admin;

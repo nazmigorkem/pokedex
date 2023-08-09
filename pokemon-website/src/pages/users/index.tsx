@@ -1,5 +1,5 @@
-import { UserSearchResponse, hasRoles } from '#/Types/User';
-import { useContainerContext } from '#/components/main/view/Container';
+import { UserSearchResponse } from '#/Types/User';
+import Admin from '#/components/main/session/checker/Admin';
 import InfiniteScrollUserList from '#/components/main/view/InfiniteScrollUserList';
 import { SERVER_URL, fetchForInfiniteScroll } from '#/endpoints/Fetcher';
 import { USER_SERVER_ENDPOINTS } from '#/endpoints/User';
@@ -7,12 +7,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 export default function Users() {
-	const { heartbeatInfo } = useContainerContext();
 	const router = useRouter();
-	if (!hasRoles(heartbeatInfo.heartbeat, ['ROLE_ADMIN'])) {
-		router.push('/');
-		return <></>;
-	}
 
 	const [hasMore, setHasMore] = useState(true);
 	const [pageNumber, setPageNumber] = useState(0);
@@ -52,3 +47,5 @@ export default function Users() {
 		</div>
 	);
 }
+
+Users.Layout = Admin;

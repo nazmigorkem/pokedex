@@ -1,6 +1,6 @@
 import { ErrorResponse } from '#/Types/ErrorResponse';
-import { UserResponse, hasRoles } from '#/Types/User';
-import { useContainerContext } from '#/components/main/view/Container';
+import { UserResponse } from '#/Types/User';
+import Admin from '#/components/main/session/checker/Admin';
 import { fetcher } from '#/endpoints/Fetcher';
 import { USER_SERVER_ENDPOINTS } from '#/endpoints/User';
 import { GetServerSideProps } from 'next';
@@ -8,13 +8,7 @@ import { useRouter } from 'next/router';
 import useSWR from 'swr';
 
 export default function Name({ name }: { name: string }) {
-	const { heartbeatInfo } = useContainerContext();
 	const router = useRouter();
-
-	if (!hasRoles(heartbeatInfo.heartbeat, ['ROLE_ADMIN'])) {
-		router.push('/');
-		return <></>;
-	}
 
 	const { data: userData, error, isLoading } = useSWR<UserResponse | ErrorResponse>(`${USER_SERVER_ENDPOINTS.SEARCH}/${name}`, fetcher);
 	if (userData && 'errors' in userData) return <div className="text-center text-2xl font-bold mt-20">{userData.errors[0]}</div>;
@@ -58,6 +52,8 @@ export default function Name({ name }: { name: string }) {
 		</div>
 	);
 }
+
+Name.Layout = Admin;
 
 export const getServerSideProps: GetServerSideProps<{
 	name: string;
