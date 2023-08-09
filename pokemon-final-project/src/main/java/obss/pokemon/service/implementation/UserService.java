@@ -59,8 +59,8 @@ public class UserService implements UserServiceContract, UserDetailsService {
         user.setRoles(Set.of(roleRepository.findByNameIgnoreCase(DataLoader.TRAINER_ROLE).orElseThrow()));
         if (userSaveRequest.getRoles() != null && roles.stream().map(GrantedAuthority::getAuthority).anyMatch(t -> t.equals(DataLoader.ADMIN_ROLE))) {
             userSaveRequest.getRoles().forEach(role -> {
-                roleService.throwErrorIfRoleDoesNotExistWithNameIgnoreCase(role);
-                var roleEntity = roleRepository.findByNameIgnoreCase(role).orElseThrow();
+                roleService.throwErrorIfRoleDoesNotExistWithNameIgnoreCase(role.getName());
+                var roleEntity = roleRepository.findByNameIgnoreCase(role.getName()).orElseThrow();
                 var userRoles = new HashSet<>(user.getRoles());
                 userRoles.add(roleEntity);
                 user.setRoles(userRoles);

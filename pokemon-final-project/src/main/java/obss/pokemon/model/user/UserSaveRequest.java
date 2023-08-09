@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import obss.pokemon.model.role.RoleResponse;
 
 import java.util.List;
 
@@ -21,5 +22,5 @@ public class UserSaveRequest {
     @Size(min = 3, max = 20, message = "Password should be between 3 and 20 characters.")
     private String password;
 
-    private List<String> roles;
+    private List<RoleResponse> roles;
 }
