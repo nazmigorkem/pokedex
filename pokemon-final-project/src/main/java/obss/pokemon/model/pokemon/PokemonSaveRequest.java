@@ -20,7 +20,7 @@ public class PokemonSaveRequest {
     @Size(min = 1, message = "Types cannot be empty.")
     private Set<String> types;
 
-    //    @URL(message = "Image url must be a valid url.", host = "i.imgur.com")
+    @URL(message = "Image url must be a url from https://assets.pokemon.com.", host = "assets.pokemon.com")
     @NotBlank(message = "Image url cannot be blank.")
     @URL(message = "Image url must be a valid url.")
     @Size(max = 255, message = "Image url cannot be longer than 255 characters.")

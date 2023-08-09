@@ -11,7 +11,7 @@ public interface PokemonTypeServiceContract {
 
     List<PokemonTypeResponse> getPokemonTypeByNameStartsWith(String name);
 
-    PokemonType getPokemonTypeByName(String name);
+    PokemonType getPokemonTypeByNameIgnoreCase(String name);
 
     void deletePokemonType(String name);
 }

@@ -36,7 +36,7 @@ public class PokemonTypeService implements PokemonTypeServiceContract {
     }
 
     @Override
-    public PokemonType getPokemonTypeByName(String name) {
+    public PokemonType getPokemonTypeByNameIgnoreCase(String name) {
         throwErrorIfPokemonTypeDoesNotExistWithNameIgnoreCase(name);
         return pokemonTypeRepository.findByNameIgnoreCase(name).orElseThrow();
     }

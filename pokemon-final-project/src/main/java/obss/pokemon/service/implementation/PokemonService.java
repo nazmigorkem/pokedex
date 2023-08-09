@@ -1,6 +1,7 @@
 package obss.pokemon.service.implementation;
 
 import obss.pokemon.entity.Pokemon;
+import obss.pokemon.entity.PokemonType;
 import obss.pokemon.exceptions.ServiceException;
 import obss.pokemon.model.pokemon.PokemonResponse;
 import obss.pokemon.model.pokemon.PokemonSaveRequest;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,7 +32,7 @@ public class PokemonService implements PokemonServiceContract {
     @Override
     public PokemonResponse addPokemon(PokemonSaveRequest pokemonSaveRequest) {
         throwErrorIfPokemonExistsWithNameIgnoreCase(pokemonSaveRequest.getName());
-        var pokemonTypes = pokemonSaveRequest.getTypes().stream().map(pokemonTypeService::getPokemonTypeByName).collect(Collectors.toSet());
+        var pokemonTypes = pokemonSaveRequest.getTypes().stream().map(pokemonTypeService::getPokemonTypeByNameIgnoreCase).collect(Collectors.toSet());
         var newPokemon = modelMapper.map(pokemonSaveRequest, Pokemon.class);
         newPokemon.setTypes(pokemonTypes);
         return modelMapper.map(
@@ -62,7 +64,9 @@ public class PokemonService implements PokemonServiceContract {
         throwErrorIfPokemonExistsWithNameIgnoreCase(pokemonUpdateRequest.getName());
         var pokemon = pokemonRepository.getPokemonByNameIgnoreCase(pokemonUpdateRequest.getSearchName()).orElseThrow();
         if (pokemonUpdateRequest.getTypes() != null) {
-            pokemonUpdateRequest.getTypes().stream().map(pokemonTypeService::getPokemonTypeByName).forEach(pokemon::addType);
+            var pokemonTypes = new HashSet<PokemonType>();
+            pokemonUpdateRequest.getTypes().stream().map(pokemonTypeService::getPokemonTypeByNameIgnoreCase).forEach(pokemonTypes::add);
+            pokemon.setTypes(pokemonTypes);
         }
         modelMapper.map(pokemonUpdateRequest, pokemon);
         return modelMapper.map(pokemonRepository.save(pokemon), PokemonResponse.class);
