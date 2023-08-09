@@ -1,7 +1,7 @@
-import React from 'react';
-import PokemonTypeChips from './PokemonTypeChips';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
+import React from 'react';
+import PokemonTypeChips from './PokemonTypeChips';
 
 const Pokecard = React.forwardRef(
 	(
@@ -24,7 +24,7 @@ const Pokecard = React.forwardRef(
 						<PokemonTypeChips key={index} typeName={type.name} typeColor={type.color} />
 					))}
 				</div>
-				<p className="pokecard_description text-sm h-2/5 overflow-hidden hover:overflow-y-auto p-2 pr-3 hover:pr-1 scroll-m-1 bg-neutral text-neutral-content font-semibold">
+				<p className="pokecard_description text-sm h-2/5 overflow-hidden hover:overflow-y-auto p-2 pr-3 hover:pr-1 scroll-m-1 bg-neutral bg-opacity-25 text-base-content font-semibold">
 					{pokemon.description}
 				</p>
 				<div className="w-full flex gap-5">

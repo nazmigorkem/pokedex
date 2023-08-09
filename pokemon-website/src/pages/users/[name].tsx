@@ -29,21 +29,23 @@ export default function Name({ name }: { name: string }) {
 
 	return (
 		<div className="m-20 flex flex-col gap-5">
-			<div className="flex justify-between">
+			<div className="flex justify-between transition-none">
 				<h1 className="text-5xl font-bold">{name}</h1>
-				<button
-					onClick={async () => {
-						const res = await fetch(`${USER_SERVER_ENDPOINTS.DELETE}/${name}`, {
-							method: 'DELETE',
-						});
-						if (res.status === 200) {
-							router.replace('/users');
-						}
-					}}
-					className="btn btn-error btn-square btn-ghost btn-outline ml-auto"
-				>
-					<i className="fas fa-trash" />
-				</button>
+				<div className="ml-auto">
+					<button
+						onClick={async () => {
+							const res = await fetch(`${USER_SERVER_ENDPOINTS.DELETE}/${name}`, {
+								method: 'DELETE',
+							});
+							if (res.status === 200) {
+								router.replace('/users');
+							}
+						}}
+						className="btn btn-error btn-square btn-ghost btn-outline"
+					>
+						<i className="fas fa-trash" />
+					</button>
+				</div>
 			</div>
 			<div className="flex flex-col gap-3">
 				<h1 className="text-3xl">Roles</h1>

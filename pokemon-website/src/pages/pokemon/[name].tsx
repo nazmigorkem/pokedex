@@ -85,7 +85,7 @@ export default function PokemonPage({ name }: { name: string }) {
 				)}
 			</div>
 			<div className="flex">
-				<img src={pokemonData.imageUrl} className="aspect-square rounded-md bg-neutral w-[475px]" alt="Pokemon image" />
+				<img src={pokemonData.imageUrl} className="aspect-square rounded-md bg-base-300 w-[475px]" alt="Pokemon image" />
 				<div className="flex-1 flex flex-col justify-between pl-5">
 					<div className="bg-base-300 p-3 text-base-content h-1/2">{pokemonData.description}</div>
 					<div className="flex justify-between items-start">

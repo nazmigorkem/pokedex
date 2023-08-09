@@ -23,8 +23,16 @@ body {
 	@apply text-base-content;
 }
 
+* {
+	@apply transition-[background-color] duration-700;
+}
+
 .pokecard_description::-webkit-scrollbar {
 	@apply bg-neutral w-2;
+}
+
+select > option {
+	@apply bg-base-100 text-base-content;
 }
 
 .pokecard_description::-webkit-scrollbar-thumb {

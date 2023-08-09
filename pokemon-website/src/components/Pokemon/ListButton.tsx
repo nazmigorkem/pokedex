@@ -1,6 +1,5 @@
 import { SERVER_URL } from '#/endpoints/Fetcher';
 import { mutate } from 'swr';
-import React from 'react';
 
 export default function ListStateButton({
 	pokemonData,
@@ -17,7 +16,7 @@ export default function ListStateButton({
 		<>
 			{isExists && (
 				<i
-					className={`fas ${iconString} text-white text-3xl cursor-pointer`}
+					className={`fas ${iconString} text-base-content text-3xl cursor-pointer`}
 					onClick={async () => {
 						const response = await fetch(`${SERVER_URL}${listEndpoint.DELETE}`, {
 							method: 'POST',
@@ -37,7 +36,7 @@ export default function ListStateButton({
 			)}
 			{!isExists && (
 				<i
-					className={`far ${iconString} text-white text-3xl cursor-pointer`}
+					className={`far ${iconString} text-base-content text-3xl cursor-pointer`}
 					onClick={async () => {
 						const response = await fetch(
 							`${SERVER_URL}${listEndpoint.ADD}?${new URLSearchParams({
