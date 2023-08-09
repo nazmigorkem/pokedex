@@ -44,7 +44,7 @@ public class PokemonController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/update")
+    @PutMapping("/edit")
     public ResponseEntity<PokemonResponse> updatePokemon(@Valid @RequestBody PokemonUpdateRequest pokemonUpdateRequest) {
         return ResponseEntity.ok(pokemonService.updatePokemon(pokemonUpdateRequest));
     }
