@@ -1,6 +1,6 @@
 import Pokecard from '#/components/Pokemon/Pokecard';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import { useEffect } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 export default function InfiniteScrollPokelist({
 	items,
@@ -25,7 +25,7 @@ export default function InfiniteScrollPokelist({
 				loader={<div className="loading loading-lg flex justify-center mt-5"></div>}
 				endMessage={<></>}
 			>
-				<div className="grid grid-cols-5 gap-5">
+				<div className="grid grid-cols-5 gap-5 p-10">
 					{items.map((data, index) => (
 						<Pokecard
 							variants={{
@@ -41,6 +41,18 @@ export default function InfiniteScrollPokelist({
 										bounce: false,
 									},
 								}),
+							}}
+							whileHover={{
+								scale: 1.05,
+								transition: {
+									duration: 0.1,
+								},
+							}}
+							whileTap={{
+								scale: 0.95,
+								transition: {
+									duration: 0.1,
+								},
 							}}
 							animate="visible"
 							initial="hidden"
