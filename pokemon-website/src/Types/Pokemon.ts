@@ -1,4 +1,4 @@
-type PokemonResponse = {
+type PokemonResponse = Record<string, string | number | [PokemonTypeResponse] | [PokemonTypeResponse, PokemonTypeResponse]> & {
 	name: string;
 	imageUrl: string;
 	types: [PokemonTypeResponse] | [PokemonTypeResponse, PokemonTypeResponse];
@@ -16,7 +16,7 @@ type PokemonTypeResponse = {
 	color: string;
 };
 
-type PokemonAddRequest = {
+type PokemonAddRequest = Record<string, string | number | [string] | [string, string]> & {
 	name: string;
 	imageUrl: string;
 	types: [string] | [string, string];
@@ -28,3 +28,8 @@ type PokemonAddRequest = {
 	specialDefense: number;
 	speed: number;
 };
+
+type PokemonEditRequest = Record<string, string | number | [string] | [string, string]> &
+	PokemonAddRequest & {
+		searchName: string;
+	};

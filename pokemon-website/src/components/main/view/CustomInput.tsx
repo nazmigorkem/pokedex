@@ -6,17 +6,20 @@ export default function CustomInput({
 	type,
 	placeholder,
 	maxLength,
+	value,
 }: {
 	label: string;
 	onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 	type: HTMLInputTypeAttribute;
 	placeholder: string;
 	maxLength?: number;
+	value?: string;
 }) {
 	return (
 		<div>
 			<label className="label">{label}</label>
 			<input
+				value={value}
 				min={0}
 				minLength={maxLength}
 				maxLength={maxLength ?? 255}

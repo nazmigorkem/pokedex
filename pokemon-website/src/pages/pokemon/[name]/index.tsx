@@ -6,8 +6,9 @@ import StatChip from '#/components/Pokemon/StatChip';
 import Trainer from '#/components/main/session/auth/Trainer';
 import { useContainerContext } from '#/components/main/view/Container';
 import ErrorList from '#/components/main/view/ErrorList';
+import FullScreenLoadingSpinner from '#/components/main/view/FullScreenLoadingSpinner';
 import { SERVER_URL, fetcher } from '#/endpoints/Fetcher';
-import { POKEMON_SERVER_ENDPOINTS } from '#/endpoints/Pokemon';
+import { POKEMON_SERVER_ENDPOINTS, usePokemon } from '#/endpoints/Pokemon';
 import { USER_SERVER_ENDPOINTS } from '#/endpoints/User';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
@@ -19,7 +20,7 @@ export default function PokemonPage({ name }: { name: string }) {
 	const router = useRouter();
 
 	const [errors, setErrors] = useState<string[]>([]);
-	const { data: pokemonData } = useSWR<PokemonResponse | ErrorResponse>(`${POKEMON_SERVER_ENDPOINTS.SEARCH}/${name}`, fetcher);
+	const { data: pokemonData } = usePokemon(name);
 	const { data: isExistsInCatchList } = useSWR<boolean>(
 		pokemonData && 'name' in pokemonData
 			? `${USER_SERVER_ENDPOINTS.CATCH_LIST.IS_EXIST}?${new URLSearchParams({
@@ -37,13 +38,9 @@ export default function PokemonPage({ name }: { name: string }) {
 		fetcher
 	);
 
-	if (pokemonData && 'errors' in pokemonData) return <div className="text-center text-2xl font-bold mt-20">{pokemonData.errors[0]}</div>;
-	if (!pokemonData || isExistsInCatchList === undefined || isExistsInWishList === undefined)
-		return (
-			<div className="w-full min-h-screen flex items-center justify-center">
-				<div className="loading loading-lg"></div>
-			</div>
-		);
+	if (pokemonData && 'errors' in pokemonData)
+		return <div className="text-center text-2xl font-bold mt-20">{(pokemonData as ErrorResponse).errors[0]}</div>;
+	if (!pokemonData || isExistsInCatchList === undefined || isExistsInWishList === undefined) return <FullScreenLoadingSpinner />;
 
 	return (
 		<div className="m-20 min-h-[70vh] flex flex-col gap-10">

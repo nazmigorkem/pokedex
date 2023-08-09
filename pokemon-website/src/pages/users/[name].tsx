@@ -1,6 +1,7 @@
 import { ErrorResponse } from '#/Types/ErrorResponse';
 import { UserResponse } from '#/Types/User';
 import Admin from '#/components/main/session/auth/Admin';
+import FullScreenLoadingSpinner from '#/components/main/view/FullScreenLoadingSpinner';
 import { fetcher } from '#/endpoints/Fetcher';
 import { USER_SERVER_ENDPOINTS } from '#/endpoints/User';
 import { GetServerSideProps } from 'next';
@@ -14,11 +15,7 @@ export default function Name({ name }: { name: string }) {
 	if (userData && 'errors' in userData) return <div className="text-center text-2xl font-bold mt-20">{userData.errors[0]}</div>;
 
 	if (isLoading || userData === undefined) {
-		return (
-			<div className="w-full min-h-screen flex items-center justify-center">
-				<div className="loading loading-lg"></div>
-			</div>
-		);
+		return <FullScreenLoadingSpinner />;
 	}
 
 	return (
