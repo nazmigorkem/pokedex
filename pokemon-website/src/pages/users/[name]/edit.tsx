@@ -71,6 +71,12 @@ export default function Edit({ name }: { name: string }) {
 			/>
 			<RoleSelection properties={properties} setProperties={setProperties} roles={roles} />
 			<button
+				disabled={
+					properties.roles[0].name === 'ROLE_ANONYMOUS' ||
+					(properties.username === undefined &&
+						properties.roles.every((x) => userData?.roles.some((y) => y.name === x.name)) &&
+						properties.password === '')
+				}
 				onClick={async () => {
 					const response = await fetch(`${SERVER_URL}${USER_SERVER_ENDPOINTS.EDIT}`, {
 						method: 'PUT',

@@ -3,6 +3,7 @@ import { UserAddRequest } from '#/Types/User';
 import Admin from '#/components/main/session/auth/Admin';
 import CustomInput from '#/components/main/view/CustomInput';
 import ErrorList from '#/components/main/view/ErrorList';
+import RoleSelection from '#/components/user/RoleSelection';
 import { SERVER_URL } from '#/endpoints/Fetcher';
 import { useRoles } from '#/endpoints/Role';
 import { USER_SERVER_ENDPOINTS } from '#/endpoints/User';
@@ -15,7 +16,7 @@ export default function Add() {
 	const [properties, setProperties] = useState<UserAddRequest>({
 		username: '',
 		password: '',
-		roles: [],
+		roles: [{ name: 'ROLE_TRAINER' }],
 	});
 
 	const [passwordConfirmation, setPasswordConfirmation] = useState('');
@@ -40,7 +41,7 @@ export default function Add() {
 				type="text"
 			/>
 
-			{/*  */}
+			<RoleSelection roles={roles} properties={properties} setProperties={setProperties} />
 
 			<CustomInput
 				label="Password"
