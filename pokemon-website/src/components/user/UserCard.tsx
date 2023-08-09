@@ -1,4 +1,4 @@
-import { UserSearchResponse } from '#/Types/UserResponse';
+import { UserSearchResponse } from '#/Types/User';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 import React from 'react';

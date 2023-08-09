@@ -15,6 +15,12 @@ export type UserResponse = {
 	wishlist: PokemonResponse[];
 };
 
+export type UserAddRequest = {
+	username: string;
+	password: string;
+	roles: Role[];
+};
+
 export type RoleResponse = {
 	name: Role;
 };

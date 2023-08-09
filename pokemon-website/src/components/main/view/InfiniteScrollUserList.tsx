@@ -1,7 +1,7 @@
-import InfiniteScroll from 'react-infinite-scroll-component';
-import { useEffect } from 'react';
-import { UserSearchResponse } from '#/Types/UserResponse';
+import { UserSearchResponse } from '#/Types/User';
 import UserCard from '#/components/user/UserCard';
+import { useEffect } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 export default function InfiniteScrollUserList({
 	items,

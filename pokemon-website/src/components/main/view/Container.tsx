@@ -1,4 +1,4 @@
-import { UserHeartbeatResponse } from '#/Types/UserResponse';
+import { UserHeartbeatResponse } from '#/Types/User';
 import { USER_SERVER_ENDPOINTS, useHeartBeat } from '#/endpoints/User';
 import { createContext, useContext, useEffect } from 'react';
 import { mutate } from 'swr';

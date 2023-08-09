@@ -1,4 +1,4 @@
-import { UserHeartbeatResponse } from '#/Types/UserResponse';
+import { UserHeartbeatResponse } from '#/Types/User';
 import useSWR from 'swr';
 import { fetcher } from './Fetcher';
 
@@ -7,6 +7,7 @@ export const USER_SERVER_ENDPOINTS = {
 	LOGIN: '/api/@me/login',
 	LOGOUT: '/api/@me/logout',
 	SIGNUP: '/api/@me/signup',
+	ADD: '/api/user/add',
 	SEARCH: '/api/user/search',
 	DELETE: '/api/user/delete',
 

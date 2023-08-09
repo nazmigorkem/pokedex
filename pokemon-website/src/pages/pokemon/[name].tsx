@@ -1,5 +1,5 @@
 import { ErrorResponse } from '#/Types/ErrorResponse';
-import { hasRoles } from '#/Types/UserResponse';
+import { hasRoles } from '#/Types/User';
 import ListStateButton from '#/components/Pokemon/ListButton';
 import PokemonTypeChips from '#/components/Pokemon/PokemonTypeChips';
 import StatChip from '#/components/Pokemon/StatChip';

@@ -1,4 +1,4 @@
-import { hasRoles } from '#/Types/UserResponse';
+import { hasRoles } from '#/Types/User';
 import { useContainerContext } from '#/components/main/view/Container';
 import InfiniteScrollPokelist from '#/components/main/view/InfiniteScrollPokelist';
 import { SERVER_URL, fetchForInfiniteScroll } from '#/endpoints/Fetcher';

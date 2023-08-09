@@ -1,5 +1,5 @@
 import { ErrorResponse } from '#/Types/ErrorResponse';
-import { UserResponse, hasRoles } from '#/Types/UserResponse';
+import { UserResponse, hasRoles } from '#/Types/User';
 import { useContainerContext } from '#/components/main/view/Container';
 import { fetcher } from '#/endpoints/Fetcher';
 import { USER_SERVER_ENDPOINTS } from '#/endpoints/User';

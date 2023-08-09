@@ -1,5 +1,5 @@
 import { ErrorResponse } from '#/Types/ErrorResponse';
-import { hasRoles } from '#/Types/UserResponse';
+import { hasRoles } from '#/Types/User';
 import { useContainerContext } from '#/components/main/view/Container';
 import CustomInput from '#/components/main/view/CustomInput';
 import ErrorList from '#/components/main/view/ErrorList';

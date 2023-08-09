@@ -1,8 +1,8 @@
 import { SERVER_URL } from '#/endpoints/Fetcher';
+import { USER_SERVER_ENDPOINTS } from '#/endpoints/User';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useContainerContext } from '../Container';
-import Link from 'next/link';
-import { USER_SERVER_ENDPOINTS } from '#/endpoints/User';
 
 export default function AdminSidebar() {
 	const { heartbeatInfo } = useContainerContext();
@@ -25,6 +25,9 @@ export default function AdminSidebar() {
 			</Link>
 			<Link className="btn btn-accent w-1/2" href="/users" passHref>
 				Users
+			</Link>
+			<Link className="btn btn-accent w-1/2" href="/users/add" passHref>
+				Add User
 			</Link>
 			<button
 				onClick={async () => {

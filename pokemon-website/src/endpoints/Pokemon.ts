@@ -1,4 +1,4 @@
-import useSWRImmutable from 'swr/immutable';
+import useSWR from 'swr';
 import { fetcher } from './Fetcher';
 
 export const POKEMON_BACKEND_ENDPOINTS = {
@@ -20,10 +20,7 @@ export const POKEMON_SERVER_ENDPOINTS = {
 } as const;
 
 export const usePokemonTypes = () => {
-	const { data, error, isLoading } = useSWRImmutable<PokemonTypeResponse[]>(POKEMON_SERVER_ENDPOINTS.TYPES.GET, fetcher, {
-		revalidateOnFocus: false,
-		revalidateOnReconnect: false,
-	});
+	const { data, error, isLoading } = useSWR<PokemonTypeResponse[]>(POKEMON_SERVER_ENDPOINTS.TYPES.GET, fetcher);
 
 	return {
 		data: data,

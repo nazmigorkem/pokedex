@@ -1,4 +1,3 @@
-import { ROLES } from '#/Types/User';
 import { BACKEND_URL } from '#/endpoints/Fetcher';
 import { USER_BACKEND_ENDPOINTS } from '#/endpoints/User';
 import { sessionOptions } from '#/session/options';
@@ -10,19 +9,23 @@ export default withIronSessionApiRoute(handle, sessionOptions);
 
 async function handle(req: NextApiRequest, res: NextApiResponse) {
 	if (!req.session.user?.JSESSIONID) {
-		return res.status(401).send({ username: '', roles: [ROLES.anonymous] });
+		return res.status(401).send({ username: undefined });
 	}
 
-	const response = await fetch(`${BACKEND_URL}${USER_BACKEND_ENDPOINTS.SEARCH}/${req.session.user.username}/heartbeat`, {
-		method: 'GET',
+	const response = await fetch(`${BACKEND_URL}${USER_BACKEND_ENDPOINTS.ADD}`, {
 		headers: {
 			Cookie: cookie.serialize('JSESSIONID', req.session.user.JSESSIONID),
+			'Content-Type': 'application/json',
 		},
+		method: 'POST',
+		body: JSON.stringify(req.body),
 	});
 
 	if (!response.ok) {
-		return res.status(response.status).send({ username: '', roles: [ROLES.anonymous] });
+		return res.status(response.status).send(response.status === 400 ? await response.json() : { errors: ['Failed to fetch.'] });
 	}
 
-	res.status(200).json(await response.json());
+	const data = await response.json();
+
+	res.status(200).json(data);
 }
