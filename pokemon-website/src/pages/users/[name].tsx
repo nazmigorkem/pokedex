@@ -47,7 +47,7 @@ export default function Name({ name }: { name: string }) {
 			</div>
 			<div className="flex flex-col gap-3">
 				<h1 className="text-3xl">Roles</h1>
-				<div className="grid grid-cols-5">
+				<div className="grid grid-cols-5 gap-5 text-center font-bold">
 					{userData.roles.map((role) => {
 						return <div className="bg-primary text-primary-content rounded-md p-3 select-none col-span-1">{role.name}</div>;
 					})}

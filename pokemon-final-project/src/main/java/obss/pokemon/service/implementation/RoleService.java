@@ -22,4 +22,14 @@ public class RoleService implements RoleContract {
     public List<RoleResponse> getAllRoles() {
         return roleRepository.findAll().stream().map(role -> modelMapper.map(role, RoleResponse.class)).toList();
     }
+
+    //*****************//
+    //* GUARD CLAUSES *//
+    //*************** *//
+
+    public void throwErrorIfRoleDoesNotExistWithNameIgnoreCase(String name) {
+        if (!roleRepository.existsByNameIgnoreCase(name)) {
+            throw new IllegalArgumentException("Role with name " + name + " does not exist.");
+        }
+    }
 }

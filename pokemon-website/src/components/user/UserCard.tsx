@@ -14,13 +14,11 @@ const UserCard = React.forwardRef(({ data }: { data: UserSearchResponse }, ref: 
 			className="mx-auto w-full p-5 rounded-md font-bold flex items-center justify-between text-base-content cursor-pointer bg-base-300 hover:bg-base-200 transition-colors duration-200"
 		>
 			{data.username}
-			{data.roles.map((role, index) => {
-				return (
-					<div key={index} className="flex gap-5 text-xs">
-						<span className="bg-primary text-primary-content rounded-md p-3 select-none">{role}</span>
-					</div>
-				);
-			})}
+			<div className="text-xs flex gap-3">
+				{data.roles.map((role, index) => {
+					return <span className="bg-primary text-primary-content rounded-md p-3 select-none">{role}</span>;
+				})}
+			</div>
 		</button>
 	);
 });

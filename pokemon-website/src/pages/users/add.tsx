@@ -52,7 +52,7 @@ export default function Add() {
 				<select
 					onChange={(e) => {
 						const propertyClone = { ...properties };
-						propertyClone.roles[0] = { name: e.target.value } as unknown as Role;
+						propertyClone.roles[0] = e.target.value as unknown as Role;
 						setProperties({ ...propertyClone });
 					}}
 					className="select select-accent w-full"

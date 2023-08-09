@@ -15,12 +15,15 @@ import org.hibernate.Hibernate;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Service
@@ -32,23 +35,36 @@ public class UserService implements UserServiceContract, UserDetailsService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final PokemonRepository pokemonRepository;
+    private final RoleService roleService;
 
-    public UserService(ModelMapper modelMapper, UserRepository userRepository, PokemonService pokemonService, RoleRepository roleRepository, PasswordEncoder passwordEncoder, PokemonRepository pokemonRepository) {
+    public UserService(ModelMapper modelMapper, UserRepository userRepository, PokemonService pokemonService, RoleRepository roleRepository, PasswordEncoder passwordEncoder, PokemonRepository pokemonRepository, RoleService roleService) {
         this.modelMapper = modelMapper;
         this.userRepository = userRepository;
         this.pokemonService = pokemonService;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.pokemonRepository = pokemonRepository;
+        this.roleService = roleService;
     }
 
     @Override
     public UserResponse addUser(UserSaveRequest userSaveRequest) {
         throwErrorIfUserExistsWithNameIgnoreCase(userSaveRequest.getUsername());
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+        var roles = authentication.getAuthorities();
         var user = new User();
         user.setUsername(userSaveRequest.getUsername());
         user.setPassword(passwordEncoder.encode(userSaveRequest.getPassword()));
         user.setRoles(Set.of(roleRepository.findByName(DataLoader.TRAINER_ROLE).orElseThrow()));
+        if (userSaveRequest.getRoles() != null && roles.stream().map(GrantedAuthority::getAuthority).anyMatch(t -> t.equals(DataLoader.ADMIN_ROLE))) {
+            userSaveRequest.getRoles().forEach(role -> {
+                roleService.throwErrorIfRoleDoesNotExistWithNameIgnoreCase(role);
+                var roleEntity = roleRepository.findByName(role).orElseThrow();
+                var userRoles = new HashSet<>(user.getRoles());
+                userRoles.add(roleEntity);
+                user.setRoles(userRoles);
+            });
+        }
         userRepository.save(user);
         return modelMapper.map(user, UserResponse.class);
     }
