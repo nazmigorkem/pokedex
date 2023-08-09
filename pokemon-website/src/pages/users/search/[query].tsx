@@ -1,32 +1,33 @@
-import { UserSearchResponse, hasRoles } from '#/Types/UserResponse';
+import { hasRoles } from '#/Types/UserResponse';
 import { useContainerContext } from '#/components/main/view/Container';
 import InfiniteScrollUserList from '#/components/main/view/InfiniteScrollUserList';
 import { SERVER_URL, fetchForInfiniteScroll } from '#/endpoints/Fetcher';
 import { USER_SERVER_ENDPOINTS } from '#/endpoints/User';
+import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
-export default function Users() {
+export default function Search({ query }: { query: string }) {
 	const { heartbeatInfo } = useContainerContext();
 	const router = useRouter();
-	if (!hasRoles(heartbeatInfo.heartbeat, ['ROLE_ADMIN'])) {
-		router.push('/');
-		return <></>;
-	}
-
 	const [hasMore, setHasMore] = useState(true);
 	const [pageNumber, setPageNumber] = useState(0);
-	const [items, setItems] = useState([] as UserSearchResponse[]);
+	const [items, setItems] = useState([] as any[]);
 	const [searchValue, setSearchValue] = useState('');
 	const fetchUsers = fetchForInfiniteScroll(
 		`${SERVER_URL}${USER_SERVER_ENDPOINTS.SEARCH}`,
 		pageNumber,
 		items,
-		searchValue,
+		query,
 		setHasMore,
 		setPageNumber,
 		setItems
 	);
+
+	if (!hasRoles(heartbeatInfo.heartbeat, ['ROLE_TRAINER', 'ROLE_ADMIN'])) {
+		router.push('/');
+		return <></>;
+	}
 
 	return (
 		<div className="flex flex-col items-center mt-20">
@@ -41,7 +42,7 @@ export default function Users() {
 				/>
 				<button
 					onClick={() => {
-						router.push(`/users/search/${searchValue}`);
+						router.replace(`/users/search/${searchValue}`, undefined, { unstable_skipClientCache: true }).then(() => router.reload());
 					}}
 					className="btn btn-outline btn-accent"
 				>
@@ -52,3 +53,9 @@ export default function Users() {
 		</div>
 	);
 }
+
+export const getServerSideProps: GetServerSideProps<{
+	query: string;
+}> = async ({ query }) => {
+	return { props: { query: query.query as string } };
+};
