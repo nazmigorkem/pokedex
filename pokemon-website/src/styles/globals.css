@@ -38,3 +38,31 @@ select > option {
 .pokecard_description::-webkit-scrollbar-thumb {
 	@apply bg-neutral-content;
 }
+
+.primary {
+	animation: primary 5s linear infinite;
+	@apply transform-gpu;
+}
+
+.secondary {
+	animation: secondary 5s linear infinite;
+	@apply transform-gpu;
+}
+
+@keyframes primary {
+	from {
+		top: 0%;
+	}
+	to {
+		top: -62.5rem;
+	}
+}
+
+@keyframes secondary {
+	from {
+		top: 0%;
+	}
+	to {
+		top: -62.5rem;
+	}
+}
