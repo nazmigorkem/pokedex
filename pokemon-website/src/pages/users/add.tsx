@@ -1,6 +1,6 @@
 import { ErrorResponse } from '#/Types/ErrorResponse';
 import { Role, UserAddRequest } from '#/Types/User';
-import Admin from '#/components/main/session/checker/Admin';
+import Admin from '#/components/main/session/auth/Admin';
 import CustomInput from '#/components/main/view/CustomInput';
 import ErrorList from '#/components/main/view/ErrorList';
 import { SERVER_URL } from '#/endpoints/Fetcher';
@@ -124,4 +124,4 @@ export default function Add() {
 	);
 }
 
-Add.Layout = Admin;
+Add.Auth = Admin;

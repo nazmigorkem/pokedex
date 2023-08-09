@@ -1,6 +1,6 @@
 import { ErrorResponse } from '#/Types/ErrorResponse';
 import { UserResponse } from '#/Types/User';
-import Admin from '#/components/main/session/checker/Admin';
+import Admin from '#/components/main/session/auth/Admin';
 import { fetcher } from '#/endpoints/Fetcher';
 import { USER_SERVER_ENDPOINTS } from '#/endpoints/User';
 import { GetServerSideProps } from 'next';
@@ -53,7 +53,7 @@ export default function Name({ name }: { name: string }) {
 	);
 }
 
-Name.Layout = Admin;
+Name.Auth = Admin;
 
 export const getServerSideProps: GetServerSideProps<{
 	name: string;

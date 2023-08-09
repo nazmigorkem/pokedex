@@ -1,4 +1,4 @@
-import Admin from '#/components/main/session/checker/Admin';
+import Admin from '#/components/main/session/auth/Admin';
 import InfiniteScrollUserList from '#/components/main/view/InfiniteScrollUserList';
 import { SERVER_URL, fetchForInfiniteScroll } from '#/endpoints/Fetcher';
 import { USER_SERVER_ENDPOINTS } from '#/endpoints/User';
@@ -47,7 +47,7 @@ export default function Search({ query }: { query: string }) {
 	);
 }
 
-Search.Layout = Admin;
+Search.Auth = Admin;
 
 export const getServerSideProps: GetServerSideProps<{
 	query: string;

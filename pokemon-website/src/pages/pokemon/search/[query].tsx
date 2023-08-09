@@ -1,5 +1,4 @@
-import { hasRoles } from '#/Types/User';
-import { useContainerContext } from '#/components/main/view/Container';
+import Trainer from '#/components/main/session/auth/Trainer';
 import InfiniteScrollPokelist from '#/components/main/view/InfiniteScrollPokelist';
 import { SERVER_URL, fetchForInfiniteScroll } from '#/endpoints/Fetcher';
 import { POKEMON_SERVER_ENDPOINTS } from '#/endpoints/Pokemon';
@@ -8,7 +7,6 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 export default function Search({ query }: { query: string }) {
-	const { heartbeatInfo } = useContainerContext();
 	const router = useRouter();
 	const [hasMore, setHasMore] = useState(true);
 	const [pageNumber, setPageNumber] = useState(0);
@@ -23,11 +21,6 @@ export default function Search({ query }: { query: string }) {
 		setPageNumber,
 		setItems
 	);
-
-	if (!hasRoles(heartbeatInfo.heartbeat, ['ROLE_TRAINER', 'ROLE_ADMIN'])) {
-		router.push('/');
-		return <></>;
-	}
 
 	return (
 		<div className="flex flex-col items-center mt-20">
@@ -53,6 +46,8 @@ export default function Search({ query }: { query: string }) {
 		</div>
 	);
 }
+
+Search.Auth = Trainer;
 
 export const getServerSideProps: GetServerSideProps<{
 	query: string;

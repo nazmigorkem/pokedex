@@ -3,6 +3,7 @@ import { hasRoles } from '#/Types/User';
 import ListStateButton from '#/components/Pokemon/ListButton';
 import PokemonTypeChips from '#/components/Pokemon/PokemonTypeChips';
 import StatChip from '#/components/Pokemon/StatChip';
+import Trainer from '#/components/main/session/auth/Trainer';
 import { useContainerContext } from '#/components/main/view/Container';
 import ErrorList from '#/components/main/view/ErrorList';
 import { SERVER_URL, fetcher } from '#/endpoints/Fetcher';
@@ -16,10 +17,6 @@ import useSWR from 'swr';
 export default function PokemonPage({ name }: { name: string }) {
 	const { heartbeatInfo } = useContainerContext();
 	const router = useRouter();
-	if (!hasRoles(heartbeatInfo.heartbeat, ['ROLE_TRAINER', 'ROLE_ADMIN'])) {
-		router.push('/');
-		return <></>;
-	}
 
 	const [errors, setErrors] = useState<string[]>([]);
 	const { data: pokemonData } = useSWR<PokemonResponse | ErrorResponse>(`${POKEMON_SERVER_ENDPOINTS.SEARCH}/${name}`, fetcher);
@@ -111,6 +108,8 @@ export default function PokemonPage({ name }: { name: string }) {
 		</div>
 	);
 }
+
+PokemonPage.Auth = Trainer;
 
 export const getServerSideProps: GetServerSideProps<{
 	name: string;

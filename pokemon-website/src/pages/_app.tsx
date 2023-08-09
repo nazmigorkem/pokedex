@@ -7,27 +7,26 @@ export default function App({
 	Component,
 	pageProps,
 }: {
-	Component: AppProps['Component'] & { Layout?: ({ children }: { children: JSX.Element | JSX.Element[] }) => JSX.Element };
+	Component: AppProps['Component'] & { Auth?: ({ children }: { children: JSX.Element | JSX.Element[] }) => JSX.Element };
 	pageProps: AppProps['pageProps'];
 }) {
 	return (
 		<>
 			<Container>
-				{Component.Layout ? (
-					<Component.Layout>
-						<Sidebar />
-						<div className="w-5/6 float-right min-h-screen">
+				<Sidebar />
+				<div className="w-5/6 float-right min-h-screen">
+					{Component.Auth ? (
+						<>
+							<Component.Auth>
+								<Component {...pageProps} />
+							</Component.Auth>
+						</>
+					) : (
+						<>
 							<Component {...pageProps} />
-						</div>
-					</Component.Layout>
-				) : (
-					<>
-						<Sidebar />
-						<div className="w-5/6 float-right min-h-screen">
-							<Component {...pageProps} />
-						</div>
-					</>
-				)}
+						</>
+					)}
+				</div>
 			</Container>
 		</>
 	);

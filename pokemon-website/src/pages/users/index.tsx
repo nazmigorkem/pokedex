@@ -1,5 +1,5 @@
 import { UserSearchResponse } from '#/Types/User';
-import Admin from '#/components/main/session/checker/Admin';
+import Admin from '#/components/main/session/auth/Admin';
 import InfiniteScrollUserList from '#/components/main/view/InfiniteScrollUserList';
 import { SERVER_URL, fetchForInfiniteScroll } from '#/endpoints/Fetcher';
 import { USER_SERVER_ENDPOINTS } from '#/endpoints/User';
@@ -48,4 +48,4 @@ export default function Users() {
 	);
 }
 
-Users.Layout = Admin;
+Users.Auth = Admin;
