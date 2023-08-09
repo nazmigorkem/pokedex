@@ -1,5 +1,5 @@
 import { BACKEND_URL } from '#/endpoints/Fetcher';
-import { USER_BACKEND_ENDPOINTS } from '#/endpoints/User';
+import { POKEMON_BACKEND_ENDPOINTS } from '#/endpoints/Pokemon';
 import { sessionOptions } from '#/session/options';
 import cookie from 'cookie';
 import { withIronSessionApiRoute } from 'iron-session/next';
@@ -14,7 +14,7 @@ async function handle(req: NextApiRequest, res: NextApiResponse) {
 
 	const { name } = req.query;
 
-	const response = await fetch(`${BACKEND_URL}${USER_BACKEND_ENDPOINTS.DELETE}/${name}`, {
+	const response = await fetch(`${BACKEND_URL}${POKEMON_BACKEND_ENDPOINTS.DELETE}/${name}`, {
 		headers: {
 			Cookie: cookie.serialize('JSESSIONID', req.session.user.JSESSIONID),
 		},

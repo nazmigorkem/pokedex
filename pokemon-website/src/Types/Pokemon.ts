@@ -29,7 +29,16 @@ type PokemonAddRequest = Record<string, string | number | [string] | [string, st
 	speed: number;
 };
 
-type PokemonEditRequest = Record<string, string | number | [string] | [string, string]> &
-	PokemonAddRequest & {
-		searchName: string;
-	};
+type PokemonEditRequest = Record<string, string | number | [string] | [string, string]> & {
+	searchName: string;
+	name?: string;
+	imageUrl: string;
+	types: [string] | [string, string];
+	description: string;
+	health: number;
+	attack: number;
+	defense: number;
+	specialAttack: number;
+	specialDefense: number;
+	speed: number;
+};

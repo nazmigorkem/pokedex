@@ -60,22 +60,32 @@ export default function PokemonPage({ name }: { name: string }) {
 					listEndpoint={USER_SERVER_ENDPOINTS.WISH_LIST}
 				/>
 				{hasRoles(heartbeatInfo.heartbeat, ['ROLE_ADMIN']) && (
-					<button
-						onClick={async () => {
-							const response = await fetch(`${SERVER_URL}${POKEMON_SERVER_ENDPOINTS.DELETE}/${pokemonData.name}`, {
-								method: 'DELETE',
-							});
+					<div className="ml-auto flex gap-3">
+						<button
+							onClick={async () => {
+								router.push(`/pokemon/${name}/edit`);
+							}}
+							className="btn btn-neutral btn-square btn-outline"
+						>
+							<i className="fas fa-pen" />
+						</button>
+						<button
+							onClick={async () => {
+								const response = await fetch(`${SERVER_URL}${POKEMON_SERVER_ENDPOINTS.DELETE}/${pokemonData.name}`, {
+									method: 'DELETE',
+								});
 
-							if (response.status === 200) {
-								router.replace('/');
-							} else {
-								setErrors((await response.json()).errors);
-							}
-						}}
-						className="btn btn-error btn-square btn-ghost btn-outline ml-auto"
-					>
-						<i className="fas fa-trash" />
-					</button>
+								if (response.status === 200) {
+									router.replace('/');
+								} else {
+									setErrors((await response.json()).errors);
+								}
+							}}
+							className="btn btn-error btn-square btn-outline"
+						>
+							<i className="fas fa-trash" />
+						</button>
+					</div>
 				)}
 			</div>
 			<div className="flex">

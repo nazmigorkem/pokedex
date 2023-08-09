@@ -1,4 +1,5 @@
 import { ErrorResponse } from '#/Types/ErrorResponse';
+import TypeSelection from '#/components/Pokemon/TypeSelection';
 import Admin from '#/components/main/session/auth/Admin';
 import CustomInput from '#/components/main/view/CustomInput';
 import ErrorList from '#/components/main/view/ErrorList';
@@ -43,49 +44,7 @@ export default function Add() {
 				type="text"
 			/>
 
-			<div>
-				<label className="label">First Type</label>
-				<select
-					onChange={(e) => {
-						const propertyClone = { ...properties };
-						propertyClone.types[0] = e.target.value;
-						setProperties({ ...propertyClone });
-					}}
-					className="select select-accent w-full"
-				>
-					<option disabled selected>
-						Select a type
-					</option>
-					{pokemonTypes &&
-						pokemonTypes.map((type, index) => (
-							<option disabled={properties.types.includes(type.name)} key={index}>
-								{type.name}
-							</option>
-						))}
-				</select>
-			</div>
-
-			<div>
-				<label className="label">Second Type</label>
-				<select
-					onChange={(e) => {
-						const propertyClone = { ...properties };
-						propertyClone.types[1] = e.target.value;
-						setProperties({ ...propertyClone });
-					}}
-					className="select select-accent w-full"
-				>
-					<option disabled selected>
-						Select a type
-					</option>
-					{pokemonTypes &&
-						pokemonTypes.map((type, index) => (
-							<option disabled={properties.types.includes(type.name)} key={index}>
-								{type.name}
-							</option>
-						))}
-				</select>
-			</div>
+			<TypeSelection properties={properties} setProperties={setProperties} pokemonTypes={pokemonTypes} />
 
 			<CustomInput
 				label="Image URL"

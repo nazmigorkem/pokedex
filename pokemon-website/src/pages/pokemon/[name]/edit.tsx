@@ -1,4 +1,5 @@
 import { ErrorResponse } from '#/Types/ErrorResponse';
+import TypeSelection from '#/components/Pokemon/TypeSelection';
 import Admin from '#/components/main/session/auth/Admin';
 import CustomInput from '#/components/main/view/CustomInput';
 import ErrorList from '#/components/main/view/ErrorList';
@@ -18,8 +19,8 @@ export default function Edit({ name }: { name: string }) {
 
 	if (pokemonData && 'errors' in pokemonData)
 		return <div className="text-center text-2xl font-bold mt-20">{(pokemonData as ErrorResponse).errors[0]}</div>;
-	const [properties, setProperties] = useState<PokemonAddRequest>({
-		name: '',
+	const [properties, setProperties] = useState<PokemonEditRequest>({
+		searchName: name,
 		types: [''],
 		imageUrl: '',
 		description: '',
@@ -35,75 +36,37 @@ export default function Edit({ name }: { name: string }) {
 		if (pokemonData === undefined || 'errors' in pokemonData) return;
 
 		setProperties({
+			searchName: name,
 			...pokemonData,
+			name: undefined,
 			types: pokemonData.types.map((type) => type.name) as [string, string],
-		});
+		} as PokemonEditRequest);
 	}, [pokemonData]);
 
 	if (properties === undefined) return <FullScreenLoadingSpinner />;
 
-	function setProperty<T extends keyof PokemonAddRequest>(property: T, value: PokemonAddRequest[T]) {
-		setProperties({ ...(properties as PokemonAddRequest), [property]: value });
+	function setProperty<T extends keyof PokemonEditRequest>(property: T, value: PokemonEditRequest[T]) {
+		setProperties({ ...(properties as PokemonEditRequest), [property]: value });
 	}
 
 	return (
 		<div className="w-1/4 my-20 flex flex-col gap-5 mx-auto">
 			<ErrorList errors={errors} />
 			<CustomInput
-				value={properties.name}
+				value={properties?.name ?? pokemonData?.name}
 				label="Name"
 				onChange={(e) => {
-					setProperty('name', e.target.value);
+					if (pokemonData && e.target.value !== pokemonData.name) {
+						setProperty('name', e.target.value);
+					} else {
+						setProperty('name', undefined);
+					}
 				}}
 				placeholder="Pikachu"
 				type="text"
 			/>
 
-			<div>
-				<label className="label">First Type</label>
-				<select
-					value={properties.types[0]}
-					onChange={(e) => {
-						const propertyClone = { ...properties };
-						propertyClone.types[0] = e.target.value;
-						setProperties({ ...propertyClone });
-					}}
-					className="select select-accent w-full"
-				>
-					<option disabled selected>
-						Select a type
-					</option>
-					{pokemonTypes &&
-						pokemonTypes.map((type, index) => (
-							<option disabled={properties.types.includes(type.name)} key={index}>
-								{type.name}
-							</option>
-						))}
-				</select>
-			</div>
-
-			<div>
-				<label className="label">Second Type</label>
-				<select
-					value={properties.types[1]}
-					onChange={(e) => {
-						const propertyClone = { ...properties };
-						propertyClone.types[1] = e.target.value;
-						setProperties({ ...propertyClone });
-					}}
-					className="select select-accent w-full"
-				>
-					<option disabled selected>
-						Select a type
-					</option>
-					{pokemonTypes &&
-						pokemonTypes.map((type, index) => (
-							<option disabled={properties.types.includes(type.name)} key={index}>
-								{type.name}
-							</option>
-						))}
-				</select>
-			</div>
+			<TypeSelection pokemonTypes={pokemonTypes} properties={properties} setProperties={setProperties} />
 
 			<CustomInput
 				value={properties.imageUrl}
@@ -192,14 +155,14 @@ export default function Edit({ name }: { name: string }) {
 						headers: {
 							'Content-Type': 'application/json',
 						},
-						body: JSON.stringify({ searchName: name, ...properties }),
+						body: JSON.stringify(properties),
 					});
 
 					if (response.status !== 200) {
 						const data = (await response.json()) as ErrorResponse;
 						setErrors(data.errors);
 					} else {
-						router.push(`/pokemon/${properties.name}`);
+						router.push(`/pokemon/${properties.name ?? name}`);
 					}
 				}}
 				disabled={
@@ -214,7 +177,7 @@ export default function Edit({ name }: { name: string }) {
 					properties.specialAttack === -1 ||
 					properties.specialDefense === -1 ||
 					properties.speed === -1 ||
-					(properties.name === pokemonData.name &&
+					(properties.name === undefined &&
 						properties.attack === pokemonData.attack &&
 						properties.defense === pokemonData.defense &&
 						properties.health === pokemonData.health &&
