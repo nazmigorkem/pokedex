@@ -1,6 +1,6 @@
-import { POST_METHOD } from '#/endpoints/RequestFunctionsToBackend';
+import { REQUEST_WITH_JSON_BODY } from '#/endpoints/RequestFunctionsToBackend';
 import { USER_BACKEND_ENDPOINTS } from '#/endpoints/User';
 import { sessionOptions } from '#/session/options';
 import { withIronSessionApiRoute } from 'iron-session/next';
 
-export default withIronSessionApiRoute(POST_METHOD(USER_BACKEND_ENDPOINTS.ADD), sessionOptions);
+export default withIronSessionApiRoute(REQUEST_WITH_JSON_BODY(USER_BACKEND_ENDPOINTS.ADD, 'POST'), sessionOptions);
