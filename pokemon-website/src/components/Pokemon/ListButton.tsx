@@ -26,6 +26,7 @@ export default function ListStateButton({
 								'Content-Type': 'application/json',
 							},
 							body: JSON.stringify({
+								username: heartbeatInfo.heartbeat.username,
 								pokemonName: pokemonData.name,
 							}),
 						});

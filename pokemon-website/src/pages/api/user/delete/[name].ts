@@ -1,29 +1,6 @@
-import { BACKEND_URL } from '#/endpoints/Fetcher';
+import { DELETE_METHOD_WITH_PATH_QUERY_NAME } from '#/endpoints/RequestFunctionsToBackend';
 import { USER_BACKEND_ENDPOINTS } from '#/endpoints/User';
 import { sessionOptions } from '#/session/options';
-import cookie from 'cookie';
 import { withIronSessionApiRoute } from 'iron-session/next';
-import { NextApiRequest, NextApiResponse } from 'next';
 
-export default withIronSessionApiRoute(handle, sessionOptions);
-
-async function handle(req: NextApiRequest, res: NextApiResponse) {
-	if (!req.session.user?.JSESSIONID) {
-		return res.status(401).send({ username: undefined });
-	}
-
-	const { name } = req.query;
-
-	const response = await fetch(`${BACKEND_URL}${USER_BACKEND_ENDPOINTS.DELETE}/${name}`, {
-		headers: {
-			Cookie: cookie.serialize('JSESSIONID', req.session.user.JSESSIONID),
-		},
-		method: 'DELETE',
-	});
-
-	if (!response.ok) {
-		return res.status(response.status).send(response.status === 400 ? await response.json() : { errors: ['Failed to fetch.'] });
-	}
-
-	res.status(200).end();
-}
+export default withIronSessionApiRoute(DELETE_METHOD_WITH_PATH_QUERY_NAME(USER_BACKEND_ENDPOINTS.DELETE), sessionOptions);

@@ -27,3 +27,26 @@ export const POST_METHOD = (endPoint: string) => {
 		res.status(200).json(data);
 	};
 };
+
+export const DELETE_METHOD_WITH_PATH_QUERY_NAME = (endPoint: string) => {
+	return async (req: NextApiRequest, res: NextApiResponse) => {
+		if (!req.session.user?.JSESSIONID) {
+			return res.status(401).send({ username: undefined });
+		}
+
+		const { name } = req.query;
+
+		const response = await fetch(`${BACKEND_URL}${endPoint}/${name}`, {
+			headers: {
+				Cookie: cookie.serialize('JSESSIONID', req.session.user.JSESSIONID),
+			},
+			method: 'DELETE',
+		});
+
+		if (!response.ok) {
+			return res.status(response.status).send(response.status === 400 ? await response.json() : { errors: ['Failed to fetch.'] });
+		}
+
+		res.status(200).end();
+	};
+};
