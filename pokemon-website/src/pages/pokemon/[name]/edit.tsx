@@ -17,8 +17,10 @@ export default function Edit({ name }: { name: string }) {
 	const { data: pokemonTypes } = usePokemonTypes();
 	const [errors, setErrors] = useState<string[]>([]);
 
-	if (pokemonData && 'errors' in pokemonData)
+	if (pokemonData && 'errors' in pokemonData) {
 		return <div className="text-center text-2xl font-bold mt-20">{(pokemonData as ErrorResponse).errors[0]}</div>;
+	}
+
 	const [properties, setProperties] = useState<PokemonEditRequest>({
 		searchName: name,
 		types: [''],

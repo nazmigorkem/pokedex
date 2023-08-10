@@ -12,14 +12,16 @@ async function handle(req: NextApiRequest, res: NextApiResponse) {
 		return res.status(401).send({ username: undefined });
 	}
 
-	const response = await fetch(`${BACKEND_URL}${POKEMON_BACKEND_ENDPOINTS.TYPES.GET}`, {
+	const { name } = req.query;
+
+	const response = await fetch(`${BACKEND_URL}${POKEMON_BACKEND_ENDPOINTS.TYPES.SEARCH}/${name}`, {
 		headers: {
 			Cookie: cookie.serialize('JSESSIONID', req.session.user.JSESSIONID),
 		},
 	});
 
 	if (!response.ok) {
-		return res.status(response.status).send({ errors: ['Failed to fetch.'] });
+		return res.status(response.status).send(await response.json());
 	}
 
 	const data = await response.json();

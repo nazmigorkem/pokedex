@@ -21,6 +21,12 @@ type PokemonTypeAddRequest = {
 	color: string;
 };
 
+type PokemonTypeEditRequest = {
+	searchName: string;
+	name?: string;
+	color: string;
+};
+
 type PokemonAddRequest = Record<string, string | number | [string] | [string, string]> & {
 	name: string;
 	imageUrl: string;

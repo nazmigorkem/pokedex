@@ -28,8 +28,13 @@ public class PokemonTypeController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<PokemonTypeResponse>> getPokemonTypeByName(@RequestParam(defaultValue = "") String name) {
+    public ResponseEntity<List<PokemonTypeResponse>> getPokemonTypeByNameStartsWith(@RequestParam(defaultValue = "") String name) {
         return ResponseEntity.ok(pokemonTypeService.getPokemonTypeByNameStartsWith(name));
+    }
+
+    @GetMapping("/search/{name}")
+    public ResponseEntity<PokemonTypeResponse> getPokemonTypeByName(@PathVariable String name) {
+        return ResponseEntity.ok(pokemonTypeService.getPokemonTypeByNameIgnoreCaseMapped(name));
     }
 
     @DeleteMapping("/delete")
@@ -38,7 +43,7 @@ public class PokemonTypeController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/update")
+    @PutMapping("/edit")
     public ResponseEntity<PokemonTypeResponse> updatePokemonType(@Valid @RequestBody PokemonTypeUpdateRequest pokemonTypeUpdateRequest) {
         return ResponseEntity.ok(pokemonTypeService.updatePokemonType(pokemonTypeUpdateRequest));
     }

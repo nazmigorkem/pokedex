@@ -9,8 +9,9 @@ export const POKEMON_BACKEND_ENDPOINTS = {
 	EDIT: '/pokemon/edit',
 
 	TYPES: {
-		GET: '/pokemon-type/search',
+		SEARCH: '/pokemon-type/search',
 		ADD: '/pokemon-type/add',
+		EDIT: '/pokemon-type/edit',
 	},
 } as const;
 
@@ -21,13 +22,24 @@ export const POKEMON_SERVER_ENDPOINTS = {
 	EDIT: '/api/pokemon/edit',
 
 	TYPES: {
-		GET: '/api/pokemon/types/search',
+		SEARCH: '/api/pokemon/types/search',
 		ADD: '/api/pokemon/types/add',
+		EDIT: '/api/pokemon/types/edit',
 	},
 } as const;
 
 export const usePokemonTypes = () => {
-	const { data, error, isLoading } = useSWR<PokemonTypeResponse[]>(POKEMON_SERVER_ENDPOINTS.TYPES.GET, fetcher);
+	const { data, error, isLoading } = useSWR<PokemonTypeResponse[]>(POKEMON_SERVER_ENDPOINTS.TYPES.SEARCH, fetcher);
+
+	return {
+		data: data,
+		error,
+		isLoading,
+	};
+};
+
+export const usePokemonType = (name: string) => {
+	const { data, error, isLoading } = useSWR<PokemonTypeResponse | ErrorResponse>(`${POKEMON_SERVER_ENDPOINTS.TYPES.SEARCH}/${name}`, fetcher);
 
 	return {
 		data: data,
