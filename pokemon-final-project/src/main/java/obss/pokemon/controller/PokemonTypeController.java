@@ -1,12 +1,12 @@
 package obss.pokemon.controller;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import obss.pokemon.model.pokemonType.PokemonTypeResponse;
 import obss.pokemon.model.pokemonType.PokemonTypeSaveRequest;
 import obss.pokemon.model.pokemonType.PokemonTypeUpdateRequest;
 import obss.pokemon.service.implementation.PokemonTypeService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,12 +37,14 @@ public class PokemonTypeController {
         return ResponseEntity.ok(pokemonTypeService.getPokemonTypeByNameIgnoreCaseMapped(name));
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<Void> deletePokemonType(@NotBlank @RequestParam String name) {
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping("/delete/{name}")
+    public ResponseEntity<Void> deletePokemonType(@PathVariable String name) {
         pokemonTypeService.deletePokemonType(name);
         return ResponseEntity.ok().build();
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/edit")
     public ResponseEntity<PokemonTypeResponse> updatePokemonType(@Valid @RequestBody PokemonTypeUpdateRequest pokemonTypeUpdateRequest) {
         return ResponseEntity.ok(pokemonTypeService.updatePokemonType(pokemonTypeUpdateRequest));
