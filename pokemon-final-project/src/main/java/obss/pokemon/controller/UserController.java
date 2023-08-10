@@ -30,6 +30,7 @@ public class UserController {
         return ResponseEntity.ok(userService.getUserByUsernameIgnoreCase(username));
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN') or #username == authentication.principal.username")
     @GetMapping("/search/{username}/heartbeat")
     public ResponseEntity<UserHeartbeatResponse> getUserHeartbeatByUsername(@PathVariable String username) {
         return ResponseEntity.ok(userService.getUserHeartbeatByUsernameIgnoreCase(username));
@@ -46,7 +47,7 @@ public class UserController {
         return ResponseEntity.ok(userService.updateUser(userUpdateRequest));
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') and #username != authentication.principal.username")
     @DeleteMapping("/delete/{username}")
     public ResponseEntity<Void> deleteUserByUsername(@PathVariable String username) {
         userService.deleteUserByUsernameIgnoreCase(username);

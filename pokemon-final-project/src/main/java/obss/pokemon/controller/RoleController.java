@@ -2,6 +2,7 @@ package obss.pokemon.controller;
 
 import obss.pokemon.model.role.RoleResponse;
 import obss.pokemon.service.implementation.RoleService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +19,7 @@ public class RoleController {
         this.roleService = roleService;
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/search")
     public List<RoleResponse> getAllRoles() {
         return roleService.getAllRoles();
