@@ -49,7 +49,9 @@ export const USER_BACKEND_ENDPOINTS = {
 } as const;
 
 export const useHeartBeat = () => {
-	const { data, error, isLoading } = useSWR<UserHeartbeatResponse>(USER_SERVER_ENDPOINTS.HEARTBEAT, fetcher);
+	const { data, error, isLoading } = useSWR<UserHeartbeatResponse>(USER_SERVER_ENDPOINTS.HEARTBEAT, fetcher, {
+		refreshInterval: 1000,
+	});
 
 	return {
 		data: data,

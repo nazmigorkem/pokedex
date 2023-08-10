@@ -21,7 +21,7 @@ export default function InfiniteScrollUserList({
 				dataLength={items.length}
 				next={fetchFunction}
 				hasMore={hasMore}
-				loader={<div className="loading loading-lg flex justify-center mt-5"></div>}
+				loader={<div className="loading loading-lg flex justify-center mt-5 mx-auto"></div>}
 				endMessage={
 					items.length !== 0 ? (
 						<div className="text-xl text-center mt-10">End of the list.</div>
