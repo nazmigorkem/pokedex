@@ -78,7 +78,7 @@ export default function Edit({ name }: { name: string }) {
 				disabled={
 					properties.roles[0].name === 'ROLE_ANONYMOUS' ||
 					(properties.username === undefined &&
-						properties.roles.every((x) => userData?.roles.some((y) => y.name === x.name)) &&
+						userData?.roles.every((x) => properties.roles.some((y) => y.name === x.name)) &&
 						properties.password === undefined)
 				}
 				onClick={async () => {

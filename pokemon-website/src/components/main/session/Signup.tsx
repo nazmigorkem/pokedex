@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 export default function Signup() {
-	const [values, setValues] = useState({ username: '', password: '', confirmPassword: '', agreed: false, errors: [] as string[], success: false });
+	const [values, setValues] = useState({ username: '', password: '', confirmPassword: '', errors: [] as string[], success: false });
 	const router = useRouter();
 
 	return (
@@ -41,19 +41,7 @@ export default function Signup() {
 						}}
 						className="input input-bordered"
 					/>
-					<div className="form-control">
-						<label className="cursor-pointer label">
-							<span className="label-text">I agree to the terms and conditions.</span>
-							<input
-								onChange={(e) => {
-									setValues({ ...values, agreed: e.target.checked });
-								}}
-								type="checkbox"
-								className="checkbox"
-							/>
-							<span className="checkbox-mark"></span>
-						</label>
-					</div>
+
 					<div className="flex gap-5">
 						<div
 							className="btn btn-accent"
@@ -61,7 +49,6 @@ export default function Signup() {
 								if (values.username === '') return setValues({ ...values, errors: ['Username cannot be empty!'] });
 								if (values.password === '') return setValues({ ...values, errors: ['Password cannot be empty!'] });
 								if (values.password !== values.confirmPassword) return setValues({ ...values, errors: ['Passwords do not match!'] });
-								if (!values.agreed) return setValues({ ...values, errors: ['You must agree to the terms and conditions.'] });
 
 								const response = await fetch(`${SERVER_URL}${USER_SERVER_ENDPOINTS.SIGNUP}`, {
 									method: 'POST',

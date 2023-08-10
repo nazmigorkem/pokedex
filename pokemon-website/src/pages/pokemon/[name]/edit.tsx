@@ -182,6 +182,7 @@ export default function Edit({ name }: { name: string }) {
 					(properties.name === undefined &&
 						properties.imageUrl === pokemonData.imageUrl &&
 						properties.attack === pokemonData.attack &&
+						properties.description === pokemonData.description &&
 						properties.defense === pokemonData.defense &&
 						properties.health === pokemonData.health &&
 						properties.specialAttack === pokemonData.specialAttack &&
