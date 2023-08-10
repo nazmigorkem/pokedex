@@ -16,6 +16,11 @@ type PokemonTypeResponse = {
 	color: string;
 };
 
+type PokemonTypeAddRequest = {
+	name: string;
+	color: string;
+};
+
 type PokemonAddRequest = Record<string, string | number | [string] | [string, string]> & {
 	name: string;
 	imageUrl: string;

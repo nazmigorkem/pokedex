@@ -10,6 +10,7 @@ export const POKEMON_BACKEND_ENDPOINTS = {
 
 	TYPES: {
 		GET: '/pokemon-type/search',
+		ADD: '/pokemon-type/add',
 	},
 } as const;
 
@@ -21,6 +22,7 @@ export const POKEMON_SERVER_ENDPOINTS = {
 
 	TYPES: {
 		GET: '/api/pokemon/types/search',
+		ADD: '/api/pokemon/types/add',
 	},
 } as const;
 
