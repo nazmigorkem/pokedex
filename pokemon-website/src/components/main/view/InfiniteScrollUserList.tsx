@@ -13,6 +13,7 @@ export default function InfiniteScrollUserList({
 	fetchFunction: () => void;
 }) {
 	useEffect(fetchFunction, []);
+	console.log(items.length);
 
 	return (
 		<div className="m-20 flex flex-col gap-5 min-h-[90vh] items-center">
@@ -21,7 +22,13 @@ export default function InfiniteScrollUserList({
 				next={fetchFunction}
 				hasMore={hasMore}
 				loader={<div className="loading loading-lg flex justify-center mt-5"></div>}
-				endMessage={<></>}
+				endMessage={
+					items.length !== 0 ? (
+						<div className="text-xl text-center">End of the list.</div>
+					) : (
+						<div className="text-xl text-center">No users found in this list.</div>
+					)
+				}
 			>
 				<div className="flex flex-col min-w-[30vw] gap-5">
 					{items.map((data, index) => (

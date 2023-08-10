@@ -23,7 +23,13 @@ export default function InfiniteScrollPokelist({
 				next={fetchFunction}
 				hasMore={hasMore}
 				loader={<div className="loading loading-lg flex justify-center mt-5"></div>}
-				endMessage={<></>}
+				endMessage={
+					items.length !== 0 ? (
+						<div className="text-xl text-center">End of the list.</div>
+					) : (
+						<div className="text-xl text-center">No pokemons found in this list.</div>
+					)
+				}
 			>
 				<div className="grid grid-cols-5 gap-5 p-10">
 					{items.map((data, index) => (
