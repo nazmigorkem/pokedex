@@ -12,7 +12,13 @@ async function handle(req: NextApiRequest, res: NextApiResponse) {
 		return res.status(401).send({ username: undefined });
 	}
 
-	const response = await fetch(`${BACKEND_URL}${POKEMON_BACKEND_ENDPOINTS.TYPES.SEARCH}`, {
+	const { name } = req.query;
+
+	const query = new URLSearchParams({
+		name: name as string,
+	});
+
+	const response = await fetch(`${BACKEND_URL}${POKEMON_BACKEND_ENDPOINTS.TYPES.SEARCH}?${query}`, {
 		headers: {
 			Cookie: cookie.serialize('JSESSIONID', req.session.user.JSESSIONID),
 		},

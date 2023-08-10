@@ -20,7 +20,11 @@ export default function TypeSelection({
 							const propertyClone = { ...properties };
 							if (propertyClone?.types.some((x) => x === type.name) && propertyClone?.types.length >= 2) {
 								propertyClone.types = propertyClone.types.filter((x) => x !== type.name) as [string, string];
-							} else if (propertyClone?.types.some((x) => x !== type.name) && propertyClone.types.length < 2) {
+							} else if (
+								(propertyClone?.types.some((x) => x !== type.name) && propertyClone.types.length < 2) ||
+								// @ts-ignore
+								propertyClone.types.length === 0
+							) {
 								if (propertyClone.types[0] === '') {
 									propertyClone.types = [type.name];
 								} else {

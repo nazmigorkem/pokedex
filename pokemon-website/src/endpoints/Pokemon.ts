@@ -28,8 +28,12 @@ export const POKEMON_SERVER_ENDPOINTS = {
 	},
 } as const;
 
-export const usePokemonTypes = () => {
-	const { data, error, isLoading } = useSWR<PokemonTypeResponse[]>(POKEMON_SERVER_ENDPOINTS.TYPES.SEARCH, fetcher);
+export const usePokemonTypes = (name?: string) => {
+	const query = new URLSearchParams({
+		name: name ?? '',
+	});
+
+	const { data, error, isLoading } = useSWR<PokemonTypeResponse[]>(`${POKEMON_SERVER_ENDPOINTS.TYPES.SEARCH}?${query}`, fetcher);
 
 	return {
 		data: data,

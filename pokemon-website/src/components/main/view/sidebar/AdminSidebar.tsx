@@ -28,6 +28,12 @@ export default function AdminSidebar() {
 			<Link className="btn btn-accent w-1/2" href="/users/add" passHref>
 				Add User
 			</Link>
+			<Link className="btn btn-accent w-1/2" href="/pokemon/types" passHref>
+				Pokemon Types
+			</Link>
+			<Link className="btn btn-accent w-1/2" href="/pokemon/types/add" passHref>
+				Add Pokemon Type
+			</Link>
 			<Logout />
 		</>
 	);
