@@ -16,7 +16,7 @@ export default function InfiniteScrollUserList({
 	console.log(items.length);
 
 	return (
-		<div className="m-20 flex flex-col gap-5 min-h-[90vh] items-center">
+		<div className="m-20 flex flex-col gap-5 min-h-[90vh] w-full">
 			<InfiniteScroll
 				dataLength={items.length}
 				next={fetchFunction}
@@ -24,13 +24,13 @@ export default function InfiniteScrollUserList({
 				loader={<div className="loading loading-lg flex justify-center mt-5"></div>}
 				endMessage={
 					items.length !== 0 ? (
-						<div className="text-xl text-center">End of the list.</div>
+						<div className="text-xl text-center mt-10">End of the list.</div>
 					) : (
 						<div className="text-xl text-center">No users found in this list.</div>
 					)
 				}
 			>
-				<div className="flex flex-col min-w-[30vw] gap-5 p-10">
+				<div className="flex flex-col gap-5">
 					{items.map((data, index) => (
 						<UserCard
 							variants={{

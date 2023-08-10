@@ -134,14 +134,14 @@ export default function Home() {
 		);
 	} else {
 		return (
-			<div className="flex flex-col items-center mt-20">
-				<div className="flex gap-3">
+			<div className="flex flex-col mt-20">
+				<div className="flex gap-3 w-[25vw] mx-auto">
 					<input
 						onChange={(e) => {
 							setSearchValue(e.target.value);
 						}}
 						type="text"
-						className="input input-accent input-bordered"
+						className="input input-accent input-bordered w-full"
 						placeholder="Search for a pokemon"
 					/>
 					<button

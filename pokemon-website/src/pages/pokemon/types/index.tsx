@@ -11,14 +11,14 @@ export default function Users() {
 	const { data: pokemonTypes } = usePokemonTypes();
 
 	return (
-		<div className="flex flex-col items-center mt-20">
-			<div className="flex gap-3">
+		<div className="flex flex-col items-center mt-20 w-[25vw] mx-auto">
+			<div className="flex gap-3 w-full">
 				<input
 					onChange={(e) => {
 						setSearchValue(e.target.value);
 					}}
 					type="text"
-					className="input input-accent input-bordered"
+					className="input input-accent input-bordered w-full"
 					placeholder="Search for a pokemon type"
 				/>
 				<button
@@ -30,7 +30,7 @@ export default function Users() {
 					<i className="fas fa-search"></i>
 				</button>
 			</div>
-			<div className="min-w-[30vw] m-20 flex flex-col gap-5 p-10">
+			<div className="m-20 flex flex-col gap-5 w-full">
 				{pokemonTypes?.map((x, index) => (
 					<PokemonTypeCard
 						variants={{

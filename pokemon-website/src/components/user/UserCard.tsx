@@ -11,7 +11,7 @@ const UserCard = React.forwardRef(({ data }: { data: UserSearchResponse }, ref: 
 				router.push(`/users/${data.username}`);
 			}}
 			ref={ref}
-			className="mx-auto w-full p-5 rounded-md font-bold flex items-center justify-between text-base-content cursor-pointer bg-base-300 hover:bg-base-200 transition-colors duration-200"
+			className="w-full p-5 rounded-md font-bold flex items-center justify-between text-base-content cursor-pointer bg-base-300 hover:bg-base-200 transition-colors duration-200"
 		>
 			{data.username}
 			<div className="text-xs flex gap-3">

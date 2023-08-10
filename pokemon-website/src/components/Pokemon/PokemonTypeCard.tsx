@@ -8,7 +8,7 @@ const PokemonTypeCard = React.forwardRef(({ data }: { data: PokemonTypeResponse 
 	const router = useRouter();
 	return (
 		<div ref={ref} className="flex flex-row items-center gap-5 bg-base-300 p-5 rounded-md">
-			<button className="w-full text-left">{data.name}</button>
+			<button className="w-full text-left font-semibold">{data.name}</button>
 			<button
 				onClick={(e) => {
 					router.push(`/pokemon/types/${data.name}/edit`);

@@ -1,3 +1,4 @@
+import { UserSearchResponse } from '#/Types/User';
 import Admin from '#/components/main/session/auth/Admin';
 import InfiniteScrollUserList from '#/components/main/view/InfiniteScrollUserList';
 import { SERVER_URL, fetchForInfiniteScroll } from '#/endpoints/Fetcher';
@@ -6,11 +7,12 @@ import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
-export default function Search({ query }: { query: string }) {
+export default function Users({ query }: { query: string }) {
 	const router = useRouter();
+
 	const [hasMore, setHasMore] = useState(true);
 	const [pageNumber, setPageNumber] = useState(0);
-	const [items, setItems] = useState([] as any[]);
+	const [items, setItems] = useState([] as UserSearchResponse[]);
 	const [searchValue, setSearchValue] = useState('');
 	const fetchUsers = fetchForInfiniteScroll(
 		`${SERVER_URL}${USER_SERVER_ENDPOINTS.SEARCH}`,
@@ -23,19 +25,19 @@ export default function Search({ query }: { query: string }) {
 	);
 
 	return (
-		<div className="flex flex-col items-center mt-20">
-			<div className="flex gap-3">
+		<div className="flex flex-col items-center mt-20 w-[25vw] mx-auto">
+			<div className="flex gap-3 w-full">
 				<input
 					onChange={(e) => {
 						setSearchValue(e.target.value);
 					}}
 					type="text"
-					className="input input-accent input-bordered"
+					className="input input-accent input-bordered w-full"
 					placeholder="Search for a user"
 				/>
 				<button
 					onClick={() => {
-						router.replace(`/users/search/${searchValue}`, undefined, { unstable_skipClientCache: true }).then(() => router.reload());
+						router.push(`/users/search/${searchValue}`).then(router.reload);
 					}}
 					className="btn btn-outline btn-accent"
 				>
@@ -47,7 +49,7 @@ export default function Search({ query }: { query: string }) {
 	);
 }
 
-Search.Auth = Admin;
+Users.Auth = Admin;
 
 export const getServerSideProps: GetServerSideProps<{
 	query: string;

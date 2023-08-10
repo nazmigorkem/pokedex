@@ -31,9 +31,11 @@ export default function Users({ query }: { query: string }) {
 					<i className="fas fa-search"></i>
 				</button>
 			</div>
-			{pokemonTypes?.map((x) => (
-				<PokemonTypeCard data={x} />
-			))}
+			<div className="min-w-[30vw] m-20 flex flex-col gap-5 p-10">
+				{pokemonTypes?.map((x) => (
+					<PokemonTypeCard data={x} />
+				))}
+			</div>
 		</div>
 	);
 }
