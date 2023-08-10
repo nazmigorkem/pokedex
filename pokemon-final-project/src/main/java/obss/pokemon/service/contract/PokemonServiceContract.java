@@ -20,4 +20,6 @@ public interface PokemonServiceContract {
 
     Page<PokemonResponse> getWishListOfUser(String username, int pageNumber, int pageSize);
 
+    Page<PokemonResponse> getPokemonsByTypesStartWithIgnoreCase(String type, int pageNumber, int pageSize);
+
 }

@@ -82,6 +82,11 @@ public class PokemonService implements PokemonServiceContract {
         return pokemonRepository.getAllByUsersWishList_UsernameIgnoreCase(username, PageRequest.of(pageNumber, pageSize)).map(pokemon -> modelMapper.map(pokemon, PokemonResponse.class));
     }
 
+    @Override
+    public Page<PokemonResponse> getPokemonsByTypesStartWithIgnoreCase(String type, int pageNumber, int pageSize) {
+        return pokemonRepository.getAllByTypes_NameStartsWithIgnoreCase(type, PageRequest.of(pageNumber, pageSize)).map(pokemon -> modelMapper.map(pokemon, PokemonResponse.class));
+    }
+
     //*****************//
     //* GUARD CLAUSES *//
     //*************** *//

@@ -21,4 +21,6 @@ public interface PokemonRepository extends JpaRepository<Pokemon, Long> {
 
     Page<Pokemon> getAllByUsersWishList_UsernameIgnoreCase(String username, Pageable pageable);
 
+    Page<Pokemon> getAllByTypes_NameStartsWithIgnoreCase(String type, Pageable pageable);
+
 }
