@@ -19,7 +19,7 @@ export const fetchForInfiniteScroll = (
 			pageSize: '10',
 			name: searchValue,
 		});
-		fetch(`${url}?${query}`).then((response) => {
+		fetch(`${SERVER_URL}${url}?${query}`).then((response) => {
 			if (response.status !== 200) {
 				setHasMore(false);
 				return;

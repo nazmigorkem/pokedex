@@ -1,7 +1,7 @@
 import { UserSearchResponse } from '#/Types/User';
 import Admin from '#/components/main/session/auth/Admin';
 import InfiniteScrollUserList from '#/components/main/view/InfiniteScrollUserList';
-import { SERVER_URL, fetchForInfiniteScroll } from '#/endpoints/Fetcher';
+import { fetchForInfiniteScroll } from '#/endpoints/Fetcher';
 import { USER_SERVER_ENDPOINTS } from '#/endpoints/User';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
@@ -14,15 +14,7 @@ export default function Users({ query }: { query: string }) {
 	const [pageNumber, setPageNumber] = useState(0);
 	const [items, setItems] = useState([] as UserSearchResponse[]);
 	const [searchValue, setSearchValue] = useState('');
-	const fetchUsers = fetchForInfiniteScroll(
-		`${SERVER_URL}${USER_SERVER_ENDPOINTS.SEARCH}`,
-		pageNumber,
-		items,
-		query,
-		setHasMore,
-		setPageNumber,
-		setItems
-	);
+	const fetchUsers = fetchForInfiniteScroll(USER_SERVER_ENDPOINTS.SEARCH, pageNumber, items, query, setHasMore, setPageNumber, setItems);
 
 	return (
 		<div className="flex flex-col items-center mt-20 w-[25vw] mx-auto">

@@ -1,10 +1,10 @@
 import { hasRoles } from '#/Types/User';
 import Pokecard from '#/components/Pokemon/Pokecard';
+import SearchBars from '#/components/Pokemon/SearchBars';
 import { useContainerContext } from '#/components/main/view/Container';
 import InfiniteScrollPokelist from '#/components/main/view/InfiniteScrollPokelist';
-import { SERVER_URL, fetchForInfiniteScroll } from '#/endpoints/Fetcher';
+import { fetchForInfiniteScroll } from '#/endpoints/Fetcher';
 import { POKEMON_SERVER_ENDPOINTS } from '#/endpoints/Pokemon';
-import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 export default function Home() {
@@ -14,9 +14,8 @@ export default function Home() {
 	const [pageNumber, setPageNumber] = useState(0);
 	const [items, setItems] = useState([] as PokemonResponse[]);
 	const [searchValue, setSearchValue] = useState('');
-	const router = useRouter();
 	const fetchPokemons = fetchForInfiniteScroll(
-		`${SERVER_URL}${POKEMON_SERVER_ENDPOINTS.SEARCH}`,
+		POKEMON_SERVER_ENDPOINTS.SEARCH,
 		pageNumber,
 		items,
 		searchValue,
@@ -135,24 +134,7 @@ export default function Home() {
 	} else {
 		return (
 			<div className="flex flex-col mt-20">
-				<div className="flex gap-3 w-[25vw] mx-auto">
-					<input
-						onChange={(e) => {
-							setSearchValue(e.target.value);
-						}}
-						type="text"
-						className="input input-accent input-bordered w-full"
-						placeholder="Search for a pokemon"
-					/>
-					<button
-						onClick={() => {
-							router.push(`/pokemon/search/${searchValue}`);
-						}}
-						className="btn btn-outline btn-accent"
-					>
-						<i className="fas fa-search"></i>
-					</button>
-				</div>
+				<SearchBars searchValue={searchValue} setSearchValue={setSearchValue} />
 				<InfiniteScrollPokelist items={items} fetchFunction={fetchPokemons} hasMore={hasMore} />
 			</div>
 		);

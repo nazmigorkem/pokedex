@@ -11,7 +11,16 @@ export default function Search({ query }: { query: string }) {
 	const [pageNumber, setPageNumber] = useState(0);
 	const [items, setItems] = useState([] as any[]);
 	const [searchValue, setSearchValue] = useState('');
-	const fetchPokemons = fetchForInfiniteScroll(POKEMON_SERVER_ENDPOINTS.SEARCH, pageNumber, items, query, setHasMore, setPageNumber, setItems);
+
+	const fetchPokemons = fetchForInfiniteScroll(
+		`${POKEMON_SERVER_ENDPOINTS.SEARCH_BY_TYPE}/${query}`,
+		pageNumber,
+		items,
+		'',
+		setHasMore,
+		setPageNumber,
+		setItems
+	);
 
 	return (
 		<div className="flex flex-col mt-20">

@@ -50,7 +50,7 @@ export default function Users() {
 						animate="visible"
 						initial="hidden"
 						key={index}
-						custom={index % 10}
+						custom={index}
 						data={x}
 					/>
 				))}
