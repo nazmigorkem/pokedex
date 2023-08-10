@@ -19,6 +19,7 @@ public class UserUpdateRequest {
 
     private String username;
 
+    @Size(min = 3, max = 20, message = "Password should be between 3 and 20 characters.")
     private String password;
 
     @Size(min = 1, message = "User should have at least 1 role.")

@@ -30,9 +30,29 @@ export default function Users() {
 					<i className="fas fa-search"></i>
 				</button>
 			</div>
-			<div className="min-w-[30vw] m-20 flex flex-col gap-5">
-				{pokemonTypes?.map((x) => (
-					<PokemonTypeCard data={x} />
+			<div className="min-w-[30vw] m-20 flex flex-col gap-5 p-10">
+				{pokemonTypes?.map((x, index) => (
+					<PokemonTypeCard
+						variants={{
+							hidden: () => ({
+								opacity: 0,
+								y: -30,
+							}),
+							visible: (key) => ({
+								opacity: 1,
+								y: -0,
+								transition: {
+									delay: key * 0.1,
+									bounce: false,
+								},
+							}),
+						}}
+						animate="visible"
+						initial="hidden"
+						key={index}
+						custom={index % 10}
+						data={x}
+					/>
 				))}
 			</div>
 		</div>

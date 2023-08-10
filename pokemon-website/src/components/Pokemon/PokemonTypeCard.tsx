@@ -7,7 +7,7 @@ import React from 'react';
 const PokemonTypeCard = React.forwardRef(({ data }: { data: PokemonTypeResponse }, ref: any) => {
 	const router = useRouter();
 	return (
-		<div ref={ref} className="flex flex-row items-center gap-5 bg-base-300 p-5">
+		<div ref={ref} className="flex flex-row items-center gap-5 bg-base-300 p-5 rounded-md">
 			<button className="w-full text-left">{data.name}</button>
 			<button
 				onClick={(e) => {

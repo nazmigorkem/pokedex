@@ -30,7 +30,7 @@ export default function InfiniteScrollUserList({
 					)
 				}
 			>
-				<div className="flex flex-col min-w-[30vw] gap-5">
+				<div className="flex flex-col min-w-[30vw] gap-5 p-10">
 					{items.map((data, index) => (
 						<UserCard
 							variants={{

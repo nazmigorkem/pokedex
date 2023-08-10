@@ -3,6 +3,7 @@ import { UserEditRequest } from '#/Types/User';
 import Admin from '#/components/main/session/auth/Admin';
 import CustomInput from '#/components/main/view/CustomInput';
 import ErrorList from '#/components/main/view/ErrorList';
+import FullScreenLoadingSpinner from '#/components/main/view/FullScreenLoadingSpinner';
 import RoleSelection from '#/components/user/RoleSelection';
 import { SERVER_URL } from '#/endpoints/Fetcher';
 import { useRoles } from '#/endpoints/Role';
@@ -32,8 +33,11 @@ export default function Edit({ name }: { name: string }) {
 			searchUsername: name,
 			...userData,
 			username: undefined,
+			password: undefined,
 		} as UserEditRequest);
 	}, [userData]);
+
+	if (properties === undefined) return <FullScreenLoadingSpinner />;
 
 	return (
 		<div className="w-1/4 my-20 flex flex-col gap-5 mx-auto">
@@ -75,7 +79,7 @@ export default function Edit({ name }: { name: string }) {
 					properties.roles[0].name === 'ROLE_ANONYMOUS' ||
 					(properties.username === undefined &&
 						properties.roles.every((x) => userData?.roles.some((y) => y.name === x.name)) &&
-						properties.password === '')
+						properties.password === undefined)
 				}
 				onClick={async () => {
 					const response = await fetch(`${SERVER_URL}${USER_SERVER_ENDPOINTS.EDIT}`, {
