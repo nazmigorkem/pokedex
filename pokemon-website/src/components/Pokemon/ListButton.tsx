@@ -1,5 +1,6 @@
 import { SERVER_URL } from '#/endpoints/Fetcher';
 import { mutate } from 'swr';
+import { useContainerContext } from '../main/view/Container';
 
 export default function ListStateButton({
 	pokemonData,
@@ -12,6 +13,7 @@ export default function ListStateButton({
 	iconString: string;
 	listEndpoint: { DELETE: string; ADD: string; IS_EXIST: string };
 }) {
+	const { heartbeatInfo } = useContainerContext();
 	return (
 		<>
 			{isExists && (
@@ -46,6 +48,7 @@ export default function ListStateButton({
 								method: 'POST',
 								headers: { 'Content-Type': 'application/json' },
 								body: JSON.stringify({
+									username: heartbeatInfo.heartbeat.username,
 									pokemonName: pokemonData.name,
 								}),
 							}
