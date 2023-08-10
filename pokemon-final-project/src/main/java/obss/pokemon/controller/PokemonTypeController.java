@@ -22,16 +22,19 @@ public class PokemonTypeController {
         this.pokemonTypeService = pokemonTypeService;
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/add")
     public ResponseEntity<PokemonTypeResponse> addPokemonType(@Valid @RequestBody PokemonTypeSaveRequest pokemonTypeSaveRequest) {
         return ResponseEntity.ok(pokemonTypeService.addPokemonType(pokemonTypeSaveRequest));
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/search")
     public ResponseEntity<List<PokemonTypeResponse>> getPokemonTypeByNameStartsWith(@RequestParam(defaultValue = "") String name) {
         return ResponseEntity.ok(pokemonTypeService.getPokemonTypeByNameStartsWith(name));
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/search/{name}")
     public ResponseEntity<PokemonTypeResponse> getPokemonTypeByName(@PathVariable String name) {
         return ResponseEntity.ok(pokemonTypeService.getPokemonTypeByNameIgnoreCaseMapped(name));
